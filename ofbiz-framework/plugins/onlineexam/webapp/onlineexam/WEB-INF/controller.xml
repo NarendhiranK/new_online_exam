@@ -55,6 +55,15 @@
 		<response name="error" type="request" value="json" />
 	</request-map>
 
+	<request-map uri="getPersonName">
+		<security https="true" auth="false" />
+		<event type="java"
+			path="com.vastpro.onlineexam.events.GetPersonNameEvent"
+			invoke="getPersonName"></event>
+		<response name="success" type="request" value="json" />
+		<response name="error" type="request" value="json" />
+	</request-map>
+
 
 
 	<request-map uri="loginEvent">
@@ -65,8 +74,8 @@
 		<response name="success" type="request" value="json" />
 		<response name="error" type="request" value="json" />
 	</request-map>
-	
-	
+
+
 	<request-map uri="onUserRegistration">
 		<security https="true" auth="false" />
 		<event type="java"
@@ -124,7 +133,7 @@
 		<response name="error" type="request" value="json" />
 	</request-map>
 
-			<!-- topic master entity -->
+	<!-- topic master entity -->
 	<request-map uri="AddTopicMasterEvent">
 		<security https="true" />
 		<event type="java"
@@ -163,7 +172,7 @@
 		<response name="success" type="request" value="json" />
 		<response name="error" type="request" value="json" />
 	</request-map>
-	
+
 	<request-map uri="deleteQuestionMaster">
 		<security https="true" auth="false" />
 		<event type="java"
@@ -203,7 +212,7 @@
 		<response name="success" type="request" value="json" />
 		<response name="error" type="request" value="json" />
 	</request-map>
-	
+
 	<request-map uri="examTopicRetrieveEvent">
 		<security https="true" auth="false" />
 		<event type="java"
@@ -212,7 +221,7 @@
 		<response name="success" type="request" value="json" />
 		<response name="error" type="request" value="json" />
 	</request-map>
-	
+
 	<request-map uri="deleteExamTopicMappingEvent">
 		<security https="true" auth="false" />
 		<event type="java"
@@ -221,8 +230,8 @@
 		<response name="success" type="request" value="json" />
 		<response name="error" type="request" value="json" />
 	</request-map>
-	
-	
+
+
 
 
 	<!-- request uri for users -->
@@ -243,8 +252,8 @@
 		<response name="success" type="request" value="json" />
 		<response name="error" type="request" value="json" />
 	</request-map>
-	
-	
+
+
 	<request-map uri="ExamsForUserEvent">
 		<security https="true" auth="false" />
 		<event type="java"

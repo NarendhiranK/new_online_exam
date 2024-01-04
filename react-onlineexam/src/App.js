@@ -20,38 +20,38 @@ import Examsforuser from "./User/Examsforuser";
 
 //This is AA
 function App() {
-  const [name,setName] = useState();
-  const [flag,setFlag] = useState(false);
+  const [name, setName] = useState();
+  const [flag, setFlag] = useState(false);
   return (
     <div className="App">
-      <Header name={name} flag={flag} setName={setName} setFlag={setFlag}   />
-        <Routes>
+      <Header name={name} flag={flag} setName={setName} setFlag={setFlag} />
+      <Routes>
         <Route path="/" element={<Login setName={setName} setFlag={setFlag} flag={flag} />} />
-        <Route path="register" element={<Register/>}/>
+        <Route path="register" element={<Register />} />
         <Route path="*" element={<NoMatch />} />
-        <Route path="user" element={<User/>}/>
-        <Route path="admin" element={<Admin/>}>
-        <Route path="welcome" element={<Welcome/>} />
-        <Route path='assignExam' element={<ViewUsers />} />
-          
+        <Route path="user" element={<User />} />
+        <Route path="admin" element={<Admin />}>
+          <Route path="welcome" element={<Welcome />} />
+          <Route path='assignExam' element={<ViewUsers />} />
+
           {/* EXAMS */}
-        <Route path="createExam" element={<CreateExamMaster/>}/>
-       <Route path="editExam" element={<CreateExamMaster/>}/>
-       <Route path="updateExam" element={<GetExams/>}/>
+          <Route path="createExam" element={<CreateExamMaster />} />
+          <Route path="editExam" element={<CreateExamMaster />} />
+          <Route path="updateExam" element={<GetExams />} />
 
-       <Route path="updateExam/examdetails/:examId/" element={<ExamTopicMappingView/>} />
-       <Route path="updateExam/examdetails/:examId/:topicId" element={<ExamTopicMappingView/>} />
-       <Route path="updateExam/examdetails/question-topicView/:topicId/:examId" element={<QuestionForTopicView/>}/>
+          <Route path="updateExam/examdetails/:examId/" element={<ExamTopicMappingView />} />
+          <Route path="updateExam/examdetails/:examId/:topicId" element={<ExamTopicMappingView />} />
+          <Route path="updateExam/examdetails/question-topicView/:topicId/:examId" element={<QuestionForTopicView />} />
 
-        <Route path="/admin/updateExam/examdetails/question-topicView/view-questions/:questionId/:topicName/:examId" element={<DetailsOfQuestion/>}/>
-       {/* TOPIC */}
+          <Route path="/admin/updateExam/examdetails/question-topicView/view-questions/:questionId/:topicName/:examId" element={<DetailsOfQuestion />} />
+          {/* TOPIC */}
 
-      <Route path="/admin/assignExam/addExamForUser" element={<Examsforuser/>} />
+          <Route path="/admin/assignExam/addExamForUser" element={<Examsforuser />} />
 
-       {/* QUESTION */}
+          {/* QUESTION */}
 
         </Route>
-      </Routes> 
+      </Routes>
 
 
       <Footer />
