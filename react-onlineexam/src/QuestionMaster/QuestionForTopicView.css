@@ -1,0 +1,22 @@
+.r-div{
+    border: brown;
+    width: 300px;
+}
+.btn1{
+    width: 200px;
+    background-color: #0d6efd;
+    color: white;
+}
+.btn1:hover{
+   color:#0d6efd;
+   background-color: white;
+
+}
+.h6{
+    width: 500px;
+    margin: 0;
+    text-align: left;
+}
+.btn-2{
+    margin-right: 180px;
+}

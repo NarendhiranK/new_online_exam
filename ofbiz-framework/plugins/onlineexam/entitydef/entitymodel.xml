@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Licensed to the Apache Software Foundation (ASF) under one or more contributor 
+	license agreements. See the NOTICE file distributed with this work for additional 
+	information regarding copyright ownership. The ASF licenses this file to 
+	you under the Apache License, Version 2.0 (the "License"); you may not use 
+	this file except in compliance with the License. You may obtain a copy of 
+	the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
+	by applicable law or agreed to in writing, software distributed under the 
+	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
+	OF ANY KIND, either express or implied. See the License for the specific 
+	language governing permissions and limitations under the License. -->
+
+<entitymodel
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="https://ofbiz.apache.org/dtds/entitymodel.xsd">
+	<!-- ========================================================= -->
+	<!-- ======================== Defaults ======================= -->
+	<!-- ========================================================= -->
+	<title>Entity of Onlineexam Component</title>
+	<description>None</description>
+	<copyright></copyright>
+	<version>1.0</version>
+
+	<entity entity-name="ExamMaster" title="Exam_Master"
+		package-name="org.apache.ofbiz.onlineexam">
+		<field name="examId" type="id"></field>
+		<field name="examName" type="long-varchar"></field>
+		<field name="description" type="vlong-varchar"></field>
+		<field name="creationDate" type="date-time"></field>
+		<field name="expirationDate" type="date-time"></field>
+		<field name="noOfQuestions" type="numeric"></field>
+		<field name="durationMinutes" type="numeric"></field>
+		<field name="passPercentage" type="decimal"></field>
+		<field name="questionsRandomized" type="indicator"></field>
+		<field name="answersMust" type="indicator"></field>
+		<field name="enableNegativeMark" type="indicator"></field>
+		<field name="negativeMarkValue" type="decimal"></field>
+		<prim-key field="examId" />
+	</entity>
+
+	<entity entity-name="TopicMaster" title="Topic_Master"
+		package-name="org.apache.ofbiz.onlineexam">
+		<field name="topicId" type="id"></field>
+		<field name="topicName" type="long-varchar"></field>
+		<prim-key field="topicId" />
+	</entity>
+
+	<entity entity-name="QuestionMaster" title="Question_Master"
+		package-name="org.apache.ofbiz.onlineexam">
+		<field name="questionId" type="numeric"></field>
+		<field name="questionDetail" type="very-long"></field>
+		<field name="optionA" type="very-long"></field>
+		<field name="optionB" type="very-long"></field>
+		<field name="optionC" type="very-long"></field>
+		<field name="optionD" type="very-long"></field>
+		<field name="optionE" type="very-long"></field>
+		<field name="answer" type="short-varchar"></field>
+		<field name="numAnswers" type="numeric"></field>
+		<field name="questionType" type="id"></field>
+		<field name="difficultyLevel" type="integer"></field>
+		<field name="answerValue" type="decimal"></field>
+		<field name="topicId" type="id"></field>
+		<field name="negativeMarkValue" type="decimal"></field>
+		<prim-key field="questionId" />
+		<relation type="one" fk-name="QM_TM_TYPE_ID"
+			rel-entity-name="TopicMaster">
+			<key-map field-name="topicId" />
+		</relation>
+		<relation type="one" fk-name="QM_ENUM_TYPE_ID"
+			rel-entity-name="Enumeration">
+			<key-map field-name="questionType" rel-field-name="enumId" />
+		</relation>
+	</entity>
+
+	<entity entity-name="ExamTopicMappingMaster"
+		title="Exam_Topic_Mapping_Master"
+		package-name="org.apache.ofbiz.onlineexam">
+		<field name="examId" type="id"></field>
+		<field name="topicId" type="id"></field>
+		<field name="percentage" type="decimal"></field>
+		<field name="topicPassPercentage" type="decimal"></field>
+		<field name="questionsPerExam" type="numeric"></field>
+		<prim-key field="examId" />
+		<prim-key field="topicId" />
+		<relation type="one" fk-name="ETMM_EM_TYPE_ID"
+			rel-entity-name="ExamMaster">
+			<key-map field-name="examId" />
+		</relation>
+		<relation type="one" fk-name="ETMM_TM_TYPE_ID"
+			rel-entity-name="TopicMaster">
+			<key-map field-name="topicId" />
+		</relation>
+	</entity>
+
+	<entity entity-name="UserAttemptMaster"
+		title="User_Attempt_Master" package-name="org.apache.ofbiz.onlineexam">
+		<field name="performanceId" type="integer"></field>
+		<field name="attemptNumber" type="numeric"></field>
+		<field name="partyId" type="id"></field>
+		<field name="examId" type="id"></field>
+		<field name="score" type="decimal"></field>
+		<field name="completedDate" type="date-time"></field>
+		<field name="noOfQuestions" type="integer"></field>
+		<field name="totalCorrect" type="integer"></field>
+		<field name="totalWrong" type="integer"></field>
+		<field name="userPassed" type="indicator"></field>
+		<prim-key field="performanceId" />
+		<relation type="one" fk-name="UAM_PT_TYPE_ID"
+			rel-entity-name="Party">
+			<key-map field-name="partyId" />
+		</relation>
+		<relation type="one" fk-name="UAM_EM_TYPE_ID"
+			rel-entity-name="ExamMaster">
+			<key-map field-name="examId" />
+		</relation>
+	</entity>
+
+	<entity entity-name="UserAttemptTopicMaster"
+		title="User_Attempt_Topic_Master"
+		package-name="org.apache.ofbiz.onlineexam">
+		<field name="performanceId" type="integer"></field>
+		<field name="topicId" type="id"></field>
+		<field name="topicPassPercentage" type="decimal"></field>
+		<field name="totalQuestionsInThisTopic" type="integer"></field>
+		<field name="correctQuestionsInThisTopic" type="integer"></field>
+		<field name="userTopicPercentage" type="decimal"></field>
+		<field name="userPassedThisTopic" type="indicator"></field>
+		<prim-key field="performanceId" />
+		<prim-key field="topicId" />
+		<relation type="one" fk-name="UATM_UAM_TYPE_ID"
+			rel-entity-name="UserAttemptMaster">
+			<key-map field-name="performanceId" />
+		</relation>
+		<relation type="one" fk-name="UATM_TM_TYPE_ID"
+			rel-entity-name="TopicMaster">
+			<key-map field-name="topicId" />
+		</relation>
+	</entity>
+
+	<entity entity-name="UserAttemptAnswerMaster"
+		title="User_Attempt_Answer_Master"
+		package-name="org.apache.ofbiz.onlineexam">
+		<field name="performanceId" type="integer"></field>
+		<field name="questionId" type="numeric"></field>
+		<field name="sequenceNum" type="numeric"></field>
+		<field name="submittedAnswer" type="short-varchar"></field>
+		<field name="isFlagged" type="integer"></field>
+		<prim-key field="performanceId" />
+		<prim-key field="questionId" />
+		<relation type="one" fk-name="UAAM_UAM_TYPE_ID"
+			rel-entity-name="UserAttemptMaster">
+			<key-map field-name="performanceId" />
+		</relation>
+		<relation type="one" fk-name="UAAM_QM_TYPE_ID"
+			rel-entity-name="QuestionMaster">
+			<key-map field-name="questionId" />
+		</relation>
+	</entity>
+
+	<entity entity-name="UserExamMappingMaster"
+		title="User_Exam_Mapping_Master"
+		package-name="org.apache.ofbiz.onlineexam">
+		<field name="partyId" type="id"></field>
+		<field name="examId" type="id"></field>
+		<field name="allowedAttempts" type="numeric"></field>
+		<field name="noOfAttempts" type="numeric"></field>
+		<field name="lastPerformanceDate" type="date-time"></field>
+		<field name="timeoutDays" type="numeric"></field>
+		<field name="passwordChangesAuto" type="indicator"></field>
+		<field name="canSplitExams" type="indicator"></field>
+		<field name="canSeeDetailedResults" type="indicator"></field>
+		<field name="maxSplitAttempts" type="integer"></field>
+		<prim-key field="partyId" />
+		<prim-key field="examId" />
+		<relation type="one" fk-name="UEMM_PT_TYPE_ID"
+			rel-entity-name="Party">
+			<key-map field-name="partyId" />
+		</relation>
+		<relation type="one" fk-name="UEMM_EM_TYPE_ID"
+			rel-entity-name="ExamMaster">
+			<key-map field-name="examId" />
+		</relation>
+	</entity>
+
+	<view-entity entity-name="UserMaster" title="User_Master" never-cache="true" 
+		package-name="org.apache.ofbiz.onlineexam">
+		<member-entity entity-alias="PTRLE" entity-name="PartyRole"/>
+		<member-entity entity-alias="PR" entity-name="Person"/>
+		<!-- <member-entity entity-alias="UL" entity-name="UserLogin"/> -->
+		<alias entity-alias="PR" name="firstName" />
+		<alias entity-alias="PR" name="lastName" />
+		
+		<alias entity-alias="PTRLE" name="partyId"/>
+		<alias entity-alias="PTRLE" name="roleTypeId"/>
+		
+		<view-link entity-alias="PR" rel-entity-alias="PTRLE" rel-optional="true" >
+		<key-map field-name="partyId"/>
+		</view-link>
+		
+		
+		
+		
+	</view-entity>
+	
+	
+	<view-entity entity-name="UserMaster" title="User_Master" never-cache="true" 
+		package-name="org.apache.ofbiz.onlineexam">
+		<member-entity entity-alias="PTRLE" entity-name="PartyRole"/>
+		<member-entity entity-alias="PR" entity-name="Person"/>
+		<!-- <member-entity entity-alias="UL" entity-name="UserLogin"/> -->
+		<alias entity-alias="PR" name="firstName" />
+		<alias entity-alias="PR" name="lastName" />
+		
+		<alias entity-alias="PTRLE" name="partyId"/>
+		<alias entity-alias="PTRLE" name="roleTypeId"/>
+		
+		<view-link entity-alias="PR" rel-entity-alias="PTRLE" rel-optional="true" >
+		<key-map field-name="partyId"/>
+		</view-link>
+
+		</view-entity>
+
+
+
+
+
+
+</entitymodel>
