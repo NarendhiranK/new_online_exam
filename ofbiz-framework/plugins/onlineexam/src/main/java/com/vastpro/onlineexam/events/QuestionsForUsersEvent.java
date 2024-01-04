@@ -15,12 +15,14 @@ import org.apache.ofbiz.entity.GenericValue;
 import org.apache.ofbiz.entity.util.EntityQuery;
 import org.apache.ofbiz.service.LocalDispatcher;
 
+import com.vastpro.onlineexam.constants.ConstantValue;
+
 public class QuestionsForUsersEvent {
 
 	public static String questionsForUsersEvent(HttpServletRequest request, HttpServletResponse response) {
 
-		Delegator delegator = (Delegator) request.getAttribute("delegator");
-		LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
+		Delegator delegator = (Delegator) request.getAttribute(ConstantValue.DELEGATOR);
+		LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute(ConstantValue.DISPATCHER);
 		List<String> userexamid = (List<String>) request.getSession().getAttribute("examIds");
 		HashMap<String, Object> listofexams = new HashMap<>();
 		List<Map<String,Object>> list = new ArrayList<>();
@@ -30,21 +32,21 @@ public class QuestionsForUsersEvent {
 			Debug.log("examId.........." + examid);
 			try {
 				
-				List<GenericValue> genericvalue=EntityQuery.use(delegator).from("ExamMaster").where("examId",examid).cache().queryList();
+				List<GenericValue> genericvalue=EntityQuery.use(delegator).from(ConstantValue.EXAM_MASTER).where(ConstantValue.EXAM_ID,examid).cache().queryList();
 				for(GenericValue genvalue : genericvalue) {
 					HashMap<String,Object> listofexamdetails=new HashMap<>();
-					listofexamdetails.put("examId",genvalue.getString("examId"));
-					listofexamdetails.put("examName", genvalue.getString("examName"));
-					listofexamdetails.put("description", genvalue.getString("description"));
-					listofexamdetails.put("creationDate", genvalue.getString("creationDate"));
-					listofexamdetails.put("expirationDate", genvalue.getString("expirationDate"));
-					listofexamdetails.put("noOfQuestions", genvalue.getString("noOfQuestions"));
-					listofexamdetails.put("durationMinutes", genvalue.getString("durationMinutes"));
-					listofexamdetails.put("passPercentage", genvalue.getString("passPercentage"));
-					listofexamdetails.put("questionsRandomized", genvalue.getString("questionsRandomized"));
-					listofexamdetails.put("answersMust", genvalue.getString("answersMust"));
-					listofexamdetails.put("enableNegativeMark", genvalue.getString("enableNegativeMark"));
-					listofexamdetails.put("negativeMarkValue", genvalue.getString("negativeMarkValue"));
+					listofexamdetails.put("examId",genvalue.getString(ConstantValue.EXAM_ID));
+					listofexamdetails.put("examName", genvalue.getString(ConstantValue.EXAM_NAME));
+					listofexamdetails.put("description", genvalue.getString(ConstantValue.DESCRIPTION));
+					listofexamdetails.put("creationDate", genvalue.getString(ConstantValue.CREATION_DATE));
+					listofexamdetails.put("expirationDate", genvalue.getString(ConstantValue.EXPIRATION_DATE));
+					listofexamdetails.put("noOfQuestions", genvalue.getString(ConstantValue.NO_OF_QUESTIONS));
+					listofexamdetails.put("durationMinutes", genvalue.getString(ConstantValue.DURATION_MINUTES));
+					listofexamdetails.put("passPercentage", genvalue.getString(ConstantValue.PASS_PERCENTAGE));
+					listofexamdetails.put("questionsRandomized", genvalue.getString(ConstantValue.QUESTIONS_RANDOMIZED));
+					listofexamdetails.put("answersMust", genvalue.getString(ConstantValue.ANSWERS_MUST));
+					listofexamdetails.put("enableNegativeMark", genvalue.getString(ConstantValue.ENABLE_NEGATIVE_MARK));
+					listofexamdetails.put("negativeMarkValue", genvalue.getString(ConstantValue.NEGATIVE_MARK_VALUE));
 					list.add(listofexams);
 					listofexamdetails=new HashMap<>();
 				}

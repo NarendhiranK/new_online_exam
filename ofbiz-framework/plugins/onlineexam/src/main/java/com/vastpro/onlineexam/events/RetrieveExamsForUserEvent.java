@@ -13,7 +13,7 @@ public class RetrieveExamsForUserEvent {
 	
 	public static String getExamsForUser(HttpServletRequest request,HttpServletResponse response) {
 		Delegator delegator=(Delegator)request.getAttribute(ConstantValue.DELEGATOR);
-		return "success";)
+		return "success";
 	}
 
 }

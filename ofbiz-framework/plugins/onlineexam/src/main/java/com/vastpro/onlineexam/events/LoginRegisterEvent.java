@@ -1,6 +1,8 @@
 package com.vastpro.onlineexam.events;
 import java.util.HashMap;
 import com.vastpro.onlineexam.checks.RegisterFormCheck;
+import com.vastpro.onlineexam.constants.ConstantValue;
+
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -44,32 +46,32 @@ public class LoginRegisterEvent {
 	 * */
 	public static String loginEvent(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> combinedMap = UtilHttp.getCombinedMap(request);
-		String userName = (String) combinedMap.get("USERNAME");
-		String password = (String) combinedMap.get("PASSWORD");
+		String userName = (String) combinedMap.get(ConstantValue.USERNAME);
+		String password = (String) combinedMap.get(ConstantValue.PASSWORD);
 		Debug.log(userName);
 		Debug.log(password);
-		Delegator delegator = (Delegator) request.getAttribute("delegator");
+		Delegator delegator = (Delegator) request.getAttribute(ConstantValue.DELEGATOR);
 		Locale locale = UtilHttp.getLocale(request);
 		try {
 			List<GenericValue> checkGenericValue = null;
 			String result = LoginWorker.login(request, response);
 			Debug.log("My result........" + result);
-			GenericValue userLogin = EntityQuery.use(delegator).from("UserLogin").where("userLoginId", userName).cache()
+			GenericValue userLogin = EntityQuery.use(delegator).from(ConstantValue.USER_LOGIN).where(ConstantValue.USER_LOGIN_ID, userName).cache()
 					.queryFirst();
 			String roleTypeId = null;
 			String firstName = null;
 			if (UtilValidate.isNotEmpty(userLogin)) {
 				
-				String partyId = (String) userLogin.get("partyId");
+				String partyId = (String) userLogin.get(ConstantValue.PARTY_ID);
 				Debug.log(partyId);
-				GenericValue personFirstName = EntityQuery.use(delegator).from("Person").where("partyId", partyId)
+				GenericValue personFirstName = EntityQuery.use(delegator).from(ConstantValue.PERSON).where(ConstantValue.PARTY_ID, partyId)
 						.cache().queryOne();
-				firstName = (String) personFirstName.get("firstName");
+				firstName = (String) personFirstName.get(ConstantValue.FIRST_NAME);
 				Debug.log(firstName);
-				List<GenericValue> partyRole = EntityQuery.use(delegator).from("PartyRole").where("partyId", partyId)
+				List<GenericValue> partyRole = EntityQuery.use(delegator).from(ConstantValue.PARTY_ROLE).where(ConstantValue.PARTY_ID, partyId)
 						.cache().queryList();
 				for (GenericValue usergenericvalue : partyRole) {
-					String usersRoletypeId = (String) usergenericvalue.get("roleTypeId");
+					String usersRoletypeId = (String) usergenericvalue.get(ConstantValue.ROLE_TYPE_ID);
 					if (usersRoletypeId.equalsIgnoreCase("ADMIN")) {
 						checkGenericValue = partyRole;
 						roleTypeId = usersRoletypeId;
