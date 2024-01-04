@@ -201,7 +201,7 @@ const Examsforuser = () => {
                     </form>
                 </div>
 
-                <div className="col-2"></div>
+                <div className="col-2"><button className="btn btn-primary">Back</button></div>
             </div>
     </div>
   )

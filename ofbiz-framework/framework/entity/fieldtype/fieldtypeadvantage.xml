@@ -61,8 +61,4 @@ under the License.
     <field-type-def type="email" sql-type="Char(320)" java-type="String"/>
     <field-type-def type="url" sql-type="Char(2000)" java-type="String"/>
     <field-type-def type="tel-number" sql-type="Char(60)" java-type="String"/>
-    
-        <!-- Custom SQL Datatypes -->
-    <field-type-def type="vlong-varchar" sql-type="VARCHAR(1000)" java-type="String"/>
-    <field-type-def type="decimal" sql-type="NUMERIC(10,2)" java-type="java.math.BigDecimal"/>
 </fieldtypemodel>
