@@ -8,6 +8,9 @@ public interface ConstantValue {
 	
       //Login firstName
 	String FIRST_NAME = "firstName";
+	String LAST_NAME = "lastName";
+	String CURRENT_PASSWORD = "currentPassword";
+	String CURRENT_PASSWORD_VERIFY = "currentPasswordVerify";
 	
 	// Messages.
 	String ERROR = "error";
