@@ -22,7 +22,7 @@ public class ExamsForUserEvent {
 	public static String examsForUserEvent(HttpServletRequest request,HttpServletResponse response) {
 		 	Delegator delegator = (Delegator) request.getAttribute(ConstantValue.DELEGATOR);
 	        LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute(ConstantValue.DISPATCHER);
-	        String username=(String)request.getAttribute(ConstantValue.USERNAME);
+	        String username=(String)request.getAttribute(ConstantValue.PARTY_ID);
 	        String userexamid=null;
 	        try {
 	        	GenericValue userLogin = EntityQuery.use(delegator).from("UserLogin").where("userLoginId", username).cache()

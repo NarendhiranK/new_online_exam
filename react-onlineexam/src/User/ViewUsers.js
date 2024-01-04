@@ -43,7 +43,7 @@ const ViewUsers = () => {
             return (
               <tbody key={user.partyId}>
                 <tr className="border border-dark">
-                  {/* <td>{user.partyId}</td> */}
+                   <td>{user.partyId}</td> 
                   <td>{user.firstName}</td>
                   <td>{user.lastName}</td>
                   <td>
@@ -51,7 +51,7 @@ const ViewUsers = () => {
                     
                   </td>
                   <td>
-                    <button className="btn btn-primary">View Exams</button>
+                    <button className="btn btn-primary" onClick={()=>navigate(`/admin/assignExam/examsForUser/${user.partyId}/${user.firstName}`)}>View Exams</button>
                     
                   </td>
                   <td>

@@ -17,6 +17,7 @@ import { useState } from "react";
 import ViewUsers from "./User/ViewUsers";
 import Welcome from "./Welcome/Welcome";
 import Examsforuser from "./User/Examsforuser";
+import AddExamForUser from "./User/AddExamForUser";
 
 //This is AA
 function App() {
@@ -46,7 +47,8 @@ function App() {
         <Route path="/admin/updateExam/examdetails/question-topicView/view-questions/:questionId/:topicName/:examId" element={<DetailsOfQuestion/>}/>
        {/* TOPIC */}
 
-      <Route path="/admin/assignExam/addExamForUser" element={<Examsforuser/>} />
+      <Route path="/admin/assignExam/addExamForUser" element={<AddExamForUser/>} />
+      <Route path="/admin/assignExam/examsForUser/:partyId/:firstName" element={<Examsforuser/>}/>
 
        {/* QUESTION */}
 
