@@ -465,20 +465,17 @@ const CreateExamMaster = () => {
                 <p id="p8" className="text-danger"></p>
               </div>
               <div className="mb-3">
+
                 <label
                   htmlFor="exampleInputEmail1"
                   className="form-label float-start"
                 >
                   QuestionsRandomized:
                 </label>
-                <input
-                  type="text"
-                  name="questionsRandomized"
-                  className="form-control"
-                  id="questionsrandomized"
-                  placeholder="questions randomized eg(Yes or No)"
-               
-                />
+               <select name="questionsRandomized" id="" className="form-select"> QuestionsRandomized:
+              <option value="Y">Yes</option>
+              <option value="N">No</option>
+              </select>
                 <p id="p9" className="text-danger"></p>
               </div>
               <div className="mb-3">
@@ -488,14 +485,10 @@ const CreateExamMaster = () => {
                 >
                   Answers Must:
                 </label>
-                <input
-                  type="text"
-                  name="answersMust"
-                  placeholder="To Answer is must eg(Y OR N)"
-                  id="answersmust"
-                  className="form-control"
-                 
-                />
+                <select name="answersMust" id="" className="form-select"> QuestionsRandomized:
+              <option value="Y">Yes</option>
+              <option value="N">No</option>
+              </select>
                 <p id="p10" className="text-danger"></p>
               </div>
               <div className="mb-3">
@@ -505,14 +498,10 @@ const CreateExamMaster = () => {
                 >
                   EnableNegativeMark:
                 </label>
-                <input
-                  type="text"
-                  name="enableNegativeMark"
-                  placeholder="Enablenegativemark eg(Y OR N)"
-                  id="enablenegativemark"
-                  className="form-control"
-                  
-                />
+                <select name="enableNegativeMark" id="" className="form-select"> QuestionsRandomized:
+              <option value="Y">Yes</option>
+              <option value="N  ">No</option>
+              </select>
                 <p id="p11" className="text-danger"></p>
               </div>
               <div className="mb-3">

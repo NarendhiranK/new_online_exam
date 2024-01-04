@@ -18,6 +18,7 @@ import ViewUsers from "./User/ViewUsers";
 import Welcome from "./Welcome/Welcome";
 import Examsforuser from "./User/Examsforuser";
 import AddExamForUser from "./User/AddExamForUser";
+import QuestionMaster from "./QuestionMaster/QuestionMaster";
 
 //This is AA
 function App() {
@@ -47,9 +48,10 @@ function App() {
         <Route path="/admin/updateExam/examdetails/question-topicView/view-questions/:questionId/:topicName/:examId" element={<DetailsOfQuestion/>}/>
        {/* TOPIC */}
 
-      <Route path="/admin/assignExam/addExamForUser" element={<AddExamForUser/>} />
+      <Route path="/admin/assignExam/addExamForUser/:partyId/:firstName" element={<AddExamForUser/>} />
+      <Route path="/admin/assignExam/addExamForUser/:partyId/:examId" element={<AddExamForUser/>} />
       <Route path="/admin/assignExam/examsForUser/:partyId/:firstName" element={<Examsforuser/>}/>
-
+      <Route path="/admin/updateExam/examdetails/question-topicView/add-questions/:topicId/:topicName" element={<QuestionMaster/>} />
        {/* QUESTION */}
 
         </Route>
