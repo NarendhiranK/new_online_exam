@@ -31,7 +31,9 @@ public class QuestionTopicEvent {
 		try {
 			GenericValue getTopicMaster = EntityQuery.use(delegator).from(ConstantValue.TOPIC_MASTER).where(ConstantValue.TOPIC_ID, topicId)
 					.cache().queryOne();
+
 			String topicName = getTopicMaster.getString(ConstantValue.TOPIC_NAME);
+
 			if (UtilValidate.isNotEmpty(getTopicMaster)) {
 				Debug.log("topicmaster..."+getTopicMaster.toString());
 				List<GenericValue> listQuestions = EntityQuery.use(delegator).from(ConstantValue.QUESTION_MASTER)

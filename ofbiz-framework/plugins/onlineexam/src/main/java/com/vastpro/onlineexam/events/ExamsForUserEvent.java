@@ -22,14 +22,10 @@ public class ExamsForUserEvent {
 	public static String examsForUserEvent(HttpServletRequest request,HttpServletResponse response) {
 		 	Delegator delegator = (Delegator) request.getAttribute(ConstantValue.DELEGATOR);
 	        LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute(ConstantValue.DISPATCHER);
-	        String username=(String)request.getAttribute(ConstantValue.PARTY_ID);
+	        String partyId=(String)request.getAttribute(ConstantValue.PARTY_ID);
 	        String userexamid=null;
 	        try {
-	        	GenericValue userLogin = EntityQuery.use(delegator).from("UserLogin").where("userLoginId", username).cache()
-						.queryFirst();
-				if (UtilValidate.isNotEmpty(userLogin)) {
-					String partyId = (String) userLogin.get(ConstantValue.PARTY_ID);
-					Debug.log("partyID....." +partyId);
+	        
 					List<GenericValue> examId = EntityQuery.use(delegator).from("UserExamMappingMaster").where("partyId", partyId)
 							.cache().queryList();
 					if(examId!=null && !examId.isEmpty()) {
@@ -60,10 +56,8 @@ public class ExamsForUserEvent {
 					request.getSession().setAttribute("examIds",examIds);
 					return "success";
 					
-				}
-				else {
-					
-				}
+				
+				
 	        }
 	        catch(GenericEntityException e) {
 	        	e.printStackTrace();
@@ -83,7 +77,7 @@ public class ExamsForUserEvent {
 //			}
 			// System.out.println(userLogin.toString());
 			// request.setAttribute("EVENT_MESSAGE", "username and password succesfully." );
-			return "success";
+		
 	}
 
 }

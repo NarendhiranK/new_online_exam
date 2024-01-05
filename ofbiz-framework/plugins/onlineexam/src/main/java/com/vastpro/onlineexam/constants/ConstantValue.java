@@ -2,9 +2,10 @@ package com.vastpro.onlineexam.constants;
 
 public interface ConstantValue {
 
-	// Delegator and Dispatcher.
+	// Common Attributes.
 	String DELEGATOR = "delegator";
 	String DISPATCHER = "dispatcher";
+	String USERLOGIN = "userLogin";
 	
       //Login firstName
 	String FIRST_NAME = "firstName";
@@ -108,6 +109,7 @@ public interface ConstantValue {
 
 	// Out of the box tables
 	String PERSON = "Person";
+	String USER_LOGIN_TABLE = "UserLogin";
 	 
 	//PartyRole Entity
 	String PARTY_ROLE = "PartyRole";

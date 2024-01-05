@@ -4,7 +4,15 @@ import { useNavigate } from "react-router-dom";
 const ViewUsers = () => {
   const navigate = useNavigate()
   const [userList, setUserList] = useState("");
-  useEffect(() => {
+
+  const deleteUser=(partyId)=>{
+    let map={
+      partyId  : partyId,
+    }
+    
+  }
+
+  function usersList(){
     fetch("https://localhost:8443/onlineexam/control/viewUsers", {
       method: "GET",
       credentials: "include",
@@ -17,11 +25,12 @@ const ViewUsers = () => {
       .then(data => {
         console.log("data", data);
         setUserList(data.userList);
-        // console.log(resultData);
-        // console.log(resultData.userList[0].firstName)
-        //setUserList(resultData.resultList);
+
       })
       .catch((error) => console.log(error));
+  }
+  useEffect(() => {
+    usersList();
   }, []);
   //var resultData;
   return (
@@ -43,11 +52,11 @@ const ViewUsers = () => {
             return (
               <tbody key={user.partyId}>
                 <tr className="border border-dark">
-                   <td>{user.partyId}</td> 
+                   {/* <td>{user.partyId}</td>  */}
                   <td>{user.firstName}</td>
                   <td>{user.lastName}</td>
                   <td>
-                    <button className="btn btn-primary" onClick={() => navigate("/admin/assignExam/addExamForUser")}>Add Exam</button>
+                    <button className="btn btn-primary" onClick={() => navigate(`/admin/assignExam/addExamForUser/${user.partyId}/${user.firstName}`)}>Add Exam</button>
                     
                   </td>
                   <td>
@@ -55,7 +64,9 @@ const ViewUsers = () => {
                     
                   </td>
                   <td>
-                    <button className="btn btn-danger">Delete</button>
+                    <button className="btn btn-danger" onClick={()=>{
+                        deleteUser(user.partyId)
+                    }}>Delete</button>
                   </td>
                 </tr>
               </tbody>
