@@ -8,33 +8,36 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ofbiz.base.util.Debug;
+import org.apache.ofbiz.base.util.UtilHttp;
 import org.apache.ofbiz.base.util.UtilValidate;
 import org.apache.ofbiz.entity.Delegator;
 import org.apache.ofbiz.entity.GenericEntityException;
 import org.apache.ofbiz.entity.GenericValue;
 import org.apache.ofbiz.entity.util.EntityQuery;
 
+import com.vastpro.onlineexam.constants.ConstantValue;
+
 public class QuestionTopicEvent {
 
 	public static final String module = QuestionTopicEvent.class.getName();
 	public static String viewQuestions(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> combinedMap = UtilHttp.getCombinedMap(request);
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		String result = null;
-		String topicId = request.getParameter("topicId");
-		Debug.log(topicId);
-		if (topicId == null) {
-			topicId = (String) request.getAttribute("topicId");
-		}
-		Debug.log(topicId);
-		Delegator delegator = (Delegator) request.getAttribute("delegator");
+		String topicId = (String)combinedMap.get(ConstantValue.TOPIC_ID);
+		
+		Debug.logInfo("topicId",topicId);
+		Delegator delegator = (Delegator) combinedMap.get(ConstantValue.DELEGATOR);
 		try {
-			GenericValue getTopicMaster = EntityQuery.use(delegator).from("TopicMaster").where("topicId", topicId)
+			GenericValue getTopicMaster = EntityQuery.use(delegator).from(ConstantValue.TOPIC_MASTER).where(ConstantValue.TOPIC_ID, topicId)
 					.cache().queryOne();
-			String topicName = getTopicMaster.getString("topicName");
+
+			String topicName = getTopicMaster.getString(ConstantValue.TOPIC_NAME);
+
 			if (UtilValidate.isNotEmpty(getTopicMaster)) {
 				Debug.log("topicmaster..."+getTopicMaster.toString());
-				List<GenericValue> listQuestions = EntityQuery.use(delegator).from("QuestionMaster")
-						.where("topicId", topicId).cache().queryList();
+				List<GenericValue> listQuestions = EntityQuery.use(delegator).from(ConstantValue.QUESTION_MASTER)
+						.where(ConstantValue.TOPIC_ID, topicId).cache().queryList();
 				Debug.log("list of questions...."+listQuestions.toString());
 				if (UtilValidate.isNotEmpty(listQuestions)) {
 					result = "success";

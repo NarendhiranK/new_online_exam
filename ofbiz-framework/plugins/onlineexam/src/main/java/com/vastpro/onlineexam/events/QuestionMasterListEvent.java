@@ -29,7 +29,7 @@ public class QuestionMasterListEvent {
 		  if(UtilValidate.isNotEmpty(questionId)) {
 			  GenericValue getRecord;
 			try {
-				getRecord = EntityQuery.use(delegator).from("QuestionMaster").where("questionId",qId).cache().queryOne();
+				getRecord = EntityQuery.use(delegator).from(ConstantValue.QUESTION_MASTER).where(ConstantValue.QUESTION_ID,qId).cache().queryOne();
 				request.setAttribute("getRecord", getRecord);
 			} catch (GenericEntityException e) {
 				
@@ -39,7 +39,7 @@ public class QuestionMasterListEvent {
 		  }
 		  else {
 			  try {
-					List<GenericValue> listOfQuestions = EntityQuery.use(delegator).from("QuestionMaster").cache().queryList();
+					List<GenericValue> listOfQuestions = EntityQuery.use(delegator).from(ConstantValue.QUESTION_MASTER).cache().queryList();
 					
 					Debug.log("listOfQuestions",listOfQuestions);
 					if(UtilValidate.isNotEmpty(listOfQuestions)) {

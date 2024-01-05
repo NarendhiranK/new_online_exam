@@ -258,6 +258,15 @@
 		<response name="success" type="request" value="json" />
 		<response name="error" type="request" value="json" />
 	</request-map>
+	
+	<request-map uri="RetrieveExamsForUserEvent">
+		<security https="true" auth="false" />
+		<event type="java"
+			path="com.vastpro.onlineexam.events.RetrieveExamsForUserEvent"
+			invoke="getExamsForUser"></event>
+		<response name="success" type="request" value="json" />
+		<response name="error" type="request" value="json" />
+	</request-map>
 
 
 	<request-map uri="QuestionsForUserEvent">

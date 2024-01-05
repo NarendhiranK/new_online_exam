@@ -6,7 +6,10 @@ public interface ConstantValue {
 	String DELEGATOR = "delegator";
 	String DISPATCHER = "dispatcher";
 	String USERLOGIN = "userLogin";
-
+	
+      //Login firstName
+	String FIRST_NAME = "firstName";
+	
 	// Messages.
 	String ERROR = "error";
 	String SUCCESS = "success";
@@ -34,6 +37,10 @@ public interface ConstantValue {
 	String ENABLE_NEGATIVE_MARK = "enableNegativeMark";
 	String NEGATIVE_MARK_VALUE = "negativeMarkValue";
 
+	
+	//USERlOGIN ENTITY TABLE
+	String USER_LOGIN = "UserLogin";
+	String USER_LOGIN_ID = "userLoginId";
 	// Topic Master table attributes.
 	String TOPIC_MASTER = "TopicMaster";
 	String TOPIC_ID = "topicId";
@@ -100,5 +107,9 @@ public interface ConstantValue {
 	// Out of the box tables
 	String PERSON = "Person";
 	String USER_LOGIN_TABLE = "UserLogin";
+	 
+	//PartyRole Entity
+	String PARTY_ROLE = "PartyRole";
+	String ROLE_TYPE_ID = "roleTypeId";
 
 }
