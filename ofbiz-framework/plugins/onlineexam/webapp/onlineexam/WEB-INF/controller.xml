@@ -96,12 +96,7 @@
 	</request-map>
 
 
-	<request-map uri="viewUsers">
-		<security https="true" auth="false" />
-		<event type="service" invoke="viewUsers"></event>
-		<response name="success" type="request" value="json" />
-		<response name="error" type="request" value="json" />
-	</request-map>
+
 
 
 
@@ -235,6 +230,12 @@
 
 
 	<!-- request uri for users -->
+	<request-map uri="viewUsers">
+		<security https="true" auth="false" />
+		<event type="service" invoke="viewUsers"></event>
+		<response name="success" type="request" value="json" />
+		<response name="error" type="request" value="json" />
+	</request-map>
 
 	<request-map uri="viewQuestions">
 		<security https="true" auth="false" />
@@ -246,12 +247,7 @@
 	</request-map>
 
 
-	<request-map uri="viewUsers">
-		<security https="true" auth="false" />
-		<event type="service" invoke="viewUsers"></event>
-		<response name="success" type="request" value="json" />
-		<response name="error" type="request" value="json" />
-	</request-map>
+
 
 
 	<request-map uri="ExamsForUserEvent">
@@ -291,6 +287,40 @@
 		<response name="success" type="request" value="json" />
 		<response name="error" type="request" value="json" />
 	</request-map>
+	
+<<<<<<< HEAD
+		<request-map uri="deleteQuestionsForTopic">
+		<security https="true" auth="false" />
+		<event type="java"
+			path="com.vastpro.onlineexam.events.DeleteQuestionsForTopicEvent"
+			invoke="deleteQuestionsForTopicEvent"></event>
+		<response name="success" type="request" value="json" />
+		<response name="error" type="request" value="json" />
+	   </request-map>
+	   
+	   
+	   <request-map uri="retrieveEnumerationListEvent">
+		<security https="true" auth="false" />
+		<event type="java"
+			path="com.vastpro.onlineexam.events.RetrieveEnumerationListEvent"
+			invoke="retrieveEnumerationListEvent"></event>
+		<response name="success" type="request" value="json" />
+		<response name="error" type="request" value="json" />
+	   </request-map>
+		
+=======
+			<!-- Delete UserExamMapping master table -->
+		<request-map uri="deleteUserExam">
+		<security https="true" auth="false" />
+		<event type="java"
+			path="com.vastpro.onlineexam.events.DeleteUserExamMappingEvent"
+			invoke="deleteUserExamMapping"></event>
+		<response name="success" type="request" value="json" />
+		<response name="error" type="request" value="json" />
+	</request-map>
+	
+	
+>>>>>>> 94a706e68174c8e04bc66602c98bccfe880d594a
 
 	<!-- View Mappings -->
 	<view-map name="main" type="screen"

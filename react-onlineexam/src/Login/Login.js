@@ -26,7 +26,7 @@ const Login = ({setName,setFlag,flag}) => {
     });
 
     if (!hasNoError.current) {
-      fetch('https://localhost:8443/onlineexam/control/loginEvent', {
+      fetch('https://' + window.location.hostname +':8443/onlineexam/control/loginEvent', {
         method: 'POST',
         credentials: "include",
         headers: {
@@ -44,13 +44,13 @@ const Login = ({setName,setFlag,flag}) => {
           if (data.resultMap.usersRoletypeId === "ADMIN") {
             console.log("isFlag", data.resultMap.isFlag);
             //alert("admin logged in successfully...")
-            setName(data.resultMap.firstName);
+           // setName(data.resultMap.firstName);
             setFlag(data.resultMap.isFlag);
           
             navigate("admin/welcome");
           }
           else if (data.resultMap.usersRoletypeId === "PERSON_ROLE") {
-            setName(data.resultMap.firstName);
+            //setName(data.resultMap.firstName);
             setFlag(data.resultMap.isFlag);
           
             navigate("/user")

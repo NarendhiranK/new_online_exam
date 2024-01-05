@@ -13,27 +13,41 @@ import Register from "./Register/Register";
 import ExamTopicMappingView from "./ExamMaster/ExamTopicMappingView";
 import QuestionForTopicView from "./QuestionMaster/QuestionForTopicView";
 import DetailsOfQuestion from "./ExamMaster/DetailsOfQuestion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ViewUsers from "./User/ViewUsers";
 import Welcome from "./Welcome/Welcome";
 import Examsforuser from "./User/Examsforuser";
 import AddExamForUser from "./User/AddExamForUser";
 import QuestionMaster from "./QuestionMaster/QuestionMaster";
 
-//This is AA
+//This is App.js
 function App() {
-  const [name, setName] = useState();
+  const [name, setName] = useState('');
   const [flag, setFlag] = useState(false);
+  
+
+  useEffect(() => {
+    fetch("https://localhost:8443/onlineexam/control/getPersonName", {
+      method: 'GET',
+      credentials: "include",
+    }).then(response => response.json())
+      .then(data => {
+        console.log(data)
+        setName(data.userNameLogin);
+      }).catch((error) => console.log(error))
+  },[name])
+
+
   return (
     <div className="App">
       <Header name={name} flag={flag} setName={setName} setFlag={setFlag} />
       <Routes>
         <Route path="/" element={<Login setName={setName} setFlag={setFlag} flag={flag} />} />
         <Route path="register" element={<Register />} />
-        <Route path="*" element={<NoMatch />} />
-        <Route path="user" element={<User />} />
-        <Route path="admin" element={<Admin />}>
-          <Route path="welcome" element={<Welcome />} />
+        <Route path="*" element={<NoMatch/>} />
+        <Route path="user" element={<User/>} />
+        <Route path="admin" element={<Admin/>}>
+          <Route path="welcome" element={<Welcome/>} />
           <Route path='assignExam' element={<ViewUsers />} />
 
           {/* EXAMS */}
