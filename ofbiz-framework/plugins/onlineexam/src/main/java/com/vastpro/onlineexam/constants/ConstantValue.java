@@ -112,5 +112,12 @@ public interface ConstantValue {
 	//PartyRole Entity
 	String PARTY_ROLE = "PartyRole";
 	String ROLE_TYPE_ID = "roleTypeId";
+	
+	//Enumeration Entity
+	String ENUMERATION ="Enumeration";
+	String ENUMERATION_TYPE_ID ="enumTypeId";
+	String ENUM_ID ="enumId";
+	
+	
 
 }

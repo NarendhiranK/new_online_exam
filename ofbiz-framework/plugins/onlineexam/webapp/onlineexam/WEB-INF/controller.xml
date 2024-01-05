@@ -282,6 +282,26 @@
 		<response name="success" type="request" value="json" />
 		<response name="error" type="request" value="json" />
 	</request-map>
+	
+		<request-map uri="deleteQuestionsForTopic">
+		<security https="true" auth="false" />
+		<event type="java"
+			path="com.vastpro.onlineexam.events.DeleteQuestionsForTopicEvent"
+			invoke="deleteQuestionsForTopicEvent"></event>
+		<response name="success" type="request" value="json" />
+		<response name="error" type="request" value="json" />
+	   </request-map>
+	   
+	   
+	   <request-map uri="retrieveEnumerationListEvent">
+		<security https="true" auth="false" />
+		<event type="java"
+			path="com.vastpro.onlineexam.events.RetrieveEnumerationListEvent"
+			invoke="retrieveEnumerationListEvent"></event>
+		<response name="success" type="request" value="json" />
+		<response name="error" type="request" value="json" />
+	   </request-map>
+		
 
 	<!-- View Mappings -->
 	<view-map name="main" type="screen"

@@ -76,16 +76,6 @@ public class QuestionMasterEvent {
 				    Debug.logInfo("questionMasterResult", createQuestionMasterResult.toString());
 			}
 		}
-//	        	GenericValue getQuestionId = EntityQuery.use(delegator).from("QuestionMaster").where("questionId", questionId).cache()
-//						.queryOne();
-//	        	if(getQuestionId!=null) {
-////	        		 Debug.logInfo("=====update service called...... =========", module);
-////	 	            dispatcher.runSync("updateQuestionMaster", UtilMisc.toMap("questionId",questionId,
-////	 	            		"questionDetail",questionDetail,"optionA",optionA,
-////	 	            		"optionB",optionB,"optionC",optionC,"optionD",optionD,"optionE",optionE,"answer",answer,
-////	 	            		"numAnswers",numAnswers,
-////	 	            		"questionType",questionType,"difficultyLevel",difficultyLevel,"answerValue",answerValue,"topicId",topicId));
-//	        	}
 
 		catch (GenericServiceException | GenericEntityException e) {
 			String errMsg = "Unable to create or update records in" + entityname + e.toString();
