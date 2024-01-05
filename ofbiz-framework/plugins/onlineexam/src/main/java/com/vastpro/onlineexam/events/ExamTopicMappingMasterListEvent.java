@@ -48,8 +48,9 @@ public class ExamTopicMappingMasterListEvent {
 				request.setAttribute("noRecordsFound", "no records found in entity!");
 				return "error";
 			}
-			Map <String,Object> hash=new HashMap<>();
+			Map <String,Object> hash;
 			for (GenericValue examList : examMappingMaster) {
+				hash=new HashMap<>();
 				hash.put("examName", ExamName);
 				hash.put("examId", examList.get(ConstantValue.EXAM_ID));
 				hash.put("topicId", examList.get(ConstantValue.TOPIC_ID));
@@ -64,7 +65,7 @@ public class ExamTopicMappingMasterListEvent {
 				Debug.log("TopicName......" + topicName);
 				hash.put("topicName", topicName);
 				mylist.add(hash);
-				hash=new HashMap<>();
+				
 			}
 		
 			ExamTopicMapping.put("ExamTopicMapping", mylist);

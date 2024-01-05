@@ -44,13 +44,16 @@ function App() {
           <Route path="updateExam/examdetails/:examId/" element={<ExamTopicMappingView />} />
           <Route path="updateExam/examdetails/:examId/:topicId" element={<ExamTopicMappingView />} />
           <Route path="updateExam/examdetails/question-topicView/:topicId/:examId" element={<QuestionForTopicView />} />
+          <Route path="updateExam/examdetails/question-topicView/:TopicId" element={<QuestionForTopicView />} />
 
           <Route path="/admin/updateExam/examdetails/question-topicView/view-questions/:questionId/:topicName/:examId" element={<DetailsOfQuestion />} />
           {/* TOPIC */}
 
-      <Route path="/admin/assignExam/addExamForUser/:partyId/:firstName" element={<AddExamForUser/>} />
-      <Route path="/admin/assignExam/addExamForUser/:partyId/:examId" element={<AddExamForUser/>} />
+          <Route path="/admin/assignExam/addExamForUser/:partyId/:firstName" element={<AddExamForUser/>} />
+          <Route path="/admin/assignExam/addExamForUser/:partyId/:examId" element={<AddExamForUser/>} />
       <Route path="/admin/assignExam/examsForUser/:partyId/:firstName" element={<Examsforuser/>}/>
+      <Route path="/admin/updateExam/examdetails/question-topicView/add-questions/:TopicId/:topicName" element={<QuestionMaster/>} />
+
 
           {/* QUESTION */}
 
