@@ -29,10 +29,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Login setName={setName} setFlag={setFlag} flag={flag} />} />
         <Route path="register" element={<Register />} />
-        <Route path="*" element={<NoMatch />} />
-        <Route path="user" element={<User />} />
-        <Route path="admin" element={<Admin />}>
-          <Route path="welcome" element={<Welcome />} />
+        <Route path="*" element={<NoMatch/>} />
+        <Route path="user" element={<User/>} />
+        <Route path="admin" element={<Admin/>}>
+          <Route path="welcome" element={<Welcome/>} />
           <Route path='assignExam' element={<ViewUsers />} />
 
           {/* EXAMS */}
