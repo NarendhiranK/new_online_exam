@@ -10,8 +10,7 @@ const Header = ({ name, flag, setFlag, setName }) => {
   console.log("Header username", username);
   const navigate = useNavigate();
   const onLogout = () => {
-    setName('');
-    setFlag(false);
+
     fetch('https://localhost:8443/onlineexam/control/logoutEvent', {
       method: 'GET',
       credentials: "include",
@@ -23,33 +22,35 @@ const Header = ({ name, flag, setFlag, setName }) => {
       .then(data => {
         console.log("data", data);
         if (data.isLogout === true) {
+          setName('');
+          setFlag(false);
           navigate('/');
           console.log("isFlag", flag);
         }
       })
     // console.log("isFlag", flag);
   }
-  const [time, setTime] = useState({
-    minutes: new Date().getMinutes(),
-    hours: new Date().getHours(),
-    seconds: new Date().getSeconds()
-  })
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      const date = new Date();
-      setTime({
-        minutes: date.getMinutes(),
-        hours: date.getHours(),
-        seconds: date.getSeconds()
-      })
-    }, 1000)
-    return () => clearInterval(intervalId);
-  }, [])
-  const convertToTwoDigit = (number) => {
-    return number.toLocaleString('en-IN', {
-      minimumIntegerDigits: 2
-    })
-  }
+  // const [time, setTime] = useState({
+  //   minutes: new Date().getMinutes(),
+  //   hours: new Date().getHours(),
+  //   seconds: new Date().getSeconds()
+  // })
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     const date = new Date();
+  //     setTime({
+  //       minutes: date.getMinutes(),
+  //       hours: date.getHours(),
+  //       seconds: date.getSeconds()
+  //     })
+  //   }, 1000)
+  //   return () => clearInterval(intervalId);
+  // }, [])
+  // const convertToTwoDigit = (number) => {
+  //   return number.toLocaleString('en-IN', {
+  //     minimumIntegerDigits: 2
+  //   })
+  // }
   return (
     <div>
       <header className="header">
@@ -62,8 +63,9 @@ const Header = ({ name, flag, setFlag, setName }) => {
           <div className="collapse navbar-collapse" id="navmenu">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                {name && <h3 className="text-light mt-3">Hello {name}!! </h3>}
-                {flag && <button className="btn btn-outline-light" onClick={onLogout}>Logout</button>}
+                {name ? <h3 className="text-light mt-3">Hello {name}!! </h3> : ""}
+                {flag ? <button className="btn btn-outline-light" onClick={onLogout}>Logout</button> : '' }
+                {/* {flag ? <button className="btn btn-outline-light" onClick={onLogout}>Logout</button> : ""} */}
                 {/* <p>{currTime}</p> */}
               </li>
             </ul>

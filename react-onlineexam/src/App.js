@@ -13,16 +13,30 @@ import Register from "./Register/Register";
 import ExamTopicMappingView from "./ExamMaster/ExamTopicMappingView";
 import QuestionForTopicView from "./QuestionMaster/QuestionForTopicView";
 import DetailsOfQuestion from "./ExamMaster/DetailsOfQuestion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ViewUsers from "./User/ViewUsers";
 import Welcome from "./Welcome/Welcome";
 import Examsforuser from "./User/Examsforuser";
 import AddExamForUser from "./User/AddExamForUser";
 
-//This is AA
+//This is App.js
 function App() {
-  const [name, setName] = useState();
+  const [name, setName] = useState('');
   const [flag, setFlag] = useState(false);
+  
+
+  useEffect(() => {
+    fetch("https://localhost:8443/onlineexam/control/getPersonName", {
+      method: 'GET',
+      credentials: "include",
+    }).then(response => response.json())
+      .then(data => {
+        console.log(data)
+        setName(data.userNameLogin);
+      }).catch((error) => console.log(error))
+  },[name])
+
+
   return (
     <div className="App">
       <Header name={name} flag={flag} setName={setName} setFlag={setFlag} />
@@ -47,8 +61,8 @@ function App() {
           <Route path="/admin/updateExam/examdetails/question-topicView/view-questions/:questionId/:topicName/:examId" element={<DetailsOfQuestion />} />
           {/* TOPIC */}
 
-      <Route path="/admin/assignExam/addExamForUser" element={<AddExamForUser/>} />
-      <Route path="/admin/assignExam/examsForUser/:partyId/:firstName" element={<Examsforuser/>}/>
+          <Route path="/admin/assignExam/addExamForUser" element={<AddExamForUser />} />
+          <Route path="/admin/assignExam/examsForUser/:partyId/:firstName" element={<Examsforuser />} />
 
           {/* QUESTION */}
 

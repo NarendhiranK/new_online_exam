@@ -177,6 +177,16 @@
 			optional="true" />
 	</service>
 
+	<!-- UserExamMappingMasterDeleteService -->
+	<service name="deleteUserExamMappingMaster"
+		default-entity-name="UserExamMappingMaster" engine="entity-auto"
+		invoke="delete" auth="false">
+		<description>ExamTopicMappingMasterDeleteService</description>
+		<auto-attributes include="pk" mode="IN"
+			optional="false" />
+		<auto-attributes include="nonpk" mode="IN"
+			optional="true" />
+	</service>
 
 	<service name="viewUsers" engine="java"
 		location="com.vastpro.onlineexam.services.ViewUserService"
