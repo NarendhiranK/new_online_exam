@@ -27,7 +27,7 @@ public class ExamsForUserEvent {
 		Delegator delegator = (Delegator) request.getAttribute(ConstantValue.DELEGATOR);
 		String partyId = (String) userLogin.get(ConstantValue.PARTY_ID);
 		Debug.logInfo("userLogin",":"+ userLogin);
-		Debug.log("Leooooooooohhhhh");
+		
 
 		try {
 

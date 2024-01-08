@@ -181,26 +181,6 @@
 			<key-map field-name="examId" />
 		</relation>
 	</entity>
-
-	<view-entity entity-name="UserMaster" title="User_Master" never-cache="true" 
-		package-name="org.apache.ofbiz.onlineexam">
-		<member-entity entity-alias="PTRLE" entity-name="PartyRole"/>
-		<member-entity entity-alias="PR" entity-name="Person"/>
-		<!-- <member-entity entity-alias="UL" entity-name="UserLogin"/> -->
-		<alias entity-alias="PR" name="firstName" />
-		<alias entity-alias="PR" name="lastName" />
-		
-		<alias entity-alias="PTRLE" name="partyId"/>
-		<alias entity-alias="PTRLE" name="roleTypeId"/>
-		
-		<view-link entity-alias="PR" rel-entity-alias="PTRLE" rel-optional="true" >
-		<key-map field-name="partyId"/>
-		</view-link>
-		
-		
-		
-		
-	</view-entity>
 	
 	
 	<view-entity entity-name="UserMaster" title="User_Master" never-cache="true" 
