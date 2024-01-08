@@ -250,8 +250,8 @@
 
 
 
-	<request-map uri="ExamsForUserEvent">
-		<security https="true" auth="false" />
+	<request-map uri="examsForUserEvent">
+		<security https="true" auth="true" />
 		<event type="java"
 			path="com.vastpro.onlineexam.events.ExamsForUserEvent"
 			invoke="examsForUserEvent"></event>

@@ -1,6 +1,8 @@
 import React from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const User = () => {
+  const navigate = useNavigate();
   return (
     <div className="container-fluid px-5">
       <h2 className="text-center">Welcome to VastPRO's Online Examination</h2>
@@ -14,42 +16,42 @@ const User = () => {
         <ol>
           <li className="float-left"> Arrange for stable Internet connectivity.</li>
           <li>
-           
+
             Giving examination on Laptop or Desktop is highly recommended.
           </li>
           <li>
-          
+
             Make sure mobile/laptop is fully charged. Power bank for mobile or
             UPS/Inverter for laptop/desktop should be arranged for uninterrupted
             power supply.
           </li>
           <li>
-          
+
             Students should have sufficient data in Fair Usage Policy (FUP) /
             Internet plan with sufficient data pack of internet service
             provider.
           </li>
           <li>
-            
+
             Login to the portal 10 min before the online examination start time.
           </li>
           <li>
-          
+
             Close all browsers/tabs before starting the online examination
           </li>
           <li>
-           
+
             Once the exam starts, do not switch to any other window/tab. On
             doing so, your attempt may be considered as malpractice and your
             exam may get terminated.
           </li>
           <li>
-         
+
             Do Not Pickup/Receive the Call during the exam if you are giving the
             exam on mobile. This also will be treated as changing the window.
           </li>
           <li>
-          
+
             Clear browser cache memory on mobile and laptops. Clear browsing
             history and also delete temp files.
           </li>
@@ -74,9 +76,10 @@ const User = () => {
           </ul>
         </div>
       </div>
-      <button type="submit" className="btn btn-primary offset-9">
+      <button type="submit" className="btn btn-primary offset-9" onClick={() => navigate("/user/listexamsforuser")} >
         Next
       </button>
+      <Outlet/>
     </div>
   );
 };

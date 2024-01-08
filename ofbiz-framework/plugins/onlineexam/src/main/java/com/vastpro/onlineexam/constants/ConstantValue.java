@@ -41,6 +41,9 @@ public interface ConstantValue {
 	//USERlOGIN ENTITY TABLE
 	String USER_LOGIN = "UserLogin";
 	String USER_LOGIN_ID = "userLoginId";
+	
+	
+	
 	// Topic Master table attributes.
 	String TOPIC_MASTER = "TopicMaster";
 	String TOPIC_ID = "topicId";
