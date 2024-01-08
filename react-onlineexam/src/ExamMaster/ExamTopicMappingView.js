@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useStateRef from "react-usestateref";
+import { pluginName, port, protocol } from "../constants";
 
 const ExamTopicMappingView = () => {
   const params = useParams();
@@ -35,7 +36,7 @@ const ExamTopicMappingView = () => {
     }
 
     fetch(
-      "https://localhost:8443/onlineexam/control/examTopicRetrieveEvent",
+      protocol+"://"+window.location.hostname+":"+port+pluginName+"/examTopicRetrieveEvent",
       {
         method: "POST",
         credentials: "include",

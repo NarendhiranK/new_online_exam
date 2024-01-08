@@ -3,6 +3,7 @@ import { useState } from "react";
 import {  Outlet, useNavigate } from "react-router-dom";
 import '../ExamMaster/GetExams.css';
 import useStateRef from "react-usestateref";
+import { control, pluginName, port, protocol } from "../constants";
 
 
 const GetExams = () => {
@@ -90,7 +91,7 @@ const GetExams = () => {
     if (!hasNoError.current) {
          map.examId=examId;
          console.log("update exam map...>",map)
-        fetch("https://localhost:8443/onlineexam/control/examMasterEvent", {
+        fetch(protocol+"://"+window.location.hostname+":"+port+pluginName+control+"/examMasterEvent", {
           method: "POST",
           credentials: "include",
           body: JSON.stringify(map),

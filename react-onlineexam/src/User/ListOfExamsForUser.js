@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 const ListOfExamsForUser = () => {
     useEffect(() => {
         
-    })
+    },[])
 
 
     return (
