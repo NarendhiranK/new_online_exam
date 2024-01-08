@@ -1,13 +1,16 @@
 package com.vastpro.onlineexam.events;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ofbiz.base.util.Debug;
+import org.apache.ofbiz.base.util.UtilHttp;
 import org.apache.ofbiz.base.util.UtilValidate;
 import org.apache.ofbiz.entity.Delegator;
 import org.apache.ofbiz.entity.GenericEntityException;
@@ -19,65 +22,46 @@ import com.vastpro.onlineexam.constants.ConstantValue;
 
 public class ExamsForUserEvent {
 
-	public static String examsForUserEvent(HttpServletRequest request,HttpServletResponse response) {
-		 	Delegator delegator = (Delegator) request.getAttribute(ConstantValue.DELEGATOR);
-	        LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute(ConstantValue.DISPATCHER);
-	        String partyId=(String)request.getAttribute(ConstantValue.PARTY_ID);
-	        String userexamid=null;
-	        try {
-	        
-					List<GenericValue> examId = EntityQuery.use(delegator).from("UserExamMappingMaster").where("partyId", partyId)
-							.cache().queryList();
-					if(examId!=null && !examId.isEmpty()) {
-						System.out.println("Exam Id's for the user's ...." + examId);
-					}
-					Debug.log(examId.toString());
+	public static String examsForUserEvent(HttpServletRequest request, HttpServletResponse response) {
+		GenericValue userLogin = (GenericValue) request.getSession().getAttribute(ConstantValue.USERLOGIN);
+		Delegator delegator = (Delegator) request.getAttribute(ConstantValue.DELEGATOR);
+		String partyId = (String) userLogin.get(ConstantValue.PARTY_ID);
+		Debug.logInfo("userLogin",":"+ userLogin);
+		Debug.log("Leooooooooohhhhh");
 
-//					System.out.println("List of exams for user.............." + examId);
-					List<String> examIds=new ArrayList<>();
-					for(GenericValue genericValue: examId) {
-						
-						
-						String examIId=(String)genericValue.getString("examId");
-						userexamid=examIId;
-						examIds.add(examIId);
-						Debug.log("List of user ExamId's..............." + examIds);
-						
-						GenericValue listofexamsusingexamid=EntityQuery.use(delegator).from("ExamMaster").where("examId",userexamid).cache().queryFirst();
-						if(listofexamsusingexamid!=null && listofexamsusingexamid.isEmpty()) {
-//							System.out.println("List of exams for the exam Id.." + listofexamsusingexamid);
-							request.setAttribute("examId", userexamid);						}
-						else {
-//							System.out.println("exam Details..." + listofexamsusingexamid);
-							Debug.log("The exam list is empty");
-						}
-						
-					}
-					request.getSession().setAttribute("examIds",examIds);
-					return "success";
-					
-				
-				
-	        }
-	        catch(GenericEntityException e) {
-	        	e.printStackTrace();
-	        	return "error";
-	        }
-			
-			
-			
-//			Map<String, String> resultMap = new HashMap<String, String>();
-//			if (result.equalsIgnoreCase("success")) {
-//				resultMap.put("usersRoletypeId", roleTypeId);
-//				resultMap.put("login_condition", result);
-//				request.setAttribute("resultMap", resultMap);
-//			} else {
-//				resultMap.put("login_condition", result);
-//				request.setAttribute("resultMap", resultMap);
-//			}
-			// System.out.println(userLogin.toString());
-			// request.setAttribute("EVENT_MESSAGE", "username and password succesfully." );
-		
+		try {
+
+			List<GenericValue> listOfExamsForUser = EntityQuery.use(delegator)
+					.from(ConstantValue.USER_EXAM_MAPPING_MASTER).where(ConstantValue.PARTY_ID, partyId).cache()
+					.queryList();
+			if (UtilValidate.isNotEmpty(listOfExamsForUser)) {
+				Debug.logInfo("List of exams for this user", "" + listOfExamsForUser);
+				request.setAttribute("List of exams for this user " + partyId + " : ", listOfExamsForUser);
+			} else {
+				request.setAttribute(ConstantValue.ERROR_MESSAGE, "There are no exams alloted for this user");
+			}
+
+			List<String> examIds = new ArrayList<>();
+			Map<String, Object> examDetailsResultMap = new HashMap<String, Object>();
+			for (GenericValue perExamFromList : listOfExamsForUser) {
+				String examId = (String) perExamFromList.getString(ConstantValue.EXAM_ID);
+				examIds.add(examId);
+				GenericValue perExamDetails = EntityQuery.use(delegator).from(ConstantValue.EXAM_MASTER)
+						.where(ConstantValue.EXAM_ID, examId).cache().queryFirst();
+				if (UtilValidate.isNotEmpty(perExamDetails)) {
+					examDetailsResultMap.put("perExamDetails", perExamDetails);
+				}
+			}
+			request.setAttribute("examDetailsResultMap", examDetailsResultMap);
+			Debug.logInfo("List of  ExamId's for this user...............", "" + examIds);
+			request.getSession().setAttribute("examIds", examIds);
+			return ConstantValue.SUCCESS;
+
+		} catch (GenericEntityException e) {
+			e.printStackTrace();
+			return ConstantValue.ERROR;
+		}
+
 	}
 
 }

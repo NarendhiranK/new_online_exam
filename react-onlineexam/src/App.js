@@ -19,12 +19,13 @@ import Welcome from "./Welcome/Welcome";
 import Examsforuser from "./User/Examsforuser";
 import AddExamForUser from "./User/AddExamForUser";
 import QuestionMaster from "./QuestionMaster/QuestionMaster";
+import ListOfExamsForUser from "./User/ListOfExamsForUser";
 
 //This is App.js
 function App() {
   const [name, setName] = useState('');
   const [flag, setFlag] = useState(false);
-  
+
 
   useEffect(() => {
     fetch("https://localhost:8443/onlineexam/control/getPersonName", {
@@ -35,7 +36,7 @@ function App() {
         console.log(data)
         setName(data.userNameLogin);
       }).catch((error) => console.log(error))
-  },[name])
+  }, [flag])
 
 
   return (
@@ -58,17 +59,27 @@ function App() {
           <Route path="updateExam/examdetails/:examId/" element={<ExamTopicMappingView />} />
           <Route path="updateExam/examdetails/:examId/:topicId" element={<ExamTopicMappingView />} />
           <Route path="updateExam/examdetails/question-topicView/:topicId/:examId" element={<QuestionForTopicView />} />
+          <Route path="updateExam/examdetails/question-topicView/:TopicId" element={<QuestionForTopicView />} />
 
           <Route path="/admin/updateExam/examdetails/question-topicView/view-questions/:questionId/:topicName/:examId" element={<DetailsOfQuestion />} />
           {/* TOPIC */}
 
-      <Route path="/admin/assignExam/addExamForUser/:partyId/:firstName" element={<AddExamForUser/>} />
-      <Route path="/admin/assignExam/addExamForUser/:partyId/:examId" element={<AddExamForUser/>} />
+          <Route path="/admin/assignExam/addExamForUser/:partyId/:firstName" element={<AddExamForUser/>} />
+          <Route path="/admin/assignExam/addExamForUser/:partyId/:examId" element={<AddExamForUser/>} />
       <Route path="/admin/assignExam/examsForUser/:partyId/:firstName" element={<Examsforuser/>}/>
+      <Route path="/admin/updateExam/examdetails/question-topicView/add-questions/:TopicId/:topicName" element={<QuestionMaster/>} />
+
 
           {/* QUESTION */}
 
+          {/* QUESTION */
+          }
         </Route>
+
+        <Route path="user" element={<User />} />
+        <Route path="/user/listexamsforuser" element={<ListOfExamsForUser />} />
+
+
       </Routes>
 
 

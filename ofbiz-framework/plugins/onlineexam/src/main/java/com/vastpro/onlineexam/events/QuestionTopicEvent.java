@@ -33,6 +33,7 @@ public class QuestionTopicEvent {
 					.cache().queryOne();
 
 			String topicName = getTopicMaster.getString(ConstantValue.TOPIC_NAME);
+			
 
 			if (UtilValidate.isNotEmpty(getTopicMaster)) {
 				Debug.log("topicmaster..."+getTopicMaster.toString());
@@ -55,6 +56,10 @@ public class QuestionTopicEvent {
 					request.setAttribute(" Error_Message", "There are no such values in the entity");
 				}
 			}
+			else {
+				resultMap.put("querycondition", result);
+			}
+			request.setAttribute("topicName", topicName);
 			// request.setAttribute("listOfQuestions", listOfQuestions);
 		} catch (GenericEntityException e) {
 			e.printStackTrace();
