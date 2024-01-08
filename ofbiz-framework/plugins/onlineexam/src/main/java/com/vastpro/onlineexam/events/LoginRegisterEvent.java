@@ -3,7 +3,6 @@ package com.vastpro.onlineexam.events;
 import java.util.HashMap;
 import com.vastpro.onlineexam.checks.RegisterFormCheck;
 import com.vastpro.onlineexam.constants.ConstantValue;
-
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -124,29 +123,16 @@ public class LoginRegisterEvent {
 
 	public static String onUserRegister(HttpServletRequest request, HttpServletResponse response) {
 		GenericValue userLogin = (GenericValue) request.getSession().getAttribute("userLogin");
-		LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute("dispatcher");
-		Delegator delegator = (Delegator) request.getAttribute("delegator");
+		LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute(ConstantValue.DISPATCHER);
+		Delegator delegator = (Delegator) request.getAttribute(ConstantValue.DELEGATOR);
 		Locale locale = UtilHttp.getLocale(request);
-		String firstName = request.getParameter("firstName");
-		String lastName = request.getParameter("lastName");
-		String userLoginId = request.getParameter("userLoginId");
-		String currentPassword = request.getParameter("currentPassword");
-		String currentPasswordVerify = request.getParameter("currentPasswordVerify");
-		if (firstName == null) {
-			firstName = (String) request.getAttribute("firstName");
-		}
-		if (lastName == null) {
-			lastName = (String) request.getAttribute("lastName");
-		}
-		if (userLoginId == null) {
-			userLoginId = (String) request.getAttribute("userLoginId");
-		}
-		if (currentPassword == null) {
-			currentPassword = (String) request.getAttribute("currentPassword");
-		}
-		if (currentPasswordVerify == null) {
-			currentPasswordVerify = (String) request.getAttribute("currentPasswordVerify");
-		}
+		Map<String, Object> combinedMap = UtilHttp.getCombinedMap(request);
+		String firstName = (String)combinedMap.get(ConstantValue.FIRST_NAME);
+		String lastName = (String)combinedMap.get(ConstantValue.LAST_NAME);
+		String userLoginId = (String)combinedMap.get(ConstantValue.USER_LOGIN_ID);
+		String currentPassword = (String)combinedMap.get(ConstantValue.CURRENT_PASSWORD);
+		String currentPasswordVerify = (String)combinedMap.get(ConstantValue.CURRENT_PASSWORD_VERIFY);
+		
 		Map<String, Object> registerMap = new HashMap<String, Object>();
 		registerMap.put("firstName", firstName);
 		registerMap.put("lastName", lastName);

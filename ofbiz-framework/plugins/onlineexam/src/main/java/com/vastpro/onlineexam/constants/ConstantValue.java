@@ -9,6 +9,9 @@ public interface ConstantValue {
 	
       //Login firstName
 	String FIRST_NAME = "firstName";
+	String LAST_NAME = "lastName";
+	String CURRENT_PASSWORD = "currentPassword";
+	String CURRENT_PASSWORD_VERIFY = "currentPasswordVerify";
 	
 	// Messages.
 	String ERROR = "error";
@@ -114,5 +117,12 @@ public interface ConstantValue {
 	//PartyRole Entity
 	String PARTY_ROLE = "PartyRole";
 	String ROLE_TYPE_ID = "roleTypeId";
+	
+	//Enumeration Entity
+	String ENUMERATION ="Enumeration";
+	String ENUMERATION_TYPE_ID ="enumTypeId";
+	String ENUM_ID ="enumId";
+	
+	
 
 }
