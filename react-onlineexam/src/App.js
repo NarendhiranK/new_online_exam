@@ -20,6 +20,7 @@ import Examsforuser from "./User/Examsforuser";
 import AddExamForUser from "./User/AddExamForUser";
 import QuestionMaster from "./QuestionMaster/QuestionMaster";
 import ListOfExamsForUser from "./User/ListOfExamsForUser";
+import { control, pluginName } from "./constants";
 
 //This is App.js
 function App() {
@@ -28,7 +29,7 @@ function App() {
 
 
   useEffect(() => {
-    fetch("https://localhost:8443/onlineexam/control/getPersonName", {
+    fetch(protocol+"://"+window.location.hostname+":"+port+pluginName+control+"/getPersonName", {
       method: 'GET',
       credentials: "include",
     }).then(response => response.json())

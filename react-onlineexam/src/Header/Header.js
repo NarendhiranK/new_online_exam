@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Image1 from "../Header/images.png";
 import 'bootstrap/dist/css/bootstrap.css';
 import { useNavigate } from "react-router-dom";
+import { control, pluginName, port, protocol } from "../constants";
 const name = "Flash";
 const currDate = new Date().toLocaleDateString();
 const currTime = new Date().toLocaleTimeString();
@@ -11,7 +12,7 @@ const Header = ({ name, flag, setFlag, setName }) => {
   const navigate = useNavigate();
   const onLogout = () => {
 
-    fetch('https://localhost:8443/onlineexam/control/logoutEvent', {
+    fetch(protocol+'://'+window.location.hostname+':'+port+pluginName+control+'/logoutEvent', {
       method: 'GET',
       credentials: "include",
       headers: {

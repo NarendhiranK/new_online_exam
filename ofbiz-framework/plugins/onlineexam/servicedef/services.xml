@@ -195,6 +195,17 @@
 		<attribute name="userList" mode="OUT" type="List"
 			optional="true"></attribute>
 	</service>
+	
+	
+	<service name="createUserAttemptMaster"
+		default-entity-name="UserAttemptMaster" engine="entity-auto"
+		invoke="create" auth="false">
+		<description>createUserAttemptMaster</description>
+		<auto-attributes include="pk" mode="IN"
+			optional="false" />
+		<auto-attributes include="nonpk" mode="IN"
+			optional="true" />
+	</service>
 
 
 

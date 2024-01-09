@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useStateRef from "react-usestateref";
+import { control, pluginName, port, protocol } from "../constants";
 
 const QuestionMaster = () => {
   const params = useParams();
@@ -8,7 +9,7 @@ const QuestionMaster = () => {
   const examId = params.examId;
   const topicName = params.topicName;
   const [questionData, setQuestionData] = useState([]);
-  // const [topicName, setTopicName] = useState("");
+  
   const [hasError, setHasError, hasNoError] = useStateRef(false);
   const [hasquestionType, setQuestionType] = useState("multipleChoice");
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const QuestionMaster = () => {
       questionId: questionId,
     };
 
-    fetch("https://localhost:8443/onlineexam/control/deleteQuestionMaster", {
+    fetch(protocol+"://"+window.location.hostname+":"+port+pluginName+control+"/deleteQuestionMaster", {
       method: "DELETE",
       credentials: "include",
       body: JSON.stringify(map),
@@ -141,17 +142,7 @@ const QuestionMaster = () => {
           }
           break;
 
-        // case "topicId":
-        //   {
-        //     if (value === null || value === "") {
-        //       document.getElementById("p13").classList.remove("d-none");
-        //       document.getElementById("p13").classList.add("d-block");
-        //       document.getElementById("p13").innerHTML =
-        //         "Please enter a topic Id";
-        //       setHasError(true);
-        //     }
-        //   }
-        //   break;
+        
 
           case "difficultyLevel":
           {
@@ -218,44 +209,7 @@ const QuestionMaster = () => {
     const answerValue = data.get("answerValue");
    
     const negativeMarkValue = data.get("negativeMarkValue");
-    // const questionType = document.getElementById("questionType").value;
-    // console.log(questionType);
-    // const map = {
-    //   questionId: questionId,
-    //   questionDetail: questionDetail,
-    //   optionA: optionA,
-    //   optionB: optionB,
-    //   optionC: optionC,
-    //   optionD: optionD,
-    //   optionE: optionE,
-    //   answer: answer,
-    //   numAnswers: numAnswers,
-    //   // questionType: questionType,
-    //   difficultyLevel: difficultyLevel,
-    //   answerValue: answerValue,
-    //   topicId: TopicId,
-    //   negativeMarkValue: negativeMarkValue,
-    // };
-
-
-
-    // if (!hasNoError.current) {
-    //   fetch(
-    //     "https://localhost:8443/onlineexam/control/CreateorUpdateQuestionMasterEvent",
-    //     {
-    //       method: "POST",
-    //       body: JSON.stringify(map),
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         Accept: "application/json",
-    //       },
-    //     }
-    //   )
-    //     .then((response) => {
-    //       window.location.reload();
-    //     })
-    //     .catch((err) => console.log("ERROR FROM FETCH", err));
-    // }
+    
 
     function handleErrors() {
      
@@ -267,11 +221,11 @@ const QuestionMaster = () => {
       document.getElementById("p7").classList.add("d-none");
       document.getElementById("p8").classList.add("d-none");
       document.getElementById("p9").classList.add("d-none");
-      // document.getElementById("p10").classList.add("d-none");
+      
       document.getElementById("p11").classList.add("d-none");
       document.getElementById("p12").classList.add("d-none");
       document.getElementById("p13").classList.add("d-none");
-      // document.getElementById("p14").classList.add("d-none");
+      
 
       setHasError(false);
     }
@@ -547,7 +501,6 @@ const QuestionMaster = () => {
                <></>
               )}
 
-            {/* ///////////////////// */}
 
               {
               hasquestionType === "trueorFalse" ? (

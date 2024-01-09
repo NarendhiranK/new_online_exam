@@ -22,7 +22,7 @@ const GetExams = () => {
     }
 
     const response = fetch(
-      "https://localhost:8443/onlineexam/control/examMasterListEvent",
+      protocol+"://"+window.location.hostname+":"+port+pluginName+control+"/examMasterListEvent",
       {
         method: "POST",
         credentials: "include",
