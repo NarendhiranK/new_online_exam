@@ -40,7 +40,7 @@ public class RetrieveExamsForUserEvent {
 					oneExam.put("partyId", oneExamDetails.get(ConstantValue.PARTY_ID));
 					oneExam.put("examId", oneExamDetails.get(ConstantValue.EXAM_ID));
 					String examId = (String) oneExamDetails.get(ConstantValue.EXAM_ID);
-					GenericValue examDetails = EntityQuery.use(delegator).from("ExamMaster")
+					GenericValue examDetails = EntityQuery.use(delegator).from(ConstantValue.EXAM_MASTER)
 							.where(ConstantValue.EXAM_ID, examId).cache().queryOne();
 					String examName = examDetails.getString(ConstantValue.EXAM_NAME);
 					Debug.log("examName...>" + examName);

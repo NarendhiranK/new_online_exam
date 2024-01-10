@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "../QuestionMaster/QuestionForTopicView.css";
 import useStateRef from "react-usestateref";
+import { control, pluginName, port, protocol } from "../constants";
 
 const QuestionForTopicView = () => {
   const params = useParams();
@@ -13,12 +14,21 @@ const QuestionForTopicView = () => {
   const [hasError, setHasError, hasNoError] = useStateRef(false);
   const navigate = useNavigate();
 
+
+  const questionEdit=(questionId)=>{
+    let map={
+      questionId:questionId
+    }
+
+    
+  }
+
   function deleteQuestion(questionId) {
     let map = {
       questionId: questionId,
     };
 
-    fetch("https://localhost:8443/onlineexam/control/deleteQuestionMaster", {
+    fetch(protocol+"://"+window.location.hostname+":"+port+pluginName+control+"/deleteQuestionMaster", {
       method: "DELETE",
       credentials: "include",
       body: JSON.stringify(map),
@@ -30,8 +40,7 @@ const QuestionForTopicView = () => {
         return reponse.json();
       })
       .then((data) => {
-        window.location.reload();
-
+        QuestionDetails();
       });
   }
 
@@ -40,7 +49,7 @@ const QuestionForTopicView = () => {
     const map = {
       topicId: TopicId,
     };
-    fetch("https://localhost:8443/onlineexam/control/viewQuestions", {
+    fetch(protocol+"://"+window.location.hostname+":"+port+pluginName+control+"/viewQuestions", {
       method: "POST",
       credentials: "include",
       body: JSON.stringify(map),
@@ -94,8 +103,9 @@ const QuestionForTopicView = () => {
                   </table>
                 </div>
                 <div className="col-4">
+                  <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="" onClick={()=>questionEdit(obj.questionId)}>Edit</button>
                   <button
-                    className="btn btn-primary btn1"
+                    className="btn btn-primary mx-2"
                     onClick={() =>
                       navigate(
                         `/admin/updateExam/examdetails/question-topicView/view-questions/${obj.questionId}/${topicName}/${examId}`
@@ -112,6 +122,8 @@ const QuestionForTopicView = () => {
                   >
                     Delete
                   </button>
+
+
                 </div>
               </div>
             );
@@ -129,7 +141,9 @@ const QuestionForTopicView = () => {
         Back
       </button>
 
-   
+          <div>
+            {/* modal takes place here */}
+          </div>
     </div>
   );
 };

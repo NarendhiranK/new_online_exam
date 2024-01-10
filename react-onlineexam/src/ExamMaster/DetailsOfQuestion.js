@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
-import { pluginName, port, protocol } from "../constants";
+import { control, pluginName, port, protocol } from "../constants";
 
 const DetailsOfQuestion = () => {
 
@@ -19,7 +19,7 @@ const DetailsOfQuestion = () => {
     };
     console.log("map....", map);
     fetch(
-      protocol+"://"+window.location.hostname+":"+port+pluginName+"/questionMasterList",
+      protocol+"://"+window.location.hostname+":"+port+pluginName+control+"/questionMasterList",
       {
         method: "POST",
         credentials: "include",

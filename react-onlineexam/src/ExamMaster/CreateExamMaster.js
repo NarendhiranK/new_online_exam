@@ -163,10 +163,15 @@ const CreateExamMaster = () => {
             return response.json();
           })
           .then((data) => {
-            document.getElementById("h6").classList.remove("d-none");
-            document.getElementById("h6").classList.add("d-block");
-            document.getElementById("h6").innerHTML = "Exam added successfully..";
+            // document.getElementById("h6").classList.remove("d-none");
+            // document.getElementById("h6").classList.add("d-block");
+            // document.getElementById("h6").innerHTML = "Exam added successfully..";
             var element = document.getElementById("myform");
+            if(data._SUCCESS_MESSAGE){
+              document.getElementById("h2").classList.remove("d-none");
+              document.getElementById("h2").classList.add("d-block");
+              document.getElementById("h2").innerHTML="Exam added successfully";
+            }
             // element.reset();
           })
           .catch((err) => console.log("ERROR FROM FETCH", err));
@@ -190,6 +195,7 @@ const CreateExamMaster = () => {
     document.getElementById("p11").classList.add("d-none");
     document.getElementById("p12").classList.add("d-none");
     document.getElementById("h6").classList.add("d-none");
+    document.getElementById("h2").classList.add("d-none");
     setHasError(false);
   }
 
@@ -323,7 +329,7 @@ const CreateExamMaster = () => {
         <h1 className="" align="center">
           Create Exam
         </h1>
-
+        <h2 className="text text-primary d-none" align="center" id="h2"></h2>
         <h6 id="h6" className="d-none"></h6>
         <div className="col-10 mx-auto">
           <form className="d-flex" id="myform" onSubmit={handleSubmit}>
@@ -387,7 +393,7 @@ const CreateExamMaster = () => {
                   Creationdate:
                 </label>
                 <input
-                  type="date"
+                  type="datetime-local"
                   id="creationdate"
                   className="form-control"
                   name="creationDate"
@@ -403,7 +409,7 @@ const CreateExamMaster = () => {
                   Expiration Date:
                 </label>
                 <input
-                  type="date"
+                  type="datetime-local"
                   id="expirationdate"
                   className="form-control"
                   name="expirationDate"

@@ -64,11 +64,6 @@ const ViewUsers = () => {
                     <button className="btn btn-primary" onClick={()=>navigate(`/admin/assignExam/examsForUser/${user.partyId}/${user.firstName}`)}>View Exams</button>
                     
                   </td>
-                  <td>
-                    <button className="btn btn-danger" onClick={()=>{
-                        deleteUser(user.partyId)
-                    }}>Delete</button>
-                  </td>
                 </tr>
               </tbody>
             );

@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
+import { control, pluginName, port, protocol } from "../constants";
 
 const DetailsOfQuestion = () => {
   const [data, setData] = useState("");
@@ -25,7 +26,7 @@ const DetailsOfQuestion = () => {
     };
     console.log("map....", map);
     const response = await fetch(
-      "https://localhost:8443/onlineexam/control/questionMasterList",
+      protocol+"://"+window.location.hostname+":"+port+pluginName+control+"/questionMasterList",
       {
         method: "POST",
         credentials: "include",
@@ -53,12 +54,15 @@ const DetailsOfQuestion = () => {
 
   return (
     <div className="my-5 mx-5">
+      
       <div className="d-flex shadow">
         <p className="text-primary font-weight-bold my-2 mx-2">
           Question Detail -
         </p>
         <div className="my-2 text-uppercase font-weight-bold">
           {getquestionDetails.questionDetail}
+
+         
         </div>
       </div>
 
@@ -119,8 +123,11 @@ const DetailsOfQuestion = () => {
       <div>
       <button className="btn btn-primary" onClick={()=>navigate(`/admin/updateExam/examdetails/question-topicView/${getquestionDetails.topicId}/${examId}`)}>Back</button>
       </div>
-
+      <div>
       
+      </div>
+
+     
     </div>
   );
 };

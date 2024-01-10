@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { control, pluginName, port, protocol } from "../constants";
 
 const ShowTopics = () => {
   const [data, setData] = useState("");
@@ -7,7 +8,7 @@ const ShowTopics = () => {
     const updatedRows = [...data];
     updatedRows.splice(index, 1);
     setData(updatedRows);
-    fetch("https://localhost:8443/onlineexam/control/deleteexam", {
+    fetch(protocol+"://"+window.location.hostname+":"+port+pluginName+control+"/deleteexam", {
       method: "DELETE",
     });
   };
@@ -16,7 +17,7 @@ const ShowTopics = () => {
     console.log("fetch obj is called....");
 
     const response = await fetch(
-      "https://localhost:8443/onlineexam/control/topicMasterList"
+      protocol+"://"+localhost+":"+port+pluginName+control+"/topicMasterList"
     );
 
     const text = await response.json();

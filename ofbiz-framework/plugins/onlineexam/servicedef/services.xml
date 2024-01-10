@@ -90,7 +90,7 @@
 	<!--TopicMasterUpdateService -->
 	<service name="updateTopicMaster"
 		default-entity-name="TopicMaster" engine="entity-auto" invoke="update"
-		auth="false">
+		auth="true">
 		<description>TopicMasterUpdateService</description>
 		<auto-attributes include="pk" mode="IN"
 			optional="false" />
@@ -116,10 +116,10 @@
 		default-entity-name="QuestionMaster" engine="entity-auto"
 		invoke="create" auth="false">
 		<description>QuestionMasterCreateService</description>
-		<auto-attributes include="pk" mode="INOUT"
+		<auto-attributes include="pk" mode="OUT"
 			optional="false" />
 		<auto-attributes include="nonpk" mode="IN"
-			optional="true" />
+			optional="false" />
 	</service>
 
 	<!-- QuestionMasterUpdateService -->
@@ -177,16 +177,6 @@
 			optional="true" />
 	</service>
 
-	<!-- UserExamMappingMasterDeleteService -->
-	<service name="deleteUserExamMappingMaster"
-		default-entity-name="UserExamMappingMaster" engine="entity-auto"
-		invoke="delete" auth="false">
-		<description>ExamTopicMappingMasterDeleteService</description>
-		<auto-attributes include="pk" mode="IN"
-			optional="false" />
-		<auto-attributes include="nonpk" mode="IN"
-			optional="true" />
-	</service>
 
 	<service name="viewUsers" engine="java"
 		location="com.vastpro.onlineexam.services.ViewUserService"
@@ -194,6 +184,17 @@
 		<description>Find all users</description>
 		<attribute name="userList" mode="OUT" type="List"
 			optional="true"></attribute>
+	</service>
+	
+	
+	<service name="createUserAttemptMaster"
+		default-entity-name="UserAttemptMaster" engine="entity-auto"
+		invoke="create" auth="false">
+		<description>createUserAttemptMaster</description>
+		<auto-attributes include="pk" mode="IN"
+			optional="false" />
+		<auto-attributes include="nonpk" mode="IN"
+			optional="true" />
 	</service>
 
 
