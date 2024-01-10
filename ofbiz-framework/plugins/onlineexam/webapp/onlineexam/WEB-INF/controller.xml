@@ -243,39 +243,52 @@ language governing permissions and limitations under the License.
 	
 	<request-map uri="TopicsForUserEvent">
 		<security https="true" auth="false" />
-		<event type="java" path="com.vastpro.onlineexam.events.TopicsForUsersExam" invoke="topicsForUsersExam">
-		</event>
+		<event type="java"
+			path="com.vastpro.onlineexam.events.TopicsForUsersExam"
+			invoke="topicsForUsersExam"></event>
 		<response name="success" type="request" value="json" />
 		<response name="error" type="request" value="json" />
 	</request-map>
-	
-	
-	<request-map uri="deleteQuestionsForTopic">
+
+
+	<request-map uri="userExamMapping">
 		<security https="true" auth="false" />
-		<event type="java" path="com.vastpro.onlineexam.events.DeleteQuestionsForTopicEvent" invoke="deleteQuestionsForTopicEvent">
-		</event>
+		<event type="java"
+			path="com.vastpro.onlineexam.events.UserExamMappingMasterEvent"
+			invoke="createUserExam"></event>
 		<response name="success" type="request" value="json" />
 		<response name="error" type="request" value="json" />
 	</request-map>
 	
-	
-	<request-map uri="retrieveEnumerationListEvent">
+		<request-map uri="deleteQuestionsForTopic">
 		<security https="true" auth="false" />
-		<event type="java" path="com.vastpro.onlineexam.events.RetrieveEnumerationListEvent" invoke="retrieveEnumerationListEvent">
-		</event>
+		<event type="java"
+			path="com.vastpro.onlineexam.events.DeleteQuestionsForTopicEvent"
+			invoke="deleteQuestionsForTopicEvent"></event>
 		<response name="success" type="request" value="json" />
 		<response name="error" type="request" value="json" />
-	</request-map>
+	   </request-map>
 	
-	
-	<!-- Delete UserExamMapping master table -->
-	<request-map uri="deleteUserExam">
+	   
+	   <request-map uri="retrieveEnumerationListEvent">
 		<security https="true" auth="false" />
-		<event type="java" path="com.vastpro.onlineexam.events.DeleteUserExamMappingEvent" invoke="deleteUserExamMapping">
-		</event>
+		<event type="java"
+			path="com.vastpro.onlineexam.events.RetrieveEnumerationListEvent"
+			invoke="retrieveEnumerationListEvent"></event>
+		<response name="success" type="request" value="json" />
+		<response name="error" type="request" value="json" />
+	   </request-map>
+		
+			<!-- Delete UserExamMapping master table -->
+		<request-map uri="deleteUserExam">
+		<security https="true" auth="false" />
+		<event type="java"
+			path="com.vastpro.onlineexam.events.DeleteUserExamMappingEvent"
+			invoke="deleteUserExamMapping"></event>
 		<response name="success" type="request" value="json" />
 		<response name="error" type="request" value="json" />
 	</request-map>
+	
 	
 	<!-- View Mappings -->
 	<view-map name="main" type="screen" page="component://onlineexam/widget/OnlineexamScreens.xml#main" />

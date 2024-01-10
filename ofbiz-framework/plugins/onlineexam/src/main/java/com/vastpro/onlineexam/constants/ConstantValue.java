@@ -42,8 +42,9 @@ public interface ConstantValue {
 
 	
 	//USERlOGIN ENTITY TABLE
-	String USER_LOGIN = "UserLogin";
+	
 	String USER_LOGIN_ID = "userLoginId";
+	String USER_LOGIN_TABLE = "UserLogin";
 	
 	
 	
@@ -112,7 +113,7 @@ public interface ConstantValue {
 
 	// Out of the box tables
 	String PERSON = "Person";
-	String USER_LOGIN_TABLE = "UserLogin";
+	
 	 
 	//PartyRole Entity
 	String PARTY_ROLE = "PartyRole";
