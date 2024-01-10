@@ -53,12 +53,15 @@ const DetailsOfQuestion = () => {
 
   return (
     <div className="my-5 mx-5">
+      
       <div className="d-flex shadow">
         <p className="text-primary font-weight-bold my-2 mx-2">
           Question Detail -
         </p>
         <div className="my-2 text-uppercase font-weight-bold">
           {getquestionDetails.questionDetail}
+
+         
         </div>
       </div>
 
@@ -119,8 +122,11 @@ const DetailsOfQuestion = () => {
       <div>
       <button className="btn btn-primary" onClick={()=>navigate(`/admin/updateExam/examdetails/question-topicView/${getquestionDetails.topicId}/${examId}`)}>Back</button>
       </div>
-
+      <div>
       
+      </div>
+
+     
     </div>
   );
 };

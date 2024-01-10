@@ -1,5 +1,9 @@
 package com.vastpro.onlineexam.events;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,7 +28,7 @@ public class CreateorUpdateExamMasterEvent{
 	 * 
 	 * 
 	 * */
-
+	
 	public static String createOrUpdateExamMasterEvent(HttpServletRequest request, HttpServletResponse response)  {
         Delegator delegator = (Delegator) request.getAttribute(ConstantValue.DELEGATOR);
         LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute(ConstantValue.DISPATCHER);
@@ -40,6 +44,13 @@ public class CreateorUpdateExamMasterEvent{
         String answersMust =(String) request.getAttribute(ConstantValue.ANSWERS_MUST);
         String enableNegativeMark =(String)request.getAttribute(ConstantValue.ENABLE_NEGATIVE_MARK);
         String negativeMarkValue =(String)request.getAttribute(ConstantValue.NEGATIVE_MARK_VALUE);
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+		DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime creationLocalDateTime = LocalDateTime.parse(creationDate, inputFormatter);
+		String creationDateFormatted = creationLocalDateTime.format(outputFormatter);
+		LocalDateTime expirationLocalDateTime = LocalDateTime.parse(expirationDate, inputFormatter);
+		String expirationDateFormatted = expirationLocalDateTime.format(outputFormatter);
+		
         GenericValue userLogin=(GenericValue)request.getSession().getAttribute("userLogin");
         try {
         	GenericValue genericvalue = EntityQuery.use(delegator).from("ExamMaster").where("examId", examId).cache()
@@ -50,7 +61,7 @@ public class CreateorUpdateExamMasterEvent{
         		 Debug.logInfo("=====update service called...... =========", module);
  	            dispatcher.runSync("updateExamMaster", UtilMisc.toMap("examId",examId,
  	            		"examName",examName,"description",description,
- 	            		"creationDate",creationDate,"expirationDate",expirationDate,"noOfQuestions",noOfQuestions,"durationMinutes",durationMinutes,"passPercentage",passPercentage,
+ 	            		"creationDate",creationDateFormatted,"expirationDate",expirationDateFormatted,"noOfQuestions",noOfQuestions,"durationMinutes",durationMinutes,"passPercentage",passPercentage,
  	            		"questionsRandomized",questionsRandomized,
  	            		"answersMust",answersMust,"enableNegativeMark",enableNegativeMark,"negativeMarkValue",negativeMarkValue,"userLogin",userLogin));
         	}
@@ -58,7 +69,7 @@ public class CreateorUpdateExamMasterEvent{
         		 Debug.logInfo("=====create service called.....! =========", module);
  	            dispatcher.runSync("createExamMaster", UtilMisc.toMap(
  	            		"examName",examName,"description",description,
- 	            		"creationDate",creationDate,"expirationDate",expirationDate,"noOfQuestions",noOfQuestions,"durationMinutes",durationMinutes,"passPercentage",passPercentage,
+ 	            		"creationDate",creationDateFormatted,"expirationDate",expirationDateFormatted,"noOfQuestions",noOfQuestions,"durationMinutes",durationMinutes,"passPercentage",passPercentage,
  	            		"questionsRandomized",questionsRandomized,
  	            		"answersMust",answersMust,"enableNegativeMark",enableNegativeMark,"negativeMarkValue",negativeMarkValue,"userLogin",userLogin));
         	}

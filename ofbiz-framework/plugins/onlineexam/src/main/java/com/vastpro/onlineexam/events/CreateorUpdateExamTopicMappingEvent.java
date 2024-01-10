@@ -1,7 +1,6 @@
 package com.vastpro.onlineexam.events;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ofbiz.base.util.Debug;
 import org.apache.ofbiz.base.util.UtilMisc;
+import org.apache.ofbiz.base.util.UtilValidate;
 import org.apache.ofbiz.entity.Delegator;
 import org.apache.ofbiz.entity.GenericEntityException;
 import org.apache.ofbiz.entity.GenericValue;
@@ -41,16 +41,25 @@ public class CreateorUpdateExamTopicMappingEvent {
 		String percentage = (String) request.getAttribute(ConstantValue.PERCENTAGE);
 		Long onetopicPercentage = Long.parseLong(percentage);
 		String topicPassPercentage = (String) request.getAttribute(ConstantValue.TOPIC_PASS_PERCENTAGE);
+		
 		GenericValue userLogin=(GenericValue)request.getSession().getAttribute("userLogin");
 	
 		//String questionsPerExam = (String) request.getAttribute(ConstantValue.QUESTION_PER_EXAM);
 	
 			try {
-				Debug.logVerbose("create service called............",module);
-				Map<String,Object> result=dispatcher.runSync("createTopicMaster", UtilMisc.toMap("topicName",topicName,"userLogin",userLogin));
-				topicId=(String) result.get("topicId");
-				Debug.logInfo("topic Id",topicId);
-				request.setAttribute("service output...", result);
+				
+				if(UtilValidate.isNotEmpty(topicId)) {
+					Debug.log("Update service calledd................",module);
+					Map<String,Object>result=dispatcher.runSync("updateTopicMaster",UtilMisc.toMap(ConstantValue.TOPIC_ID,topicId,ConstantValue.TOPIC_NAME,topicName,ConstantValue.USER_LOGIN,userLogin));
+				}
+				else {
+					Debug.logVerbose("create service called............",module);
+					Map<String,Object> result=dispatcher.runSync("createTopicMaster", UtilMisc.toMap("topicName",topicName,"userLogin",userLogin));
+					topicId=(String) result.get("topicId");
+					Debug.logInfo("topic Id",topicId);
+					request.setAttribute("service output...", result);
+				}
+				
 			} catch (GenericServiceException e) {
 				request.setAttribute(ConstantValue.ERROR_MESSAGE, "value should not be added");
 				e.printStackTrace();
@@ -134,10 +143,30 @@ public class CreateorUpdateExamTopicMappingEvent {
 		String topicId = (String) request.getAttribute(ConstantValue.TOPIC_ID);
 		String topicName = (String) request.getAttribute(ConstantValue.TOPIC_NAME);
 		String percentage = (String) request.getAttribute(ConstantValue.PERCENTAGE);
+		Debug.logInfo("percentage value....", percentage);
 		Long onetopicPercentage = Long.parseLong(percentage);
+		GenericValue userLogin=(GenericValue)request.getSession().getAttribute(ConstantValue.USERLOGIN);
+		Debug.log("userlogin value...."+userLogin);
 		String topicPassPercentage = (String) request.getAttribute(ConstantValue.TOPIC_PASS_PERCENTAGE);
 //		String questionsPerExam = (String) request.getAttribute(ConstantValue.QUESTION_PER_EXAM);
 
+		try {
+			if(UtilValidate.isNotEmpty(topicId)) {
+				Debug.log("Update service calledd................",module);
+				Map<String,Object>result=dispatcher.runSync("updateTopicMaster",UtilMisc.toMap(ConstantValue.TOPIC_ID,topicId,ConstantValue.TOPIC_NAME,topicName,ConstantValue.USERLOGIN,userLogin));
+				request.setAttribute(ConstantValue.SUCCESS_MESSAGE, result);
+			
+			}
+			else {
+				request.setAttribute(ConstantValue.ERROR_MESSAGE,"cannot  update in the topic Master entity");
+				return "error";
+			}
+			
+		}
+		catch( GenericServiceException e) {
+			e.printStackTrace();
+			return "error";
+		}
 		try {
 
 			long totalpercentage = 0;
@@ -164,11 +193,12 @@ public class CreateorUpdateExamTopicMappingEvent {
 						long questionsPerExam = (topicPercentage * noOfquestions)/100;
 						System.out.println("noofQuestions" + questionsPerExam);
 						Map<String, Object> examTopicResultMap = null;
-						Debug.logInfo("=====create service called...... =========", module);
-						dispatcher.runSync("updateExamTopicMappingMaster",
+						Debug.logInfo("=====update service called...... =========", module);
+						Map<String,Object>result=dispatcher.runSync("updateExamTopicMappingMaster",
 								UtilMisc.toMap("examId", examId, "topicId", topicId, "percentage", percentage,
 										"topicPassPercentage", topicPassPercentage, "questionsPerExam",
-										questionsPerExam));
+										questionsPerExam,ConstantValue.USER_LOGIN,userLogin));
+						request.setAttribute(ConstantValue.SUCCESS_MESSAGE, result);
 						return "success";
 					}
 				}
@@ -180,29 +210,14 @@ public class CreateorUpdateExamTopicMappingEvent {
 				}
 			}
 
-			else {
-				GenericValue oneGenericValue = EntityQuery.use(delegator).from("ExamMaster").where("examId", examId)
-						.cache().queryOne();
-				String noOfquestions = (String) oneGenericValue.get("noOfQuestions");
-				System.out.println("no of wues" + noOfquestions);
-				long noOfQuestionPerExam = Long.parseLong(noOfquestions);
-				System.out.println("noOfQuestionPerExam"+ noOfQuestionPerExam);
-				Long topicPercentage = Long.parseLong(percentage);
-				long questionsPerExam = topicPercentage / 100 * noOfQuestionPerExam;
-				System.out.println("noofQuestions" + questionsPerExam);
-				Map<String, Object> examTopicResultMap = null;
-				Debug.logInfo("=====create service called...... =========", module);
-				dispatcher.runSync("createExamTopicMappingMaster",
-						UtilMisc.toMap("examId", examId, "topicId", topicId, "percentage", percentage,
-								"topicPassPercentage", topicPassPercentage, "questionsPerExam", questionsPerExam));
-				return "success";
-			}
+			return "suucesss";
 
 		} catch (GenericServiceException | GenericEntityException e) {
 			String errMsg = "Unable to create or update records in examTopicMappingmasterentity: " + e.toString();
 			request.setAttribute("_ERROR_MESSAGE_", errMsg);
 			return "error";
 		}
+	
 
 	}
 

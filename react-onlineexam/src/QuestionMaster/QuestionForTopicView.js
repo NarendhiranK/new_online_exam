@@ -13,6 +13,15 @@ const QuestionForTopicView = () => {
   const [hasError, setHasError, hasNoError] = useStateRef(false);
   const navigate = useNavigate();
 
+
+  const questionEdit=(questionId)=>{
+    let map={
+      questionId:questionId
+    }
+
+    
+  }
+
   function deleteQuestion(questionId) {
     let map = {
       questionId: questionId,
@@ -30,8 +39,7 @@ const QuestionForTopicView = () => {
         return reponse.json();
       })
       .then((data) => {
-        window.location.reload();
-
+        QuestionDetails();
       });
   }
 
@@ -94,8 +102,9 @@ const QuestionForTopicView = () => {
                   </table>
                 </div>
                 <div className="col-4">
+                  <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="" onClick={()=>questionEdit(obj.questionId)}>Edit</button>
                   <button
-                    className="btn btn-primary btn1"
+                    className="btn btn-primary mx-2"
                     onClick={() =>
                       navigate(
                         `/admin/updateExam/examdetails/question-topicView/view-questions/${obj.questionId}/${topicName}/${examId}`
@@ -112,6 +121,8 @@ const QuestionForTopicView = () => {
                   >
                     Delete
                   </button>
+
+
                 </div>
               </div>
             );
@@ -129,7 +140,9 @@ const QuestionForTopicView = () => {
         Back
       </button>
 
-   
+          <div>
+            {/* modal takes place here */}
+          </div>
     </div>
   );
 };

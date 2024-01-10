@@ -29,31 +29,44 @@ public class QuestionMasterEvent {
 		Delegator delegator = (Delegator) request.getAttribute(ConstantValue.DELEGATOR);
 		LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute(ConstantValue.DISPATCHER);
 		Map<String, Object> combinedMap = UtilHttp.getCombinedMap(request);
-		String questionId = (String) combinedMap.get(ConstantValue.QUESTION_ID);
+//		String questionId = (String) combinedMap.get(ConstantValue.QUESTION_ID);
 		String questionDetail = (String) combinedMap.get(ConstantValue.QUESTION_DETAIL);
+		Debug.log("questionDetail..."+ questionDetail);
 		String optionA = (String) combinedMap.get(ConstantValue.OPTION_A);
+		Debug.log("option A" + optionA);
 		String optionB = (String) combinedMap.get(ConstantValue.OPTION_B);
+		Debug.log("optionB" + optionB);
 		String optionC = (String) combinedMap.get(ConstantValue.OPTION_C);
+		Debug.log("optionC"+optionC);
 		String optionD = (String) combinedMap.get(ConstantValue.OPTION_D);
+		Debug.log("optionD" + optionD);
 		String optionE = (String) combinedMap.get(ConstantValue.OPTION_E);
+		Debug.log("optionE" + optionE);
 		String answer = (String) combinedMap.get(ConstantValue.ANSWER);
+		Debug.log("answer" + answer);
 		String numAnswers = (String) combinedMap.get(ConstantValue.NUM_ANSWERS);
+		Debug.log("numAnswers" + numAnswers);
 		String questionType = (String) combinedMap.get(ConstantValue.QUESTION_TYPE);
+		Debug.log("questionTYpe" + questionType);
 		String difficultyLevel = (String) combinedMap.get(ConstantValue.DIFFICULTY_LEVEL);
+		Debug.log("difficulty level" + difficultyLevel);
 		String answerValue = (String) combinedMap.get(ConstantValue.ANSWER_VALUE);
+		Debug.log("answerValue..."+answerValue);
 		String topicId = (String) combinedMap.get(ConstantValue.TOPIC_ID);
+		Debug.log("topicid" + topicId);
+		String negativeMarkValue=(String)combinedMap.get(ConstantValue.NEGATIVE_MARK_VALUE);
 		try {		
 			List<GenericValue> questionMasterList = EntityQuery.use(delegator).select(ConstantValue.QUESTION_ID)
 					.from(ConstantValue.QUESTION_MASTER).where(ConstantValue.TOPIC_ID, topicId).queryList();
-			GenericValue genericExamTopicMappingMasterValue = EntityQuery.use(delegator).from(ConstantValue.TOPIC_MASTER)
+			GenericValue genericExamTopicMappingMasterValue = EntityQuery.use(delegator).from(ConstantValue.EXAM_TOPIC_MAPPING_MASTER)
 					.where("topicId", topicId).queryOne();
 			Long questionsPerExam = (Long) genericExamTopicMappingMasterValue.get(ConstantValue.QUESTION_PER_EXAM);
 			Debug.logInfo("no of questions", questionsPerExam.toString());
 			
-            Map<String,Object> questionMasterParameters =UtilMisc.toMap("questionId", questionId, "questionDetail", questionDetail, "optionA", optionA,
+            Map<String,Object> questionMasterParameters =UtilMisc.toMap("questionDetail", questionDetail, "optionA", optionA,
 					"optionB", optionB, "optionC", optionC, "optionD", optionD, "optionE", optionE,
 					"answer", answer, "numAnswers", numAnswers, "questionType", questionType,
-					"difficultyLevel", difficultyLevel,"answerValue",answerValue,"topicId",topicId);
+					"difficultyLevel", difficultyLevel,"answerValue",answerValue,"topicId",topicId,ConstantValue.NEGATIVE_MARK_VALUE,negativeMarkValue);
 			int count = 0;
 			if (questionMasterList != null) {
 
@@ -63,12 +76,13 @@ public class QuestionMasterEvent {
 					count++;
 
 				}
-				if (count <= questionsPerExam) {
-					dispatcher.runSync("createQuestionMaster",questionMasterParameters);
+				if (count <questionsPerExam) {
+					Map<String,Object> result=dispatcher.runSync("createQuestionMaster",questionMasterParameters);
+					request.setAttribute(ConstantValue.SUCCESS_MESSAGE, result);
 
 				} else {
 					System.out.println("No questions to be added for this topic...............................>");
-					request.setAttribute("Error_Msg", "No more questions to be added to this topic");
+					request.setAttribute("Error_Msg", "error to add the questions");
 				}
 			} 
 			else {

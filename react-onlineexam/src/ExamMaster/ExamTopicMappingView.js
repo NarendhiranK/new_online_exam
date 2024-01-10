@@ -7,11 +7,13 @@ const ExamTopicMappingView = () => {
   const examId = params.examId;
   const topicId = params.topicId;
   const [data, setData] = useState("");
-  const [errMsg,setErrMsg]=useState("");
+  const [topicname,settopicName]=useState("");
   const [topicData, setTopicData] = useState([]);
   const [Examname, SetexamName] = useState("");
   const [hasError,setHasError,hasNoError]=useStateRef(false);
   const [Percentage,setPercentage]=useState(false);
+  const [topicpasspercentage,setTopicpassPercentage]=useState("");
+  const [questionsperexam,setQuestionsPerExam]=useState("");
   var ExamName=Examname;
   var percentage;
 
@@ -50,14 +52,22 @@ const ExamTopicMappingView = () => {
       return response.json();
     })
     .then(data=>{
-      console.log("data",data);
+      console.log("hey data",data);
       console.log(data.resultMap.examId);
+
+      console.log("topic Name....>,",data.topicName);
+      console.log("percentage",data.resultMap.percentage);
+      settopicName(data.topicName)
+      setPercentage(data.resultMap.percentage);
+      setTopicpassPercentage(data.resultMap.topicPassPercentage);
       setData(data.resultMap);
+      setQuestionsPerExam(data.resultMap.questionsPerExam);
     }).catch(err =>console.log(err));
 
    
   }
 
+  console.log("output data...>",data);
   const deleteTopic=(examId,topicId)=>{
     let map={
       examId : examId,
@@ -92,7 +102,7 @@ const ExamTopicMappingView = () => {
     const data = new FormData(e.target);
     handleErrors();
     console.log("examId-----", examId);
-    // const topicId = data.get("topicId");
+    const topicId = data.get("topicId");
     const topicName = data.get("topicName");
     const percentage = data.get("percentage");
     const topicPassPercentage = data.get("topicPassPercentage");
@@ -107,6 +117,7 @@ const ExamTopicMappingView = () => {
       questionsPerExam: questionsPerExam,
     };
 
+    console.log("THis is the map of the handle submit....>",map);
 
     const validateExamTopicMappingMaster = (key, value) => {
       switch (key) {
@@ -144,6 +155,13 @@ const ExamTopicMappingView = () => {
               "Please enter a percentage";
             setHasError(true);
           }
+          else{
+            let regexx=new RegExp("^[0-9]")
+            if(!regexx.test(value)){
+                document.getElementById("p4").innerHTML="only numbers are allowed"
+                setHasError(true)
+            }
+          }
           break;
   
         case "topicPassPercentage":
@@ -178,7 +196,45 @@ const ExamTopicMappingView = () => {
 
     console.log("map.......>",map);
 
-    if(!hasNoError.current){
+    if(topicId!==null){
+      fetch(
+        "https://localhost:8443/onlineexam/control/UpdateExamTopicMappingMasterEvent",
+        {
+          method: "POST",
+          credentials: "include",
+          body: JSON.stringify(map),
+          headers: {
+            "Content-Type": "application/json"
+          },
+          Accept: "application/json",
+        }
+      )
+        .then(response => 
+        {
+  
+          return response.json();
+        
+        })
+        .then(data => {
+            console.log("my data.....",data);
+            console.log("error msg=",);
+            document.getElementById('err').classList.add('d-none');
+            if(data.totalpercentage == 100){
+              document.getElementById('add-btn').disabled=true;
+            }
+            if(data._ERROR_MESSAGE){
+              document.getElementById('err').classList.remove('d-none');
+              document.getElementById('err').classList.add('d-block')
+              document.getElementById('err').innerHTML=data._ERROR_MESSAGE;
+               
+            }
+            examDetails();
+            
+        })
+        .catch(err=> console.log(err));
+    }
+
+    else if(map.topicId == null){
       fetch(
         "https://localhost:8443/onlineexam/control/createOrUpdateExamTopicMappingMasterEvent",
         {
@@ -215,7 +271,6 @@ const ExamTopicMappingView = () => {
         })
         .catch(err=> console.log(err) );
     }
-
    
   };
 
@@ -373,22 +428,7 @@ const ExamTopicMappingView = () => {
                 <p id="p1" className="text-danger"></p>
               </div>
 
-              {/* <div className="mb-3">
-                <label
-                  htmlFor="exampleInputEmail1"
-                  className="form-label float-start"
-                >
-                  Topic No:
-                </label>
-                <input
-                  type="text"
-                  id="examid"
-                  className="form-control "
-                  placeholder="Topicid"
-                  name="topicId"
-                />
-                <p id="p2" className="text-danger"></p>
-              </div> */}
+             
 
               <div className="mb-3">
                 <label
@@ -403,6 +443,7 @@ const ExamTopicMappingView = () => {
                   className="form-control "
                   placeholder="TopicName"
                   name="topicName"
+                
                   // value={examid}
                   // onChange={(e) => setexamid(e.target.value)}
                 />
@@ -421,6 +462,7 @@ const ExamTopicMappingView = () => {
                   className="form-control "
                   placeholder="Percentage * eg(100%)"
                   name="percentage"
+              
                 />
                 <p id="p4" className="text-danger"></p>
               </div>
@@ -437,7 +479,7 @@ const ExamTopicMappingView = () => {
                   className="form-control "
                   placeholder="Topic Pass Percentage * eg(25%)"
                   name="topicPassPercentage"
-                  
+                 
                 />
                 <p id="p5" className="text-danger"></p>
               </div>
@@ -473,14 +515,17 @@ const ExamTopicMappingView = () => {
 
 <div class="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edit topic</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+   <button type="button" class="close btn btn-danger offset-10 cursor-pointer"  data-dismiss="modal" aria-label="Close">
           {/* <span aria-hidden="true">&times;</span> */}close
         </button>
+    <div class="modal-content">
+    
+      <div class="modal-header">
+     
+        <h5 class="modal-title offset-5" align="center" id="exampleModalLabel">Edit topic</h5>
+        
       </div>
-      <div class="modal-body">
+      <div class="modal-body m-3">
       <form action="" onSubmit={handleSubmit} id="form">
               <div className="mb-3">
                 <label
@@ -504,6 +549,7 @@ const ExamTopicMappingView = () => {
                 <label
                   htmlFor="exampleInputEmail1"
                   className="form-label float-start"
+                  hidden
                 >
                   Topic Id:
                 </label>
@@ -515,6 +561,26 @@ const ExamTopicMappingView = () => {
                   name="topicId"
                   defaultValue={data.topicId}
                   readOnly
+                  hidden
+                />
+                <p id="p1" className="text-danger"></p>
+              </div>
+
+              <div className="mb-3">
+                <label
+                  htmlFor="exampleInputEmail1"
+                  className="form-label float-start"
+                >
+                  Topic Name:
+                </label>
+                <input
+                  type="text"
+                  id="topicId"
+                  className="form-control"
+                  placeholder="Topicid"
+                  name="topicName"
+                  value={topicname}
+                  onChange={(e)=>settopicName(e.target.value)}
                 />
                 <p id="p1" className="text-danger"></p>
               </div>
@@ -532,7 +598,8 @@ const ExamTopicMappingView = () => {
                   className="form-control "
                   placeholder="Percentage * eg(100%)"
                   name="percentage"
-                  defaultValue={data.percentage}
+                  value={Percentage}
+                  onChange={(e)=>setPercentage(e.target.value)}
                 />
                 <p id="p1" className="text-danger"></p>
               </div>
@@ -549,9 +616,8 @@ const ExamTopicMappingView = () => {
                   className="form-control "
                   placeholder="Topic Pass Percentage * eg(25%)"
                   name="topicPassPercentage"
-                  defaultValue={data.topicPassPercentage}
-      
-                />
+                  value={topicpasspercentage}
+                  onChange={(e)=>setTopicpassPercentage(e.target.value)}/>
                 <p id="p1" className="text-danger"></p>
               </div>
               <div className="mb-3">
@@ -567,7 +633,8 @@ const ExamTopicMappingView = () => {
                   className="form-control"
                   placeholder="Questions per Exam * eg(60)"
                   name="questionsPerExam"
-                  defaultValue={data.questionsPerExam}
+                  value={questionsperexam}
+                  onChange={(e)=>setQuestionsPerExam(e.target.value)}
                   // onChange={(e) => setData(e.target.value)}
                 />
                 <p id="p1" className="text-danger"></p>

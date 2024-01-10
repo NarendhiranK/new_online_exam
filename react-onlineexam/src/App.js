@@ -19,6 +19,7 @@ import Welcome from "./Welcome/Welcome";
 import Examsforuser from "./User/Examsforuser";
 import AddExamForUser from "./User/AddExamForUser";
 import QuestionMaster from "./QuestionMaster/QuestionMaster";
+import EditExam from "./ExamMaster/EditExam";
 
 //This is App.js
 function App() {
@@ -32,10 +33,10 @@ function App() {
       credentials: "include",
     }).then(response => response.json())
       .then(data => {
-        console.log(data)
+        console.log("data.........................>",data)
         setName(data.userNameLogin);
       }).catch((error) => console.log(error))
-  },[name])
+  },[flag])
 
 
   return (
@@ -52,13 +53,13 @@ function App() {
 
           {/* EXAMS */}
           <Route path="createExam" element={<CreateExamMaster />} />
-          <Route path="editExam" element={<CreateExamMaster />} />
+          <Route path="editExam/:examId" element={<EditExam />} /> 
           <Route path="updateExam" element={<GetExams />} />
 
           <Route path="updateExam/examdetails/:examId/" element={<ExamTopicMappingView />} />
           <Route path="updateExam/examdetails/:examId/:topicId" element={<ExamTopicMappingView />} />
           <Route path="updateExam/examdetails/question-topicView/:topicId/:examId" element={<QuestionForTopicView />} />
-          <Route path="updateExam/examdetails/question-topicView/:TopicId" element={<QuestionForTopicView />} />
+          <Route path="updateExam/examdetails/question-topicView/:topicId" element={<QuestionForTopicView />} />
 
           <Route path="/admin/updateExam/examdetails/question-topicView/view-questions/:questionId/:topicName/:examId" element={<DetailsOfQuestion />} />
           {/* TOPIC */}
@@ -66,7 +67,7 @@ function App() {
           <Route path="/admin/assignExam/addExamForUser/:partyId/:firstName" element={<AddExamForUser/>} />
           <Route path="/admin/assignExam/addExamForUser/:partyId/:examId" element={<AddExamForUser/>} />
       <Route path="/admin/assignExam/examsForUser/:partyId/:firstName" element={<Examsforuser/>}/>
-      <Route path="/admin/updateExam/examdetails/question-topicView/add-questions/:TopicId/:topicName" element={<QuestionMaster/>} />
+      <Route path="/admin/updateExam/examdetails/question-topicView/add-questions/:topicId/:topicName" element={<QuestionMaster/>} />
 
 
           {/* QUESTION */}

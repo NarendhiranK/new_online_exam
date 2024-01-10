@@ -162,8 +162,8 @@
 	<request-map uri="CreateorUpdateQuestionMasterEvent">
 		<security https="true" auth="false" />
 		<event type="java"
-			path="com.vastpro.onlineexam.events.AddorUpdateQuestionMasterEvent"
-			invoke="createOrUpdateQuestionEvent" />
+			path="com.vastpro.onlineexam.events.QuestionMasterEvent"
+			invoke="createQuestionMasterEvent" />
 		<response name="success" type="request" value="json" />
 		<response name="error" type="request" value="json" />
 	</request-map>
@@ -199,6 +199,16 @@
 		<response name="error" type="request" value="json" />
 	</request-map>
 
+	<request-map
+		uri="UpdateExamTopicMappingMasterEvent">
+		<security https="true" auth="true" />
+		<event type="java"
+			path="com.vastpro.onlineexam.events.CreateorUpdateExamTopicMappingEvent"
+			invoke="updateExamTopicEvent" />
+		<response name="success" type="request" value="json" />
+		<response name="error" type="request" value="json" />
+	</request-map>
+	
 	<request-map uri="getExamTopicEvent">
 		<security https="true" auth="false" />
 		<event type="java"
@@ -222,6 +232,15 @@
 		<event type="java"
 			path="com.vastpro.onlineexam.events.ExamTopicMappingDeleteEvent"
 			invoke="deleteExamTopicMappingEvent" />
+		<response name="success" type="request" value="json" />
+		<response name="error" type="request" value="json" />
+	</request-map>
+
+	<request-map uri="DateTimeClass">
+		<security https="true" auth="false" />
+		<event type="java"
+			path="com.vastpro.onlineexam.additionalevents.DateTimeClass"
+			invoke="currentDateAndTime" />
 		<response name="success" type="request" value="json" />
 		<response name="error" type="request" value="json" />
 	</request-map>
@@ -288,7 +307,7 @@
 		<response name="error" type="request" value="json" />
 	</request-map>
 	
-<<<<<<< HEAD
+
 		<request-map uri="deleteQuestionsForTopic">
 		<security https="true" auth="false" />
 		<event type="java"
@@ -308,7 +327,7 @@
 		<response name="error" type="request" value="json" />
 	   </request-map>
 		
-=======
+
 			<!-- Delete UserExamMapping master table -->
 		<request-map uri="deleteUserExam">
 		<security https="true" auth="false" />
@@ -320,7 +339,6 @@
 	</request-map>
 	
 	
->>>>>>> 94a706e68174c8e04bc66602c98bccfe880d594a
 
 	<!-- View Mappings -->
 	<view-map name="main" type="screen"

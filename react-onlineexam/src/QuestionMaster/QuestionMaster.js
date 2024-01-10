@@ -1,21 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useStateRef from "react-usestateref";
 
 const QuestionMaster = () => {
   const params = useParams();
   const TopicId = params.topicId;
+  console.log("TopicId...>",params.topicId);
   const examId = params.examId;
   const topicName = params.topicName;
   const [questionData, setQuestionData] = useState([]);
+  const [enumerationData,setEnumerationData]=useState([]);
   // const [topicName, setTopicName] = useState("");
   const [hasError, setHasError, hasNoError] = useStateRef(false);
-  const [hasquestionType, setQuestionType] = useState("multipleChoice");
+  const [hasquestionType, setQuestionType] = useState("01");
   const navigate = useNavigate();
   console.log("State is",hasquestionType);
 
 
-  
+  function enumerationRecords(){
+    fetch("https://localhost:8443/onlineexam/control/retrieveEnumerationListEvent")
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      // setData(data.ExamData);
+      // const res = data.ExamData;
+      const res=data.resultMap;
+      setEnumerationData(res);
+      console.log("data...>",enumerationData);
+      console.log("res....", res);
+    }).catch(err=>console.log(err));
+  }
+
+  useEffect(() => {
+    enumerationRecords();
+  }, []);
   function deleteQuestion(questionId) {
     let map = {
       questionId: questionId,
@@ -38,9 +57,11 @@ const QuestionMaster = () => {
   }
 
   const submittingForm = (e) => {
+    
     e.preventDefault();
     console.log("Submitting form called....>");
-    const data = new FormData(e.target);
+    const formElement=document.getElementById('myform');
+    const data = new FormData(formElement);
     handleErrors();
     const validateQuestionMaster = (key, value) => {
 
@@ -216,50 +237,70 @@ const QuestionMaster = () => {
     const numAnswers = data.get("numAnswers");
     const difficultyLevel = data.get("difficultyLevel");
     const answerValue = data.get("answerValue");
-   
+   const questionType=data.get("questionType");
     const negativeMarkValue = data.get("negativeMarkValue");
+    // const topicId=data.get("topicId");
     // const questionType = document.getElementById("questionType").value;
     // console.log(questionType);
-    // const map = {
-    //   questionId: questionId,
-    //   questionDetail: questionDetail,
-    //   optionA: optionA,
-    //   optionB: optionB,
-    //   optionC: optionC,
-    //   optionD: optionD,
-    //   optionE: optionE,
-    //   answer: answer,
-    //   numAnswers: numAnswers,
-    //   // questionType: questionType,
-    //   difficultyLevel: difficultyLevel,
-    //   answerValue: answerValue,
-    //   topicId: TopicId,
-    //   negativeMarkValue: negativeMarkValue,
-    // };
+    const map = {
+      // questionId: questionId,
+      questionDetail: questionDetail,
+      optionA: optionA,
+      optionB: optionB,
+      optionC: optionC,
+      optionD: optionD,
+      optionE: optionE,
+      answer: answer,
+      numAnswers: numAnswers,
+      questionType: questionType,
+      difficultyLevel: difficultyLevel,
+      answerValue: answerValue,
+      topicId: TopicId,
+      negativeMarkValue: negativeMarkValue,
+    };
 
+    console.log("map",map);
 
+    if (!hasNoError.current) {
+      fetch(
+        "https://localhost:8443/onlineexam/control/CreateorUpdateQuestionMasterEvent",
+        {
+          method: "POST",
+          body: JSON.stringify(map),
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        }
+      )
+        .then((response) => {
+          console.log("Respponse....>",response);
+          return response.json();
+          // window.location.reload();
+        })
+        .then(data=>{
+          console.log("Response data....>",data)
+          document.getElementById('p1').classList.add('d-none');
+          if(data.Error_Msg){
+              document.getElementById('p1').classList.remove('d-none');
+              document.getElementById('p1').classList.add('d-block');
+              document.getElementById('p1').innerHTML="No more questions to be added to this topic..";
+          }
 
-    // if (!hasNoError.current) {
-    //   fetch(
-    //     "https://localhost:8443/onlineexam/control/CreateorUpdateQuestionMasterEvent",
-    //     {
-    //       method: "POST",
-    //       body: JSON.stringify(map),
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         Accept: "application/json",
-    //       },
-    //     }
-    //   )
-    //     .then((response) => {
-    //       window.location.reload();
-    //     })
-    //     .catch((err) => console.log("ERROR FROM FETCH", err));
-    // }
+          if(data._SUCCESS_MESSAGE){
+            document.getElementById('p2').classList.remove('d-none');
+            document.getElementById('p2').classList.add('d-block');
+            document.getElementById('p2').innerHTML="Question to be added to this topic is done successfully..";
+          }
+        })
+
+        .catch((err) => console.log("ERROR FROM FETCH", err));
+    }
 
     function handleErrors() {
      
       document.getElementById("p1").classList.add("d-none");
+      document.getElementById("p2").classList.add("d-none");
       document.getElementById("p3").classList.add("d-none");
       document.getElementById("p4").classList.add("d-none");
       document.getElementById("p5").classList.add("d-none");
@@ -280,6 +321,8 @@ const QuestionMaster = () => {
   return (
     <div className="col-10">
       <div className="container my-3">
+        <h2 id="p1" className="d-none text-danger" align="center"></h2>
+        <h2 id="p2" className="d-none text-primary" align="center"></h2>
         <div className="col-10 mx-auto">
           <form className="d-flex" id="myform" onSubmit={submittingForm}>
             <div className="col-5">
@@ -419,7 +462,7 @@ const QuestionMaster = () => {
             </div>
 
             <div className="col-5 offset-1">
-              <div className="mb-3">
+              {/* <div className="mb-3">
                 <label
                   htmlFor="exampleInputEmail1"
                   className="form-label float-start"
@@ -451,10 +494,26 @@ const QuestionMaster = () => {
                   answerinDetail
                   </option>
                 </select>
-              </div>
+              </div> */}
+
+              <div className="form-group mt-3">
+                <label htmlFor="" className="form-label float-start">Question Type</label>
+              <select name="questionType" id="" className="form-select" 
+               onChange={(e) => {
+                setQuestionType(e.target.value);
+                console.log(e.target.value);
+              }}>
+                Choose Exam
+                {enumerationData
+                  ? enumerationData.map((obj, value) => {
+                      return <option value={obj.enumId} name={obj.description} >{obj.description}</option>;
+                    })
+                  : ""}
+              </select>
+            </div>
             
               {
-                hasquestionType === "multipleChoice" || hasquestionType === "singleChoice"   ? (
+                hasquestionType === "01" || hasquestionType === "02"   ? (
                 <div>
                   <div className="mb-3">
                     <label
@@ -550,7 +609,7 @@ const QuestionMaster = () => {
             {/* ///////////////////// */}
 
               {
-              hasquestionType === "trueorFalse" ? (
+              hasquestionType === "03" ? (
                 <div>
                   <div>
                     <div className="mb-3">

@@ -39,6 +39,8 @@ public class ExamTopicRetrieveEvent {
 		try {
 			GenericValue examTopicDetails=EntityQuery.use(delegator).from("ExamTopicMappingMaster").where("examId",examId,"topicId",topicId).cache().queryOne();
 			if(examTopicDetails!=null) {
+				GenericValue topicDetails=EntityQuery.use(delegator).from("TopicMaster").where(ConstantValue.TOPIC_ID,topicId).cache().queryOne();
+				request.setAttribute(ConstantValue.TOPIC_NAME, topicDetails.get(ConstantValue.TOPIC_NAME));
 				request.setAttribute("resultMap",examTopicDetails);
 				return "success";
 			}
