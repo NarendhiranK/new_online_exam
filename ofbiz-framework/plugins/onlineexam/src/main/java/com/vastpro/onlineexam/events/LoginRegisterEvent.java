@@ -123,47 +123,49 @@ public class LoginRegisterEvent {
 	}
 
 	public static String onUserRegister(HttpServletRequest request, HttpServletResponse response) {
-		GenericValue userLogin = (GenericValue) request.getSession().getAttribute("userLogin");
+		GenericValue userLogin = (GenericValue) request.getSession().getAttribute(ConstantValue.USERLOGIN);
 		LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute(ConstantValue.DISPATCHER);
 		Delegator delegator = (Delegator) request.getAttribute(ConstantValue.DELEGATOR);
 		Locale locale = UtilHttp.getLocale(request);
 		Map<String, Object> combinedMap = UtilHttp.getCombinedMap(request);
-		String firstName = (String)combinedMap.get(ConstantValue.FIRST_NAME);
-		String lastName = (String)combinedMap.get(ConstantValue.LAST_NAME);
-		String userLoginId = (String)combinedMap.get(ConstantValue.USER_LOGIN_ID);
-		String currentPassword = (String)combinedMap.get(ConstantValue.CURRENT_PASSWORD);
-		String currentPasswordVerify = (String)combinedMap.get(ConstantValue.CURRENT_PASSWORD_VERIFY);
-		
+		String firstName = (String) combinedMap.get(ConstantValue.FIRST_NAME);
+		String lastName = (String) combinedMap.get(ConstantValue.LAST_NAME);
+		String userLoginId = (String) combinedMap.get(ConstantValue.USER_LOGIN_ID);
+		String currentPassword = (String) combinedMap.get(ConstantValue.CURRENT_PASSWORD);
+		String currentPasswordVerify = (String) combinedMap.get(ConstantValue.CURRENT_PASSWORD_VERIFY);
+
 		Map<String, Object> registerMap = new HashMap<String, Object>();
-		registerMap.put("firstName", firstName);
-		registerMap.put("lastName", lastName);
-		registerMap.put("userLoginId", userLoginId);
-		registerMap.put("currentPassword", currentPassword);
-		registerMap.put("currentPasswordVerify", currentPasswordVerify);
+		registerMap.put(ConstantValue.FIRST_NAME, firstName);
+		registerMap.put(ConstantValue.LAST_NAME, lastName);
+		registerMap.put(ConstantValue.USER_LOGIN_ID, userLoginId);
+		registerMap.put(ConstantValue.CURRENT_PASSWORD, currentPassword);
+		registerMap.put(ConstantValue.CURRENT_PASSWORD_VERIFY, currentPasswordVerify);
 		registerMap.put("userLogin", userLogin);
 		Map<String, Object> registerResultMap = null;
 		try {
-//			Map<String, Object> userRegisterMap = UtilMisc.toMap("firstName", firstName, "lastName", lastName,
-//					"username", userLoginId, "password", currentPassword, "confirmPassword", currentPasswordVerify);
-//			RegisterFormValidator registerForm = HibernateHelper.populateBeanFromMap(userRegisterMap,
-//					RegisterFormValidator.class);
-//			Set<ConstraintViolation<RegisterFormValidator>> errors = HibernateHelper.checkValidationErrors(registerForm,
-//					RegisterFormCheck.class);
-//			boolean hasErrors = HibernateHelper.validateFormSubmission(delegator, errors, request, locale,
-//					"MandatoryFieldErrMsgLoginForm", resource_error, false);
-//			request.setAttribute("hasErrors", hasErrors);
-			registerResultMap = dispatcher.runSync("createPersonAndUserLogin", registerMap);
+			Map<String, Object> userRegisterMap = UtilMisc.toMap("firstName", firstName, "lastName", lastName,
+					"username", userLoginId, "password", currentPassword, "confirmPassword", currentPasswordVerify);
+			RegisterFormValidator registerForm = HibernateValidatorHelper.populateBeanFromMap(userRegisterMap,
+					RegisterFormValidator.class);
+			Set<ConstraintViolation<RegisterFormValidator>> errors = HibernateValidatorHelper
+					.checkValidationErrors(registerForm, RegisterFormCheck.class);
+			boolean hasErrors = HibernateValidatorHelper.validateFormSubmission(delegator, errors, request, locale,
+					"MandatoryFieldErrMsgLoginForm", resource_error, false);
+			request.setAttribute("hasErrors", hasErrors);
+			if (hasErrors == false) {
+				registerResultMap = dispatcher.runSync("createPersonAndUserLogin", registerMap);
+			}
 		} catch (GenericServiceException e) {
 			e.printStackTrace();
 			return "error";
 		}
 		if (ServiceUtil.isSuccess(registerResultMap)) {
 			request.setAttribute("result1", registerResultMap);
-			String partyId = (String) registerResultMap.get("partyId");
+			String partyId = (String) registerResultMap.get(ConstantValue.PARTY_ID);
 			Map<String, Object> partyRoleMap = new HashMap<String, Object>();
-			partyRoleMap.put("partyId", partyId);
-			partyRoleMap.put("userLogin", userLogin);
-			partyRoleMap.put("roleTypeId", "PERSON_ROLE");
+			partyRoleMap.put(ConstantValue.PARTY_ID, partyId);
+			partyRoleMap.put(ConstantValue.USERLOGIN, userLogin);
+			partyRoleMap.put(ConstantValue.ROLE_TYPE_ID, "PERSON_ROLE");
 			Map<String, Object> resultPartyRole = null;
 			try {
 				resultPartyRole = dispatcher.runSync("createPartyRoleRecord", partyRoleMap);
