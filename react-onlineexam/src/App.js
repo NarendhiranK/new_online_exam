@@ -20,15 +20,17 @@ import Examsforuser from "./User/Examsforuser";
 import AddExamForUser from "./User/AddExamForUser";
 import QuestionMaster from "./QuestionMaster/QuestionMaster";
 import EditExam from "./ExamMaster/EditExam";
+import ListOfExamsForUser from "./User/ListOfExamsForUser";
+import { control, pluginName } from "./constants";
 
 //This is App.js
 function App() {
   const [name, setName] = useState('');
   const [flag, setFlag] = useState(false);
-  
+
 
   useEffect(() => {
-    fetch("https://localhost:8443/onlineexam/control/getPersonName", {
+    fetch(protocol+"://"+window.location.hostname+":"+port+pluginName+control+"/getPersonName", {
       method: 'GET',
       credentials: "include",
     }).then(response => response.json())
@@ -36,7 +38,7 @@ function App() {
         console.log("data.........................>",data)
         setName(data.userNameLogin);
       }).catch((error) => console.log(error))
-  },[flag])
+  }, [flag])
 
 
   return (
@@ -72,7 +74,14 @@ function App() {
 
           {/* QUESTION */}
 
+          {/* QUESTION */
+          }
         </Route>
+
+        <Route path="user" element={<User />} />
+        <Route path="/user/listexamsforuser" element={<ListOfExamsForUser />} />
+
+
       </Routes>
 
 

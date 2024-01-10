@@ -1,6 +1,7 @@
 package com.vastpro.onlineexam.events;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,6 @@ import com.vastpro.onlineexam.constants.ConstantValue;
 
 
 public class ExamMasterListEvent {
-
 	
 	/*
 	 * This event either it is used to retrieve the all the exams or retrieve the particular exam details 

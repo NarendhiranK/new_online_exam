@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { pluginName, port, protocol } from "../constants";
 const ViewUsers = () => {
   const navigate = useNavigate()
   const [userList, setUserList] = useState("");
@@ -13,7 +14,7 @@ const ViewUsers = () => {
   }
 
   function usersList(){
-    fetch("https://localhost:8443/onlineexam/control/viewUsers", {
+    fetch(protocol+"://"+window.location.hostname+":"+port+pluginName+"/control/viewUsers", {
       method: "GET",
       credentials: "include",
       headers: {

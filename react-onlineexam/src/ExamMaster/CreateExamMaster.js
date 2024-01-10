@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import useStateRef from "react-usestateref";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { control, pluginName, port, protocol } from "../constants";
 
 const CreateExamMaster = () => {
 
@@ -52,7 +53,7 @@ const CreateExamMaster = () => {
 
   function ExamDetails(map) {
     const response = fetch(
-      "https://localhost:8443/onlineexam/control/examMasterListEvent",
+      protocol+"://"+window.location.hostname+":"+port+pluginName+control+"/examMasterListEvent",
       {
         method: "POST",
         credentials: "include",
@@ -67,6 +68,7 @@ const CreateExamMaster = () => {
       })
       .then((data) => {
         const text = data.ExamData;
+        
         console.log("text...>",text);
         console.log("examId....>",text.examId);
         setFormValues(text);
@@ -529,7 +531,7 @@ const CreateExamMaster = () => {
               </div>
 
               <div>
-                <button className="btn btn-primary offset-9">Submit</button>
+                <button className="btn btn-primary offset-9" >Submit</button>
               </div>
             </div>
           </form>

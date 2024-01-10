@@ -3,10 +3,8 @@ package com.vastpro.onlineexam.events;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.ofbiz.base.util.Debug;
 import org.apache.ofbiz.base.util.UtilMisc;
 import org.apache.ofbiz.entity.Delegator;
@@ -44,6 +42,7 @@ public class CreateorUpdateExamMasterEvent{
         String answersMust =(String) request.getAttribute(ConstantValue.ANSWERS_MUST);
         String enableNegativeMark =(String)request.getAttribute(ConstantValue.ENABLE_NEGATIVE_MARK);
         String negativeMarkValue =(String)request.getAttribute(ConstantValue.NEGATIVE_MARK_VALUE);
+        
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 		DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		LocalDateTime creationLocalDateTime = LocalDateTime.parse(creationDate, inputFormatter);

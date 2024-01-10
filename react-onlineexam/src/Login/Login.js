@@ -1,9 +1,11 @@
 import "bootstrap/dist/css/bootstrap.css";
 import useStateRef from "react-usestateref";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate,Link } from "react-router-dom";
+import { control, pluginName, port, protocol } from "../constants";
 
 const Login = ({setName,setFlag,flag}) => {
+  const [partyId,setPartyId] = useState();
   const navigate = useNavigate();
   const [hasError, setHasError, hasNoError] = useStateRef(false);
 
@@ -26,7 +28,7 @@ const Login = ({setName,setFlag,flag}) => {
     });
 
     if (!hasNoError.current) {
-      fetch('https://' + window.location.hostname +':8443/onlineexam/control/loginEvent', {
+      fetch(protocol+'://'+window.location.hostname +':'+port+pluginName+control+'/loginEvent', {
         method: 'POST',
         credentials: "include",
         headers: {
@@ -52,8 +54,9 @@ const Login = ({setName,setFlag,flag}) => {
           else if (data.resultMap.usersRoletypeId === "PERSON_ROLE") {
             //setName(data.resultMap.firstName);
             setFlag(data.resultMap.isFlag);
-          
-            navigate("/user")
+            setPartyId(data.resultMap.partyId)
+            console.log("PARTY ID::::::::::: ",partyId);
+            navigate("user")
           }
           else if (data.resultMap.login_condition === "error") {
             setFlag(data.resultMap.isFlag);
@@ -80,7 +83,7 @@ const Login = ({setName,setFlag,flag}) => {
           let regexx = new RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]");
           if (!regexx.test(value)) {
               document.getElementById('p1').classList.remove('d-none');
-      document.getElementById('p1').classList.add('d-block');
+              document.getElementById('p1').classList.add('d-block');
             document.getElementById("p1").innerHTML=
               " invalid! emailaddress should contains A-z a-z &0-9@a-z...";
             setHasError(true);

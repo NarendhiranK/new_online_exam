@@ -269,8 +269,8 @@
 
 
 
-	<request-map uri="ExamsForUserEvent">
-		<security https="true" auth="false" />
+	<request-map uri="examsForUserEvent">
+		<security https="true" auth="true" />
 		<event type="java"
 			path="com.vastpro.onlineexam.events.ExamsForUserEvent"
 			invoke="examsForUserEvent"></event>
@@ -306,8 +306,21 @@
 		<response name="success" type="request" value="json" />
 		<response name="error" type="request" value="json" />
 	</request-map>
-	
 
+
+	<request-map uri="userExamMapping">
+		<security https="true" auth="false" />
+		<event type="java"
+			path="com.vastpro.onlineexam.events.UserExamMappingMasterEvent"
+			invoke="createOrUpdateExamMasterEvent"></event>
+		<response name="success" type="request" value="json" />
+		<response name="error" type="request" value="json" />
+	</request-map>
+	
+<<<<<<< HEAD
+
+=======
+>>>>>>> 193e651319c5d3c73ffc26b3f6cc50a992f48346
 		<request-map uri="deleteQuestionsForTopic">
 		<security https="true" auth="false" />
 		<event type="java"
@@ -327,7 +340,10 @@
 		<response name="error" type="request" value="json" />
 	   </request-map>
 		
+<<<<<<< HEAD
 
+=======
+>>>>>>> 193e651319c5d3c73ffc26b3f6cc50a992f48346
 			<!-- Delete UserExamMapping master table -->
 		<request-map uri="deleteUserExam">
 		<security https="true" auth="false" />

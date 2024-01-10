@@ -35,6 +35,8 @@
 		<field name="answersMust" type="indicator"></field>
 		<field name="enableNegativeMark" type="indicator"></field>
 		<field name="negativeMarkValue" type="decimal"></field>
+		<field name="fromDate" type="date-time"></field>
+		<field name="throughDate" type="date-time"></field>
 		<prim-key field="examId" />
 	</entity>
 
@@ -42,6 +44,8 @@
 		package-name="org.apache.ofbiz.onlineexam">
 		<field name="topicId" type="id"></field>
 		<field name="topicName" type="long-varchar"></field>
+		<field name="fromDate" type="date-time"></field>
+		<field name="throughDate" type="date-time"></field>
 		<prim-key field="topicId" />
 	</entity>
 
@@ -61,6 +65,8 @@
 		<field name="answerValue" type="decimal"></field>
 		<field name="topicId" type="id"></field>
 		<field name="negativeMarkValue" type="decimal"></field>
+		<field name="fromDate" type="date-time"></field>
+		<field name="throughDate" type="date-time"></field>
 		<prim-key field="questionId" />
 		<relation type="one" fk-name="QM_TM_TYPE_ID"
 			rel-entity-name="TopicMaster">

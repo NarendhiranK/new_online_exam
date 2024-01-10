@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import "../ExamMaster/GetExams.css";
 import useStateRef from "react-usestateref";
+import { control, pluginName, port, protocol } from "../constants";
 
 const GetExams = () => {
   const [data, setData] = useState("");
@@ -39,20 +40,21 @@ const GetExams = () => {
 
   const ExamDetails = (examId) => {
     console.log("examId", examId);
-    let map = {
-      examId: examId,
-    };
-    console.log("THis is map", map);
-    document.getElementById('h6').classList.add('d-none');
-    // navigate(`/admin/editExam/${examId}`);
-    fetch("https://localhost:8443/onlineexam/control/examMasterListEvent", {
-      method: "POST",
-      credentials: "include",
-      body: JSON.stringify(map),
-      headers: {
-        "Content-type": "application/json",
-      },
-    })
+    let map={
+      examId : examId,
+    }
+
+    const response = fetch(
+      protocol+"://"+window.location.hostname+":"+port+pluginName+control+"/examMasterListEvent",
+      {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify(map),
+        headers: {
+          "Content-type": "application/json",
+        },
+      }
+    )
       .then((response) => {
         return response.json();
       })
@@ -123,19 +125,16 @@ const GetExams = () => {
     };
     console.log("handlew submit map....>",map);
     if (!hasNoError.current) {
-      map.examId = examId;
-      console.log("update exam map...>", map);
-      fetch("https://localhost:8443/onlineexam/control/examMasterEvent", {
-        method: "POST",
-        credentials: "include",
-        body: JSON.stringify(map),
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      })
-        .then((response) => {
-          return response.json();
+         map.examId=examId;
+         console.log("update exam map...>",map)
+        fetch(protocol+"://"+window.location.hostname+":"+port+pluginName+control+"/examMasterEvent", {
+          method: "POST",
+          credentials: "include",
+          body: JSON.stringify(map),
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
         })
         .then((data) => {
           if (data._EVENT_MESSAGE_) {

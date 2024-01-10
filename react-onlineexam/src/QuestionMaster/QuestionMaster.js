@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useStateRef from "react-usestateref";
+import { control, pluginName, port, protocol } from "../constants";
 
 const QuestionMaster = () => {
   const params = useParams();
@@ -40,7 +41,7 @@ const QuestionMaster = () => {
       questionId: questionId,
     };
 
-    fetch("https://localhost:8443/onlineexam/control/deleteQuestionMaster", {
+    fetch(protocol+"://"+window.location.hostname+":"+port+pluginName+control+"/deleteQuestionMaster", {
       method: "DELETE",
       credentials: "include",
       body: JSON.stringify(map),
@@ -162,17 +163,7 @@ const QuestionMaster = () => {
           }
           break;
 
-        // case "topicId":
-        //   {
-        //     if (value === null || value === "") {
-        //       document.getElementById("p13").classList.remove("d-none");
-        //       document.getElementById("p13").classList.add("d-block");
-        //       document.getElementById("p13").innerHTML =
-        //         "Please enter a topic Id";
-        //       setHasError(true);
-        //     }
-        //   }
-        //   break;
+        
 
           case "difficultyLevel":
           {
@@ -239,6 +230,7 @@ const QuestionMaster = () => {
     const answerValue = data.get("answerValue");
    const questionType=data.get("questionType");
     const negativeMarkValue = data.get("negativeMarkValue");
+
     // const topicId=data.get("topicId");
     // const questionType = document.getElementById("questionType").value;
     // console.log(questionType);
@@ -308,11 +300,11 @@ const QuestionMaster = () => {
       document.getElementById("p7").classList.add("d-none");
       document.getElementById("p8").classList.add("d-none");
       document.getElementById("p9").classList.add("d-none");
-      // document.getElementById("p10").classList.add("d-none");
+      
       document.getElementById("p11").classList.add("d-none");
       document.getElementById("p12").classList.add("d-none");
       document.getElementById("p13").classList.add("d-none");
-      // document.getElementById("p14").classList.add("d-none");
+      
 
       setHasError(false);
     }
@@ -606,7 +598,6 @@ const QuestionMaster = () => {
                <></>
               )}
 
-            {/* ///////////////////// */}
 
               {
               hasquestionType === "03" ? (

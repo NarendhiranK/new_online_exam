@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "../QuestionMaster/QuestionForTopicView.css";
 import useStateRef from "react-usestateref";
+import { control, pluginName, port, protocol } from "../constants";
 
 const QuestionForTopicView = () => {
   const params = useParams();
@@ -27,7 +28,7 @@ const QuestionForTopicView = () => {
       questionId: questionId,
     };
 
-    fetch("https://localhost:8443/onlineexam/control/deleteQuestionMaster", {
+    fetch(protocol+"://"+window.location.hostname+":"+port+pluginName+control+"/deleteQuestionMaster", {
       method: "DELETE",
       credentials: "include",
       body: JSON.stringify(map),
@@ -48,7 +49,7 @@ const QuestionForTopicView = () => {
     const map = {
       topicId: TopicId,
     };
-    fetch("https://localhost:8443/onlineexam/control/viewQuestions", {
+    fetch(protocol+"://"+window.location.hostname+":"+port+pluginName+control+"/viewQuestions", {
       method: "POST",
       credentials: "include",
       body: JSON.stringify(map),

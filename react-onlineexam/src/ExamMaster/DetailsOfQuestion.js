@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
+import { control, pluginName, port, protocol } from "../constants";
 
 const DetailsOfQuestion = () => {
 
@@ -18,7 +19,7 @@ const DetailsOfQuestion = () => {
     };
     console.log("map....", map);
     fetch(
-      "https://localhost:8443/onlineexam/control/questionMasterList",
+      protocol+"://"+window.location.hostname+":"+port+pluginName+control+"/questionMasterList",
       {
         method: "POST",
         credentials: "include",
