@@ -24,9 +24,8 @@ public class RetrieveExamsForUserEvent {
 
 	public static String getExamsForUser(HttpServletRequest request, HttpServletResponse response) {
 		Delegator delegator = (Delegator) request.getAttribute(ConstantValue.DELEGATOR);
-
 		LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute(ConstantValue.DISPATCHER);
-		GenericValue userLogin = (GenericValue) request.getAttribute("userLogin");
+		GenericValue userLogin = (GenericValue) request.getAttribute(ConstantValue.USERLOGIN);
 
 		List<Map<String, Object>> examsList = new LinkedList<Map<String, Object>>();
 

@@ -186,9 +186,37 @@
 			optional="true"></attribute>
 	</service>
 	
+	<service name="listOfQuestionsForTheExam" engine="java"
+		location="com.vastpro.onlineexam.services.QuestionMasterListService"
+		invoke="questionsForExam" auth="false">
+		<description>Find all users</description>
+		<attribute name="QuestionsList" mode="OUT" type="Map"
+			optional="true"></attribute>
+	</service>
+	
 	
 	<service name="createUserAttemptMaster"
 		default-entity-name="UserAttemptMaster" engine="entity-auto"
+		invoke="create" auth="false">
+		<description>createUserAttemptMaster</description>
+		<auto-attributes include="pk" mode="OUT"
+			optional="false" />
+		<auto-attributes include="nonpk" mode="IN"
+			optional="true" />
+	</service>
+	
+	<service name="createUserAttemptTopicMaster"
+		default-entity-name="UserAttemptTopicMaster" engine="entity-auto"
+		invoke="create" auth="false">
+		<description>createUserAttemptMaster</description>
+		<auto-attributes include="pk" mode="IN"
+			optional="false" />
+		<auto-attributes include="nonpk" mode="IN"
+			optional="true" />
+	</service>
+	
+	<service name="createUserAttemptAnswerMaster"
+		default-entity-name="UserAttemptAnswerMaster" engine="entity-auto"
 		invoke="create" auth="false">
 		<description>createUserAttemptMaster</description>
 		<auto-attributes include="pk" mode="IN"
