@@ -21,7 +21,8 @@ import AddExamForUser from "./User/AddExamForUser";
 import QuestionMaster from "./QuestionMaster/QuestionMaster";
 import EditExam from "./ExamMaster/EditExam";
 import ListOfExamsForUser from "./User/ListOfExamsForUser";
-import { control, pluginName } from "./constants";
+import { control, pluginName, port, protocol } from "./constants";
+import ExamsDashboard from "./User/ExamsDashboard";
 
 //This is App.js
 function App() {
@@ -55,13 +56,13 @@ function App() {
 
           {/* EXAMS */}
           <Route path="createExam" element={<CreateExamMaster />} />
-          <Route path="editExam/:examId" element={<EditExam />} /> 
+            <Route path="editExam/:examId" element={<EditExam />} /> 
           <Route path="updateExam" element={<GetExams />} />
 
           <Route path="updateExam/examdetails/:examId/" element={<ExamTopicMappingView />} />
           <Route path="updateExam/examdetails/:examId/:topicId" element={<ExamTopicMappingView />} />
           <Route path="updateExam/examdetails/question-topicView/:topicId/:examId" element={<QuestionForTopicView />} />
-          <Route path="updateExam/examdetails/question-topicView/:topicId" element={<QuestionForTopicView />} />
+          <Route path="updateExam/examdetails/question-topicView/:TopicId" element={<QuestionForTopicView />} /> 
 
           <Route path="/admin/updateExam/examdetails/question-topicView/view-questions/:questionId/:topicName/:examId" element={<DetailsOfQuestion />} />
           {/* TOPIC */}
@@ -70,7 +71,7 @@ function App() {
           <Route path="/admin/assignExam/addExamForUser/:partyId/:examId" element={<AddExamForUser/>} />
       <Route path="/admin/assignExam/examsForUser/:partyId/:firstName" element={<Examsforuser/>}/>
       <Route path="/admin/updateExam/examdetails/question-topicView/add-questions/:topicId/:topicName" element={<QuestionMaster/>} />
-
+      <Route path="/admin/updateExam/examdetails/question-topicView/edit-question/:questionId/:TopicId/:topicName/:examId" element={<QuestionMaster/>}/>
 
           {/* QUESTION */}
 
@@ -80,6 +81,7 @@ function App() {
 
         <Route path="user" element={<User />} />
         <Route path="/user/listexamsforuser" element={<ListOfExamsForUser />} />
+        <Route path="/user/examdashboard" element={<ExamsDashboard/>} />
 
 
       </Routes>

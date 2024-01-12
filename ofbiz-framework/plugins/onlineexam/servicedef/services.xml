@@ -119,7 +119,7 @@
 		<auto-attributes include="pk" mode="OUT"
 			optional="false" />
 		<auto-attributes include="nonpk" mode="IN"
-			optional="false" />
+			optional="true" />
 	</service>
 
 	<!-- QuestionMasterUpdateService -->

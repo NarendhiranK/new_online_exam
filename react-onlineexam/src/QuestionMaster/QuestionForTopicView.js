@@ -1,34 +1,45 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import "../QuestionMaster/QuestionForTopicView.css";
 import useStateRef from "react-usestateref";
 import { control, pluginName, port, protocol } from "../constants";
+import QuestionMaster from "./QuestionMaster";
 
 const QuestionForTopicView = () => {
   const params = useParams();
   const TopicId = params.topicId;
+  console.log("Topic Id.....>", TopicId);
   const examId = params.examId;
+  console.log("Params exam Id...........>", examId);
   const [questionData, setQuestionData] = useState([]);
   const [topicName, setTopicName] = useState("");
+  const [questionId, setQuestionId] = useState("");
   const [hasError, setHasError, hasNoError] = useStateRef(false);
   const navigate = useNavigate();
 
 
-  const questionEdit=(questionId)=>{
-    let map={
-      questionId:questionId
+  const questionEdit = (questionId) => {
+    setQuestionId(questionId)
+    let map = {
+      questionId: questionId
     }
 
-    
+    if (questionId != null) {
+      // <QuestionMaster />
+    }
+    // {<QuestionMaster/>}
+
+    navigate(`/admin/updateExam/examdetails/question-topicView/edit-question/${questionId}/${TopicId}/${topicName}/${examId}`);
   }
 
   function deleteQuestion(questionId) {
+
     let map = {
       questionId: questionId,
     };
 
-    fetch(protocol+"://"+window.location.hostname+":"+port+pluginName+control+"/deleteQuestionMaster", {
+    fetch(protocol + "://" + window.location.hostname + ":" + port + pluginName + control + "/deleteQuestionMaster", {
       method: "DELETE",
       credentials: "include",
       body: JSON.stringify(map),
@@ -44,12 +55,12 @@ const QuestionForTopicView = () => {
       });
   }
 
-  
+
   function QuestionDetails() {
     const map = {
       topicId: TopicId,
     };
-    fetch(protocol+"://"+window.location.hostname+":"+port+pluginName+control+"/viewQuestions", {
+    fetch(protocol + "://" + window.location.hostname + ":" + port + pluginName + control + "/viewQuestions", {
       method: "POST",
       credentials: "include",
       body: JSON.stringify(map),
@@ -59,17 +70,15 @@ const QuestionForTopicView = () => {
     })
       .then(response => {
         return response.json();
-      })
-      .then((data) => {
-        console.log("data...>",data);
+      }).then((data) => {
+        console.log("data...>", data);
         const myobj = data.resultMap.listQuestions;
-        
         const topicname = data.topicName;
-    
+
         setQuestionData(myobj);
         setTopicName(topicname);
-        console.log("topic Name...",topicName);
-        console.log("myobj...",myobj);
+        console.log("topic Name...", topicName);
+        console.log("myobj...", myobj);
       });
   }
   useEffect(() => {
@@ -82,8 +91,8 @@ const QuestionForTopicView = () => {
       </h6>
 
       <button
-        className="btn btn-primary w-25 align-items-right offset-8" 
-        onClick={()=>navigate(`/admin/updateExam/examdetails/question-topicView/add-questions/${TopicId}/${topicName}`)}
+        className="btn btn-primary w-25 align-items-right offset-8"
+        onClick={() => navigate(`/admin/updateExam/examdetails/question-topicView/add-questions/${TopicId}/${topicName}`)}
       >
         Add Question
       </button>
@@ -103,7 +112,7 @@ const QuestionForTopicView = () => {
                   </table>
                 </div>
                 <div className="col-4">
-                  <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="" onClick={()=>questionEdit(obj.questionId)}>Edit</button>
+                  <button className="btn btn-primary" id="editbtn" onClick={() => questionEdit(obj.questionId)}>Edit</button>
                   <button
                     className="btn btn-primary mx-2"
                     onClick={() =>
@@ -141,9 +150,27 @@ const QuestionForTopicView = () => {
         Back
       </button>
 
-          <div>
-            {/* modal takes place here */}
+      <div>
+        {/* modal takes place here */}
+        <div class="modal fade show" tabindex="-1" id="modalId">
+          <div class="modal-dialog modal-xl ">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                {/* <QuestionMaster questionId={questionId} topicName={topicName}/> */}
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
           </div>
+        </div>
+
+      </div>
     </div>
   );
 };

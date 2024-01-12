@@ -6,6 +6,7 @@ import { control, pluginName, port, protocol } from "../constants";
 const ExamTopicMappingView = () => {
   const params = useParams();
   const examId = params.examId;
+  console.log("Exam Id..........>",examId);
   const topicId = params.topicId;
   const [data, setData] = useState("");
   const [topicname,settopicName]=useState("");

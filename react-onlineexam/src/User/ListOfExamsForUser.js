@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 const ListOfExamsForUser = () => {
+    const navigate = useNavigate();
     const [examList, setExamList] = useState([]);
     const [userExamList, setUserExamList] = useState([]);
     function examsList() {
@@ -16,11 +18,11 @@ const ListOfExamsForUser = () => {
                 console.log("ListOfExamsForUser data =============>", data);
                 setExamList(data.examDetailsResultList);
                 setUserExamList(data.listOfExamsForUser);
-                userExamList.map((obj,value)=>{
-                    console.log("Obj values",obj);
+                userExamList.map((obj, value) => {
+                    console.log("Obj values", obj);
                 })
-                console.log("The state is....",userExamList);
-                console.log("allowed attemps",userExamList.allowedAttempts);
+                console.log("The state is....", userExamList);
+                console.log("allowed attemps", userExamList.allowedAttempts);
 
             })
             .catch((error) => console.log(error));
@@ -28,6 +30,14 @@ const ListOfExamsForUser = () => {
     useEffect(() => {
         examsList()
     }, [])
+
+    const examDetails = (questionId) => {
+        let map = {
+            questionId: questionId
+        }
+
+
+    }
 
     return (
         <div className='container'>
@@ -49,10 +59,10 @@ const ListOfExamsForUser = () => {
                         <tbody key={exam.perExamDetails.examId}>
                             <tr className="border border-dark">
                                 <td>{exam.perExamDetails.examName}</td>
-                                <td>{exam.perExamDetails.description}</td>
+                                <td>{exam.perExamDetails.durationMinutes}</td>
                                 <td>{exam.perExamDetails.expirationDate}</td>
-                                <td><button className="btn btn-primary" data-bs-target="#modalId" onClick={()=>examDetails(exam.perExamDetails.examId)} data-bs-toggle="modal">Details</button></td>
-                                <td><button className="btn btn-primary">Take Exam</button></td>
+                                <td><button className="btn btn-primary" data-bs-target="#modalId" onClick={() => examDetails(exam.perExamDetails.examId)} data-bs-toggle="modal">Details</button></td>
+                                <td><button className="btn btn-primary" onClick={() => navigate("/user/examdashboard")}>Take Exam</button></td>
 
                             </tr>
                         </tbody>
@@ -65,7 +75,7 @@ const ListOfExamsForUser = () => {
                     <div class="modal-dialog modal-xl">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Modal title</h5>
+                                <h5 class="modal-title">Exam Details :</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">

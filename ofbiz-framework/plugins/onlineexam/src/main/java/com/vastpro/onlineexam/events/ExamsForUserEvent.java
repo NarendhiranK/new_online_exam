@@ -31,7 +31,6 @@ public class ExamsForUserEvent {
 		List<Map<String, Object>> examList = new LinkedList<Map<String, Object>>();
 
 		try {
-
 			List<GenericValue> listOfExamsForUser = EntityQuery.use(delegator)
 					.from(ConstantValue.USER_EXAM_MAPPING_MASTER).where(ConstantValue.PARTY_ID, partyId).cache()
 					.queryList();
@@ -42,7 +41,7 @@ public class ExamsForUserEvent {
 				request.setAttribute(ConstantValue.ERROR_MESSAGE, "There are no exams alloted for this user");
 			}
 
-			List<String> examIds = new ArrayList<>();
+ 			List<String> examIds = new ArrayList<>();
 			for (GenericValue perExamFromList : listOfExamsForUser) {
 				String examId = (String) perExamFromList.get(ConstantValue.EXAM_ID);
 				examIds.add(examId);

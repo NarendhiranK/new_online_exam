@@ -3,34 +3,163 @@ import { useNavigate, useParams } from "react-router-dom";
 import useStateRef from "react-usestateref";
 import { control, pluginName, port, protocol } from "../constants";
 
-const QuestionMaster = () => {
+const QuestionMaster = (props) => {
+
+
   const params = useParams();
-  const TopicId = params.topicId;
-  console.log("TopicId...>",params.topicId);
+  const questionId = params.questionId;
+  console.log("Props question Id.......", questionId);
+
+  const topicId = params.topicId;
+  console.log("TopicId...>", params.TopicId);
   const examId = params.examId;
+  console.log("topic Id..............>",topicId);
+  console.log("Exam Id..............>",examId);
   const topicName = params.topicName;
+  const TopicName=props.topicName;
+  console.log("this is props topic name",TopicName);
   const [questionData, setQuestionData] = useState([]);
-  const [enumerationData,setEnumerationData]=useState([]);
+  const [enumerationData, setEnumerationData] = useState([]);
   // const [topicName, setTopicName] = useState("");
   const [hasError, setHasError, hasNoError] = useStateRef(false);
   const [hasquestionType, setQuestionType] = useState("01");
   const navigate = useNavigate();
-  console.log("State is",hasquestionType);
+  console.log("State is", hasquestionType);
+
+  //Edit Question useStates()
+  const [editTopicId, editSetTopicId] = useState("");
+  const [editQuestionId, editSetQuestionId] = useState("");
+  const [editQuestionDetail, editSetQuestionDetail] = useState("");
+  const [editOptionA, editSetOptionA] = useState("");
+  const [editOptionB, editSetOptionB] = useState("");
+  const [editOptionC, editSetOptionC] = useState("");
+  const [editOptionD, editSetOptionD] = useState("");
+  const [editOptionE, editSetOptionE] = useState("");
+  const [editAnswer, editSetAnswer] = useState("");
+  const [editNumAnswers, editSetNumAnswers] = useState("");
+  const [editQuestionType, editSetQuestionType] = useState("");
+  const [editDifficultyLevel, editSetDifficultyLevel] = useState("");
+  const [editAnswerValue,editSetAnswerValue] = useState("");
+  const [editNegativeMarkValue,editSetNegativeMarkvalue] = useState("");
 
 
-  function enumerationRecords(){
-    fetch("https://localhost:8443/onlineexam/control/retrieveEnumerationListEvent")
-    .then((response) => {
+
+
+  function questionDetails() {
+    const map = {
+      questionId: questionId,
+    };
+    console.log("map....", map);
+    fetch(
+      protocol + "://" + window.location.hostname + ":" + port + pluginName + control + "/questionMasterList",
+      {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify(map),
+        headers: {
+          "Content-type": "application/json",
+        },
+      }
+    ).then(response => {
       return response.json();
+    }).then(data => {
+      console.log("Question Master Incoming Data ===== >>>>>", data);
+      const output = data.getRecord;
+      console.log("Question Master Output data =========>", output);
+
+      if(output!==null || output!==undefined){
+      console.log("question-<>Id", output.questionId);
+      console.log("Option A", output.optionA);
+      console.log("logging topic id from fetch.... ", output.topicId);
+
+      
+      editSetTopicId(output.topicId);
+      editSetQuestionId(output.questionId);
+      editSetQuestionDetail(output.questionDetail);
+      editSetOptionA(output.optionA);
+      editSetOptionB(output.optionB);
+      editSetOptionC(output.optionC);
+      editSetOptionD(output.optionD);
+      editSetOptionE(output.optionE);
+      editSetAnswer(output.answer);
+      editSetNumAnswers(output.numAnswers);
+      editSetQuestionType(output.questionType);
+      editSetDifficultyLevel(output.difficultyLevel);
+      editSetAnswerValue(output.answerValue);
+      editSetNegativeMarkvalue(output.negativeMarkValue);
+      
+
+    }
+
     })
-    .then((data) => {
-      // setData(data.ExamData);
-      // const res = data.ExamData;
-      const res=data.resultMap;
-      setEnumerationData(res);
-      console.log("data...>",enumerationData);
-      console.log("res....", res);
-    }).catch(err=>console.log(err));
+  }
+
+  useEffect(() => {
+    
+    if(questionId!==undefined){
+      questionDetails();
+    }
+    else{
+      editSetTopicId("");
+      editSetQuestionId("");
+      editSetQuestionDetail("");
+      editSetOptionA("");
+      editSetOptionB("");
+      editSetOptionC("");
+      editSetOptionD("");
+      editSetOptionE("");
+      editSetAnswer("");
+      editSetNumAnswers("");
+      editSetQuestionType("");
+      editSetDifficultyLevel("");
+      editSetAnswerValue("");
+      editSetNegativeMarkvalue("");
+
+    }
+  }, []);
+
+  console.log("TOPIC ID :::",editTopicId);
+      console.log("QuestionId :::",editQuestionId);
+      console.log("QuestionDetail :::",editQuestionDetail);
+      console.log("OptionA :::",editOptionA);
+      console.log("OptionB :::",editOptionB);
+      console.log("OptionC :::",editOptionC);
+      console.log("OptionD :::",editOptionD);
+      console.log("OptionE :::",editOptionE);
+      console.log("Answer :::",editAnswer);
+      console.log("NumAnswers :::",editNumAnswers);
+      console.log("QuestionType :::",editQuestionType);
+      console.log("DifficultyLevel :::",editDifficultyLevel);
+      console.log("AnswerValue :::",editAnswerValue);
+      console.log("NegativeMarkValue :::",editNegativeMarkValue);
+
+  function getquestionDetails() {
+    fetch("https://localhost:8443/onlineexam/control/examMasterListEvent")
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        // setData(data.ExamData);
+        console.log(data);
+      });
+  }
+
+  useEffect(() => {
+    getquestionDetails();
+  }, []);
+  function enumerationRecords() {
+    fetch("https://localhost:8443/onlineexam/control/retrieveEnumerationListEvent")
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        // setData(data.ExamData);
+        // const res = data.ExamData;
+        const res = data.resultMap;
+        setEnumerationData(res);
+        console.log("data...>", enumerationData);
+        console.log("res....", res);
+      }).catch(err => console.log(err));
   }
 
   useEffect(() => {
@@ -41,7 +170,7 @@ const QuestionMaster = () => {
       questionId: questionId,
     };
 
-    fetch(protocol+"://"+window.location.hostname+":"+port+pluginName+control+"/deleteQuestionMaster", {
+    fetch(protocol + "://" + window.location.hostname + ":" + port + pluginName + control + "/deleteQuestionMaster", {
       method: "DELETE",
       credentials: "include",
       body: JSON.stringify(map),
@@ -58,16 +187,16 @@ const QuestionMaster = () => {
   }
 
   const submittingForm = (e) => {
-    
+
     e.preventDefault();
     console.log("Submitting form called....>");
-    const formElement=document.getElementById('myform');
+    const formElement = document.getElementById('myform');
     const data = new FormData(formElement);
     handleErrors();
     const validateQuestionMaster = (key, value) => {
 
       switch (key) {
-    
+
         case "questionDetail":
           {
             if (value === null || value === "") {
@@ -163,9 +292,9 @@ const QuestionMaster = () => {
           }
           break;
 
-        
 
-          case "difficultyLevel":
+
+        case "difficultyLevel":
           {
             if (value === null || value === "") {
               document.getElementById("p11").classList.remove("d-none");
@@ -177,7 +306,7 @@ const QuestionMaster = () => {
           }
           break;
 
-          case "answerValue":
+        case "answerValue":
           {
             if (value === null || value === "") {
               document.getElementById("p12").classList.remove("d-none");
@@ -189,22 +318,22 @@ const QuestionMaster = () => {
           }
           break;
 
-        
 
-            case "negativeMarkValue":
-              {
-                if (value === null || value === "") {
-                  document.getElementById("p13").classList.remove("d-none");
-                  document.getElementById("p13").classList.add("d-block");
-                  document.getElementById("p13").innerHTML =
-                    "Please enter a negativeMarkValue";
-                  setHasError(true);
-                }
-                else{
-                  let regexx=new RegExp('');
-                }
-              }
-              break;
+
+        case "negativeMarkValue":
+          {
+            if (value === null || value === "") {
+              document.getElementById("p13").classList.remove("d-none");
+              document.getElementById("p13").classList.add("d-block");
+              document.getElementById("p13").innerHTML =
+                "Please enter a negativeMarkValue";
+              setHasError(true);
+            }
+            else {
+              let regexx = new RegExp('');
+            }
+          }
+          break;
 
 
         default: {
@@ -228,7 +357,7 @@ const QuestionMaster = () => {
     const numAnswers = data.get("numAnswers");
     const difficultyLevel = data.get("difficultyLevel");
     const answerValue = data.get("answerValue");
-   const questionType=data.get("questionType");
+    const questionType = data.get("questionType");
     const negativeMarkValue = data.get("negativeMarkValue");
 
     // const topicId=data.get("topicId");
@@ -247,11 +376,11 @@ const QuestionMaster = () => {
       questionType: questionType,
       difficultyLevel: difficultyLevel,
       answerValue: answerValue,
-      topicId: TopicId,
+      topicId: topicId,
       negativeMarkValue: negativeMarkValue,
     };
 
-    console.log("map",map);
+    console.log("map", map);
 
     if (!hasNoError.current) {
       fetch(
@@ -266,23 +395,23 @@ const QuestionMaster = () => {
         }
       )
         .then((response) => {
-          console.log("Respponse....>",response);
+          console.log("Respponse....>", response);
           return response.json();
           // window.location.reload();
         })
-        .then(data=>{
-          console.log("Response data....>",data)
+        .then(data => {
+          console.log("Response data....>", data)
           document.getElementById('p1').classList.add('d-none');
-          if(data.Error_Msg){
-              document.getElementById('p1').classList.remove('d-none');
-              document.getElementById('p1').classList.add('d-block');
-              document.getElementById('p1').innerHTML="No more questions to be added to this topic..";
+          if (data.Error_Msg) {
+            document.getElementById('p1').classList.remove('d-none');
+            document.getElementById('p1').classList.add('d-block');
+            document.getElementById('p1').innerHTML = "No more questions to be added to this topic..";
           }
 
-          if(data._SUCCESS_MESSAGE){
+          if (data._SUCCESS_MESSAGE) {
             document.getElementById('p2').classList.remove('d-none');
             document.getElementById('p2').classList.add('d-block');
-            document.getElementById('p2').innerHTML="Question to be added to this topic is done successfully..";
+            document.getElementById('p2').innerHTML = "Question to be added to this topic is done successfully..";
           }
         })
 
@@ -290,7 +419,7 @@ const QuestionMaster = () => {
     }
 
     function handleErrors() {
-     
+
       document.getElementById("p1").classList.add("d-none");
       document.getElementById("p2").classList.add("d-none");
       document.getElementById("p3").classList.add("d-none");
@@ -300,11 +429,11 @@ const QuestionMaster = () => {
       document.getElementById("p7").classList.add("d-none");
       document.getElementById("p8").classList.add("d-none");
       document.getElementById("p9").classList.add("d-none");
-      
+
       document.getElementById("p11").classList.add("d-none");
       document.getElementById("p12").classList.add("d-none");
       document.getElementById("p13").classList.add("d-none");
-      
+
 
       setHasError(false);
     }
@@ -318,7 +447,7 @@ const QuestionMaster = () => {
         <div className="col-10 mx-auto">
           <form className="d-flex" id="myform" onSubmit={submittingForm}>
             <div className="col-5">
-      
+
               <div className="mb-3">
                 <label
                   htmlFor="exampleInputEmail1"
@@ -328,7 +457,7 @@ const QuestionMaster = () => {
                 </label>
                 <textarea
                   className="form-control"
-                 
+                  value={editQuestionDetail}
                   name="questionDetail"
                   placeholder="questionDetail"
                   id="questionDetail"
@@ -346,6 +475,7 @@ const QuestionMaster = () => {
 
                 <textarea
                   className="form-control"
+                  value={editAnswer}
                   name="answer"
                   placeholder="answer "
                   id="answer"
@@ -365,6 +495,7 @@ const QuestionMaster = () => {
                 <input
                   type="text"
                   id="numAnswers"
+                  value={editNumAnswers}
                   placeholder="num of answers"
                   name="numAnswers"
                   className="form-control"
@@ -382,6 +513,7 @@ const QuestionMaster = () => {
                 <input
                   type="text"
                   name="difficultyLevel"
+                  value={editDifficultyLevel}
                   placeholder="difficulty level"
                   id="difficultyLevel"
                   className="form-control"
@@ -400,6 +532,7 @@ const QuestionMaster = () => {
                   name="answerValue"
                   placeholder="answer value"
                   id="answerValue"
+                  value={editAnswerValue}
                   className="form-control"
                 />
                 <p id="p12" className="text-danger"></p>
@@ -418,12 +551,12 @@ const QuestionMaster = () => {
                   id="topicId"
                   name="topicId"
                   className="form-control"
-                  value={TopicId}
+                  value={editTopicId}
                   hidden
                   readOnly
                 />
 
-      
+
               </div>
 
               <div className="mb-3">
@@ -443,12 +576,13 @@ const QuestionMaster = () => {
                   readOnly
                 />
 
-                             </div>
+              </div>
               <button
                 type="submit"
                 className="btn btn-primary "
-                onClick={()=>navigate(`/admin/updateExam/examdetails/question-topicView/${TopicId}`)}
+                onClick={() => navigate(-1)}
               >
+
                 Back
               </button>
             </div>
@@ -490,173 +624,178 @@ const QuestionMaster = () => {
 
               <div className="form-group mt-3">
                 <label htmlFor="" className="form-label float-start">Question Type</label>
-              <select name="questionType" id="" className="form-select" 
-               onChange={(e) => {
-                setQuestionType(e.target.value);
-                console.log(e.target.value);
-              }}>
-                Choose Exam
-                {enumerationData
-                  ? enumerationData.map((obj, value) => {
+                <select name="questionType" id="" className="form-select"
+                  onChange={(e) => {
+                    setQuestionType(e.target.value);
+                    console.log(e.target.value);
+                  }}>
+                  Choose Exam
+                  {enumerationData
+                    ? enumerationData.map((obj, value) => {
                       return <option value={obj.enumId} name={obj.description} >{obj.description}</option>;
                     })
-                  : ""}
-              </select>
-            </div>
-            
-              {
-                hasquestionType === "01" || hasquestionType === "02"   ? (
-                <div>
-                  <div className="mb-3">
-                    <label
-                      htmlFor="exampleInputEmail1"
-                      className="form-label float-start"
-                    >
-                      Option A:
-                    </label>
-                    <textarea
-                      className="form-control"
-                      name="optionA"
-                      placeholder="Option A"
-                      id="optionA"
-                      rows="1"
-                    ></textarea>
-
-                    <p id="p3" className="text-danger"></p>
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="" className="form-label float-start">
-                      Option B:
-                    </label>
-
-                    <textarea
-                      className="form-control"
-                      name="optionB"
-                      placeholder="option B"
-                      id="optionB"
-                      rows="1"
-                    ></textarea>
-
-                    <p id="p4" className="text-danger"></p>
-                  </div>
-                  <div className="mb-3">
-                    <label
-                      htmlFor="exampleInputEmail1"
-                      className="form-label float-start"
-                    >
-                      optionC:
-                    </label>
-
-                    <textarea
-                      className="form-control"
-                      name="optionC"
-                      placeholder="option C"
-                      id="optionC"
-                      rows="1"
-                    ></textarea>
-
-                    <p id="p5" className="text-danger"></p>
-                  </div>
-                  <div className="mb-3">
-                    <label
-                      htmlFor="exampleInputPassword1"
-                      className="form-label float-start"
-                    >
-                      Option D:
-                    </label>
-
-                    <textarea
-                      className="form-control"
-                      name="optionD"
-                      placeholder="option D"
-                      id="optionD"
-                      rows="1"
-                    ></textarea>
-
-                    <p id="p6" className="text-danger"></p>
-                  </div>
-                  <div className="mb-3">
-                    <label
-                      htmlFor="exampleInputPassword1"
-                      className="form-label float-start"
-                    >
-                      Option E:
-                    </label>
-
-                    <textarea
-                      className="form-control"
-                      name="optionE"
-                      placeholder="option E"
-                      id="optionE"
-                      rows="1"
-                    ></textarea>
-
-                    <p id="p7" className="text-danger"></p>
-                  </div>
-                </div>
-              ) : (
-               <></>
-              )}
-
+                    : ""}
+                </select>
+              </div>
 
               {
-              hasquestionType === "03" ? (
-                <div>
+                hasquestionType === "01" || hasquestionType === "02" ? (
                   <div>
                     <div className="mb-3">
                       <label
                         htmlFor="exampleInputEmail1"
                         className="form-label float-start"
                       >
-                        Question Detail:
+                        Option A:
                       </label>
                       <textarea
                         className="form-control"
-                        name="questionDetail"
-                        placeholder="questionDetail"
-                        id="questionDetail"
-                        rows="3"
+                        name="optionA"
+                        placeholder="Option A"
+                        id="optionA"
+                        value={editOptionA}
+                        rows="1"
                       ></textarea>
-                      <p id="p2" className="text-danger"></p>
-                    </div>
-                    <div>
-                      <div
-                        class="btn-group"
-                        role="group"
-                        aria-label="Basic checkbox toggle button group"
-                      >
-                        <input
-                          type="radio"
-                          class="btn-check"
-                          name="btnradio"
-                          id="btncheck1"
-                          autocomplete="off"
-                        />
-                        <label class="btn btn-outline-primary" for="btncheck1">
-                          True
-                        </label>
 
-                        <input
-                          type="radio"
-                          class="btn-check"
-                          name="btnradio"
-                          id="btncheck2"
-                          autocomplete="off"
-                        />
-                        <label class="btn btn-outline-primary" for="btncheck2">
-                          False
+                      <p id="p3" className="text-danger"></p>
+                    </div>
+                    <div className="mb-3">
+                      <label htmlFor="" className="form-label float-start">
+                        Option B:
+                      </label>
+
+                      <textarea
+                        className="form-control"
+                        name="optionB"
+                        placeholder="option B"
+                        id="optionB"
+                        value={editOptionB}
+                        rows="1"
+                      ></textarea>
+
+                      <p id="p4" className="text-danger"></p>
+                    </div>
+                    <div className="mb-3">
+                      <label
+                        htmlFor="exampleInputEmail1"
+                        className="form-label float-start"
+                      >
+                        optionC:
+                      </label>
+
+                      <textarea
+                        className="form-control"
+                        name="optionC"
+                        placeholder="option C"
+                        id="optionC"
+                        value={editOptionC}
+                        rows="1"
+                      ></textarea>
+
+                      <p id="p5" className="text-danger"></p>
+                    </div>
+                    <div className="mb-3">
+                      <label
+                        htmlFor="exampleInputPassword1"
+                        className="form-label float-start"
+                      >
+                        Option D:
+                      </label>
+
+                      <textarea
+                        className="form-control"
+                        name="optionD"
+                        placeholder="option D"
+                        id="optionD"
+                        value={editOptionD}
+                        rows="1"
+                      ></textarea>
+
+                      <p id="p6" className="text-danger"></p>
+                    </div>
+                    <div className="mb-3">
+                      <label
+                        htmlFor="exampleInputPassword1"
+                        className="form-label float-start"
+                      >
+                        Option E:
+                      </label>
+
+                      <textarea
+                        className="form-control"
+                        name="optionE"
+                        placeholder="option E"
+                        id="optionE"
+                        value={editOptionE}
+                        rows="1"
+                      ></textarea>
+
+                      <p id="p7" className="text-danger"></p>
+                    </div>
+                  </div>
+                ) : (
+                  <></>
+                )}
+
+
+              {
+                hasquestionType === "03" ? (
+                  <div>
+                    <div>
+                      <div className="mb-3">
+                        <label
+                          htmlFor="exampleInputEmail1"
+                          className="form-label float-start"
+                        >
+                          Question Detail:
                         </label>
+                        <textarea
+                          className="form-control"
+                          name="questionDetail"
+                          placeholder="questionDetail"
+                          id="questionDetail"
+                          rows="3"
+                        ></textarea>
+                        <p id="p2" className="text-danger"></p>
+                      </div>
+                      <div>
+                        <div
+                          class="btn-group"
+                          role="group"
+                          aria-label="Basic checkbox toggle button group"
+                        >
+                          <input
+                            type="radio"
+                            class="btn-check"
+                            name="btnradio"
+                            id="btncheck1"
+                            autocomplete="off"
+                          />
+                          <label class="btn btn-outline-primary" for="btncheck1">
+                            True
+                          </label>
+
+                          <input
+                            type="radio"
+                            class="btn-check"
+                            name="btnradio"
+                            id="btncheck2"
+                            autocomplete="off"
+                          />
+                          <label class="btn btn-outline-primary" for="btncheck2">
+                            False
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ) : (
-                <></>
-              )}
-              
+                ) : (
+                  <></>
+                )}
+
               {/* <p id="p10" className="text-danger"></p> */}
 
-{/*               
+              {/*               
                 {
                   hasquestionType === "answerinDetail" ? (
                     <div>
@@ -699,10 +838,10 @@ const QuestionMaster = () => {
                     <></>
                   )
                 } */}
-            
-            
-              
-                {/* {hasquestionType === "fillintheblankhs" ? (
+
+
+
+              {/* {hasquestionType === "fillintheblankhs" ? (
                   <div>
                     <div className="mb-3">
                     <label
@@ -743,7 +882,7 @@ const QuestionMaster = () => {
                   <></>
                 )
                 } */}
-            
+
 
               <div className="mb-3 my-3">
                 <label
@@ -756,6 +895,7 @@ const QuestionMaster = () => {
                   type="text"
                   placeholder="Negativemarkvalue eg(0.25)"
                   id="negativeMarkValue"
+                  value={editNegativeMarkValue}
                   name="negativeMarkValue"
                   className="form-control"
                 />

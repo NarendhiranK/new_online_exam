@@ -40,12 +40,12 @@ const GetExams = () => {
 
   const ExamDetails = (examId) => {
     console.log("examId", examId);
-    let map={
-      examId : examId,
+    let map = {
+      examId: examId,
     }
 
     const response = fetch(
-      protocol+"://"+window.location.hostname+":"+port+pluginName+control+"/examMasterListEvent",
+      protocol + "://" + window.location.hostname + ":" + port + pluginName + control + "/examMasterListEvent",
       {
         method: "POST",
         credentials: "include",
@@ -81,7 +81,7 @@ const GetExams = () => {
           setnegativemarkvalue(obj.negativeMarkValue);
         });
         // document.getElementById("modalId").click();
-       
+
       });
   };
 
@@ -123,19 +123,19 @@ const GetExams = () => {
       enableNegativeMark: enableNegativeMark,
       negativeMarkValue: negativeMarkValue,
     };
-    console.log("handlew submit map....>",map);
+    console.log("handlew submit map....>", map);
     if (!hasNoError.current) {
-         map.examId=examId;
-         console.log("update exam map...>",map)
-        fetch(protocol+"://"+window.location.hostname+":"+port+pluginName+control+"/examMasterEvent", {
-          method: "POST",
-          credentials: "include",
-          body: JSON.stringify(map),
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-        })
+      map.examId = examId;
+      console.log("update exam map...>", map)
+      fetch(protocol + "://" + window.location.hostname + ":" + port + pluginName + control + "/examMasterEvent", {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify(map),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      })
         .then((data) => {
           if (data._EVENT_MESSAGE_) {
             document.getElementById("h6").classList.remove("d-none");
@@ -143,7 +143,7 @@ const GetExams = () => {
             document.getElementById("h6").innerHTML =
               "Exam updated successfully..";
           }
-          console.log("data",data);
+          console.log("data", data);
           // window.location.reload();
           document.getElementById('butn1').click();
           var element = document.getElementById("myform");
@@ -327,12 +327,12 @@ const GetExams = () => {
                       onClick={() => ExamDetails(obj.examId)}
                       data-bs-toggle="modal"
                       data-bs-target="#modalSubscriptionForm"
-                      // id="modalId"
+                    // id="modalId"
                     >
                       Edit
                     </button>
                   </td>
-                  
+
                   <td>
                     <button
                       className="btn btn-primary"
@@ -344,7 +344,7 @@ const GetExams = () => {
                   <td>
                     <button
                       className="btn btn-danger"
-                      // onClick={() => deleteRows(obj.examId)}
+                    // onClick={() => deleteRows(obj.examId)}
                     >
                       Delete
                     </button>
@@ -379,7 +379,7 @@ const GetExams = () => {
             data-dismiss="modal"
             aria-label="Close"
             id="butn1"
-            // onClick={getExams()}
+          // onClick={getExams()}
           >
             Close
           </button>
@@ -412,7 +412,7 @@ const GetExams = () => {
                         placeholder="ExamId eg-1"
                         value={examid}
                         hidden
-                        // onChange={(e)=>setFormValues.examId(e.target.value)}
+                      // onChange={(e)=>setFormValues.examId(e.target.value)}
                       />
                       <p id="p1" className="text-danger"></p>
                     </div>
@@ -448,8 +448,8 @@ const GetExams = () => {
                         placeholder="Description"
                         name="description"
                         value={description}
-                        onChange={(e)=>setdescription(e.target.value)}
-                        // defaultValue={description}
+                        onChange={(e) => setdescription(e.target.value)}
+                      // defaultValue={description}
                       />
                       <p id="p3" className="text-danger"></p>
                     </div>
@@ -463,7 +463,7 @@ const GetExams = () => {
                         className="form-control"
                         name="creationDate"
                         value={creationdate}
-                        onChange={(e)=>setcreationdate(e.target.value)}
+                        onChange={(e) => setcreationdate(e.target.value)}
                       />
                       <p id="p4" className="text-danger"></p>
                     </div>
@@ -480,7 +480,7 @@ const GetExams = () => {
                         className="form-control"
                         name="expirationDate"
                         value={expirationdate}
-                        onChange={(e)=>setexpirationdate(e.target.value)}
+                        onChange={(e) => setexpirationdate(e.target.value)}
                       />
                       <p id="p5" className="text-danger"></p>
                     </div>
@@ -498,7 +498,7 @@ const GetExams = () => {
                         placeholder="No of questions"
                         name="noOfQuestions"
                         value={noofquestions}
-                        onChange={(e)=>setnoofquestions(e.target.value)}
+                        onChange={(e) => setnoofquestions(e.target.value)}
                       />
                       <p id="p6" className="text-danger"></p>
                     </div>
@@ -520,7 +520,7 @@ const GetExams = () => {
                         className="form-control"
                         readOnly
                         value={durationminutes}
-                        onChange={(e)=>setdurationminutes(e.target.value)}
+                        onChange={(e) => setdurationminutes(e.target.value)}
                       />
                       <p id="p7" className="text-danger"></p>
                     </div>
@@ -538,7 +538,7 @@ const GetExams = () => {
                         name="passPercentage"
                         className="form-control"
                         value={passpercentage}
-                        onChange={(e)=>setpasspercentage(e.target.value)}
+                        onChange={(e) => setpasspercentage(e.target.value)}
                       />
                       <p id="p8" className="text-danger"></p>
                     </div>
@@ -554,7 +554,7 @@ const GetExams = () => {
                         id=""
                         className="form-select"
                         value={questionsrandomized}
-                        onChange={(e)=>e.target.value}
+                        onChange={(e) => e.target.value}
                       >
                         {" "}
                         QuestionsRandomized:
@@ -571,8 +571,8 @@ const GetExams = () => {
                       >
                         Answers Must:
                       </label>
-                      <select name="answersMust" id="" className="form-select" value={answersmust} onChange={(e)=>setanswersmust(e.target.value)}>
-                   
+                      <select name="answersMust" id="" className="form-select" value={answersmust} onChange={(e) => setanswersmust(e.target.value)}>
+
                         QuestionsRandomized:
                         <option value="Y">Yes</option>
                         <option value="N">No</option>
@@ -591,7 +591,7 @@ const GetExams = () => {
                         id=""
                         className="form-select"
                       >
-                       
+
                         QuestionsRandomized:
                         <option value="Y">Yes</option>
                         <option value="N  ">No</option>
@@ -612,7 +612,7 @@ const GetExams = () => {
                         name="negativeMarkValue"
                         className="form-control"
                         value={negativemarkvalue}
-                        onChange={(e)=>setnegativemarkvalue(e.target.value)}
+                        onChange={(e) => setnegativemarkvalue(e.target.value)}
                       />
                       <p id="p12" className="text-danger"></p>
                     </div>
