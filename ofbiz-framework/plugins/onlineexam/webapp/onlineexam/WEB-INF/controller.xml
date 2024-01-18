@@ -91,11 +91,6 @@ language governing permissions and limitations under the License.
 		<response name="error" type="request" value="json" />
 	</request-map>
 
-
-
-
-
-
 	<request-map uri="examMasterEvent">
 		<security https="true" />
 		<event type="java"
@@ -145,15 +140,6 @@ language governing permissions and limitations under the License.
 		<response name="error" type="request" value="json" />
 	</request-map>
 
-	<request-map uri="questionMasterList">
-		<security https="true" auth="false" />
-		<event type="java"
-			path="com.vastpro.onlineexam.events.QuestionMasterListEvent"
-			invoke="questionMasterListEvent" />
-		<response name="success" type="request" value="json" />
-		<response name="error" type="request" value="json" />
-	</request-map>
-
 
 	<request-map uri="CreateorUpdateQuestionMasterEvent">
 		<security https="true" auth="false" />
@@ -167,8 +153,17 @@ language governing permissions and limitations under the License.
 	<request-map uri="deleteQuestionMaster">
 		<security https="true" auth="false" />
 		<event type="java"
-			path="com.vastpro.onlineexam.events.DeleteQuestionMasterEvent"
+			path="com.vastpro.onlineexam.events.QuestionMasterEvent"
 			invoke="deleteQuestion" />
+		<response name="success" type="request" value="json" />
+		<response name="error" type="request" value="json" />
+	</request-map>
+	
+	<request-map uri="questionMasterList">
+		<security https="true" auth="false" />
+		<event type="java"
+			path="com.vastpro.onlineexam.events.QuestionMasterEvent"
+			invoke="questionMasterList" />
 		<response name="success" type="request" value="json" />
 		<response name="error" type="request" value="json" />
 	</request-map>
@@ -232,11 +227,11 @@ language governing permissions and limitations under the License.
 		<response name="error" type="request" value="json" />
 	</request-map>
 
-	<request-map uri="DateTimeClass">
+	<request-map uri="QuestionsForUserRetrieveEvent">
 		<security https="true" auth="false" />
 		<event type="java"
-			path="com.vastpro.onlineexam.additionalevents.DateTimeClass"
-			invoke="currentDateAndTime" />
+			path="com.vastpro.onlineexam.events.QuestionsForUserRetrieveEvent"
+			invoke="questionsForUser" />
 		<response name="success" type="request" value="json" />
 		<response name="error" type="request" value="json" />
 	</request-map>

@@ -76,7 +76,7 @@ const User = () => {
           </ul>
         </div>
       </div>
-      <button type="submit" className="btn btn-primary offset-9" onClick={() => navigate("/user/listexamsforuser")} >
+      <button type="submit" className="btn btn-primary offset-9" onClick={() => navigate("/user/listexams")} >
         Next
       </button>
       <Outlet/>

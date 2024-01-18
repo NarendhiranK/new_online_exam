@@ -119,13 +119,13 @@
 		<auto-attributes include="pk" mode="OUT"
 			optional="false" />
 		<auto-attributes include="nonpk" mode="IN"
-			optional="false" />
+			optional="true" />
 	</service>
 
 	<!-- QuestionMasterUpdateService -->
 	<service name="updateQuestionMaster"
 		default-entity-name="QuestionMaster" engine="entity-auto"
-		invoke="update" auth="true">
+		invoke="update" auth="false">
 		<description>QuestionMasterUpdateService</description>
 		<auto-attributes include="pk" mode="IN"
 			optional="false" />
@@ -186,12 +186,18 @@
 			optional="true"></attribute>
 	</service>
 	
+
+	
 	<service name="listOfQuestionsForTheExam" engine="java"
 		location="com.vastpro.onlineexam.services.QuestionMasterListService"
 		invoke="questionsForExam" auth="false">
-		<description>Find all users</description>
-		<attribute name="QuestionsList" mode="OUT" type="Map"
-			optional="true"></attribute>
+		<description>QuestionsInformation</description>
+		<attribute name="examId" type="String" mode="IN"
+			optional="false"></attribute>
+		<attribute name="examQuestions" type="List" mode="OUT"
+			optional="false"></attribute>
+		<attribute name="request" type="Object" mode="IN"
+			optional="false"></attribute>
 	</service>
 	
 	

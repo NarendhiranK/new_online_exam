@@ -50,7 +50,7 @@ public class CreateorUpdateExamTopicMappingEvent {
 				
 				if(UtilValidate.isNotEmpty(topicId)) {
 					Debug.log("Update service calledd................",module);
-					Map<String,Object>result=dispatcher.runSync("updateTopicMaster",UtilMisc.toMap(ConstantValue.TOPIC_ID,topicId,ConstantValue.TOPIC_NAME,topicName,ConstantValue.USER_LOGIN,userLogin));
+					Map<String,Object>result=dispatcher.runSync("updateTopicMaster",UtilMisc.toMap(ConstantValue.TOPIC_ID,topicId,ConstantValue.TOPIC_NAME,topicName,ConstantValue.USERLOGIN,userLogin));
 				}
 				else {
 					Debug.logVerbose("create service called............",module);
@@ -197,7 +197,7 @@ public class CreateorUpdateExamTopicMappingEvent {
 						Map<String,Object>result=dispatcher.runSync("updateExamTopicMappingMaster",
 								UtilMisc.toMap("examId", examId, "topicId", topicId, "percentage", percentage,
 										"topicPassPercentage", topicPassPercentage, "questionsPerExam",
-										questionsPerExam,ConstantValue.USER_LOGIN,userLogin));
+										questionsPerExam,ConstantValue.USERLOGIN,userLogin));
 						request.setAttribute(ConstantValue.SUCCESS_MESSAGE, result);
 						return "success";
 					}
