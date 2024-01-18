@@ -73,7 +73,7 @@
 		sequenceNum="2" isFlagged="0" /> <UserAttemptAnswerMaster performanceId="10000" 
 		questionId="3" sequenceNum="3" isFlagged="0" /> -->
 
-	<UserExamMappingMaster partyId="10000" examId="1"
+	<!-- <UserExamMappingMaster partyId="10000" examId="1"
 		allowedAttempts="5" noOfAttempts="2" timeOutDays="10" />
 	<UserExamMappingMaster partyId="10000" examId="2"
 		allowedAttempts="5" noOfAttempts="2" timeOutDays="10" />
@@ -89,8 +89,17 @@
 	<UserExamMappingMaster partyId="10011" examId="3"
 		allowedAttempts="5" noOfAttempts="2" timeOutDays="10" />
 	<UserExamMappingMaster partyId="10011" examId="4"
-		allowedAttempts="5" noOfAttempts="2" timeOutDays="10" />
+		allowedAttempts="5" noOfAttempts="2" timeOutDays="10" /> -->
 
+
+	<UserExamMappingMaster partyId="10070" examId="2"
+		allowedAttempts="5" noOfAttempts="2" timeOutDays="10" />
+	<UserExamMappingMaster partyId="10070" examId="3"
+		allowedAttempts="5" noOfAttempts="2" timeOutDays="10" />
+	<UserExamMappingMaster partyId="10070" examId="4"
+		allowedAttempts="5" noOfAttempts="2" timeOutDays="10" />
+	<UserExamMappingMaster partyId="10070" examId="5"
+		allowedAttempts="5" noOfAttempts="2" timeOutDays="10" />
 
 
 
