@@ -29,11 +29,12 @@ public class TopicsForUsersExam {
 			String examid=userexamid.get(i);
 			try {
 				Debug.log("Inside the try block............");
-				List<GenericValue>genericvalues=EntityQuery.use(delegator).from(ConstantValue.EXAM_TOPIC_MAPPING_MASTER).where(ConstantValue.EXAM_ID,examid).cache().queryList();
+				List<GenericValue>genericvalues=EntityQuery.use(delegator).from(ConstantValue.EXAM_TOPIC_MAPPING_MASTER)
+						.where(ConstantValue.EXAM_ID,examid).cache().queryList();
 				for(GenericValue gen : genericvalues) {
 						HashMap<String,Object> listofTopics=new HashMap<>();
 						listofTopics.put("topicId", gen.getString(ConstantValue.TOPIC_ID));
-						Debug.logInfo("TOpic Id..." , gen.getString(ConstantValue.TOPIC_ID).toString());
+						Debug.logInfo("TOpic Id..." , gen.getString(ConstantValue.TOPIC_ID));
 						Listoftopics.add(listofTopics);
 				}
 				

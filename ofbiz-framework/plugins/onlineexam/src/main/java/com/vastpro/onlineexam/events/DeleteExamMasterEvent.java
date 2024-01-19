@@ -13,14 +13,11 @@ import com.vastpro.onlineexam.constants.ConstantValue;
 
 public class DeleteExamMasterEvent {
 
-	/*
-	 * This event is used to delete the record in the exam master entity.
-	 *
-	 * */
 	public static String deleteExamMaster(HttpServletRequest request,HttpServletResponse response) {
 		 Delegator delegator = (Delegator) request.getAttribute(ConstantValue.DELEGATOR);
          LocalDispatcher dispatcher = (LocalDispatcher) request.getAttribute(ConstantValue.DISPATCHER);
          GenericValue userLogin = (GenericValue) request.getSession().getAttribute("userLogin");
+         
          
          String examId=(String)request.getAttribute(ConstantValue.EXAM_ID);
          try {

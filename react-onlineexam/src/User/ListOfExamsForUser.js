@@ -22,12 +22,15 @@ const ListOfExamsForUser = () => {
                 console.log("The state is....",userExamList);
                 console.log("allowed attemps",userExamList.allowedAttempts);
 
-            })
-            .catch((error) => console.log(error));
+            }).catch((error) => console.log(error));
     }
     useEffect(() => {
         examsList()
     }, [])
+
+    const examDetails = () => {
+
+    }
 
     return (
         <div className='container'>
