@@ -6,19 +6,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ofbiz.base.util.UtilHttp;
-import org.apache.ofbiz.base.util.UtilMisc;
+
 import org.apache.ofbiz.base.util.UtilValidate;
 import org.apache.ofbiz.entity.Delegator;
 import org.apache.ofbiz.entity.GenericEntityException;
 import org.apache.ofbiz.entity.GenericValue;
 import org.apache.ofbiz.entity.util.EntityQuery;
-import org.apache.ofbiz.service.GenericServiceException;
+
 import org.apache.ofbiz.service.LocalDispatcher;
 
 import com.vastpro.onlineexam.constants.ConstantValue;
 
 public class UserAttemptMasterEvent {
-	public static final String MODULE = UserExamMappingMasterEvent.class.getName();
+	public static final String MODULE = UserAttemptMasterEvent.class.getName();
 	public static String userAttemptMasterEvent(HttpServletRequest request, HttpServletResponse response) {		
 		Map<String, Object> combinedMap = UtilHttp.getCombinedMap(request);
 		Delegator delegator = (Delegator) combinedMap.get(ConstantValue.DELEGATOR);

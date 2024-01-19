@@ -1,8 +1,27 @@
 import React, { useEffect, useState } from 'react'
+import { control, pluginName, port, protocol } from '../constants';
+import { useNavigate } from 'react-router-dom';
 
 const ListOfExamsForUser = () => {
     const [examList, setExamList] = useState([]);
     const [userExamList, setUserExamList] = useState([]);
+
+    const navigate=useNavigate();
+    const examDetails=(examId)=>{
+
+    }
+    const takeExam=(examId)=>{
+
+        let map={
+            examId : examId
+        }
+
+        console.log("Map............",map);
+
+        navigate(`/user/listquestions/${examId}`);
+       
+         
+    }
     function examsList() {
         fetch("https://localhost:8443/onlineexam/control/examsForUserEvent", {
             method: "GET",
@@ -40,7 +59,7 @@ const ListOfExamsForUser = () => {
                 <thead>
                     <tr className="bg-primary text-light">
                         <th>Exam Name</th>
-                        <th>Duration</th>
+                        <th>Duration Minutes</th>
                         <th>Expiration Date</th>
                         <th></th>
                         <th></th>
@@ -52,10 +71,10 @@ const ListOfExamsForUser = () => {
                         <tbody key={exam.perExamDetails.examId}>
                             <tr className="border border-dark">
                                 <td>{exam.perExamDetails.examName}</td>
-                                <td>{exam.perExamDetails.description}</td>
+                                <td>{exam.perExamDetails.durationMinutes } minutes</td>
                                 <td>{exam.perExamDetails.expirationDate}</td>
                                 <td><button className="btn btn-primary" data-bs-target="#modalId" onClick={()=>examDetails(exam.perExamDetails.examId)} data-bs-toggle="modal">Details</button></td>
-                                <td><button className="btn btn-primary">Take Exam</button></td>
+                                <td><button className="btn btn-primary" onClick={()=>takeExam(exam.perExamDetails.examId)}>Take Exam</button></td>
 
                             </tr>
                         </tbody>

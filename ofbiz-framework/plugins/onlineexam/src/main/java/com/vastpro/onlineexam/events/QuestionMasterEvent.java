@@ -1,22 +1,26 @@
 package com.vastpro.onlineexam.events;
 
 
-import java.util.List;
 
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.ofbiz.base.util.Debug;
 import org.apache.ofbiz.base.util.UtilHttp;
 import org.apache.ofbiz.base.util.UtilMisc;
+import org.apache.ofbiz.base.util.UtilValidate;
 import org.apache.ofbiz.entity.Delegator;
 import org.apache.ofbiz.entity.GenericEntityException;
 import org.apache.ofbiz.entity.GenericValue;
 import org.apache.ofbiz.entity.util.EntityQuery;
 import org.apache.ofbiz.service.GenericServiceException;
 import org.apache.ofbiz.service.LocalDispatcher;
+import org.apache.ofbiz.service.ServiceUtil;
 
 import com.vastpro.onlineexam.constants.ConstantValue;
 
@@ -55,7 +59,13 @@ public class QuestionMasterEvent {
 		String topicId = (String) combinedMap.get(ConstantValue.TOPIC_ID);
 		Debug.log("topicid" + topicId);
 		String negativeMarkValue=(String)combinedMap.get(ConstantValue.NEGATIVE_MARK_VALUE);
+		
+		LocalDateTime dateValue=LocalDateTime.now();
+		Timestamp fromDate=Timestamp.valueOf(dateValue);
+		Debug.log("time stamp value............>" + fromDate);
+			
 		try {		
+			
 			List<GenericValue> questionMasterList = EntityQuery.use(delegator).select(ConstantValue.QUESTION_ID)
 					.from(ConstantValue.QUESTION_MASTER).where(ConstantValue.TOPIC_ID, topicId).queryList();
 			GenericValue genericExamTopicMappingMasterValue = EntityQuery.use(delegator).from(ConstantValue.EXAM_TOPIC_MAPPING_MASTER)
@@ -66,15 +76,13 @@ public class QuestionMasterEvent {
             Map<String,Object> questionMasterParameters =UtilMisc.toMap("questionDetail", questionDetail, "optionA", optionA,
 					"optionB", optionB, "optionC", optionC, "optionD", optionD, "optionE", optionE,
 					"answer", answer, "numAnswers", numAnswers, "questionType", questionType,
-					"difficultyLevel", difficultyLevel,"answerValue",answerValue,"topicId",topicId,ConstantValue.NEGATIVE_MARK_VALUE,negativeMarkValue);
+					"difficultyLevel", difficultyLevel,"answerValue",answerValue,"topicId",topicId,ConstantValue.NEGATIVE_MARK_VALUE,negativeMarkValue,"fromDate",fromDate,"throughDate",null);
 			int count = 0;
 			if (questionMasterList != null) {
-
 				for (GenericValue oneQuestionRecord : questionMasterList) {
 					Long questionNo = (Long) oneQuestionRecord.get(ConstantValue.QUESTION_ID);
 					Debug.logInfo("questionNo", questionNo.toString());
 					count++;
-
 				}
 				if (count <questionsPerExam) {
 					Map<String,Object> result=dispatcher.runSync("createQuestionMaster",questionMasterParameters);
@@ -156,6 +164,56 @@ public class QuestionMasterEvent {
 			return "error";
 		}
 		request.setAttribute("_EVENT_MESSAGE_", "QuestionMaster deleted succesfully.");
+		return "success";
+	}
+	
+	
+	public static String deleteQuestion(HttpServletRequest request,HttpServletResponse response) {
+		
+		String questionId=(String)request.getAttribute(ConstantValue.QUESTION_ID);
+		Delegator delegator=(Delegator)request.getAttribute(ConstantValue.DELEGATOR);
+		LocalDispatcher dispatcher=(LocalDispatcher)request.getAttribute(ConstantValue.DISPATCHER);
+		GenericValue userLogin=(GenericValue)request.getAttribute(ConstantValue.USERLOGIN);
+		
+		LocalDateTime currentDateAndTime=LocalDateTime.now();
+		Timestamp throughDate=Timestamp.valueOf(currentDateAndTime);
+		
+		try {
+			Map<String,Object> result=dispatcher.runSync("updateQuestionMaster",UtilMisc.toMap(ConstantValue.QUESTION_ID,questionId,"throughDate",throughDate));
+			if(ServiceUtil.isSuccess(result)) {
+				request.setAttribute(ConstantValue.SUCCESS_MESSAGE, "record should be updated in the question master successfully");
+			}
+			else {
+				request.setAttribute(ConstantValue.ERROR_MESSAGE, "record should not be updated in the question master suuccessfully ");
+			}
+		} catch (GenericServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "success";
+	}
+	
+	public static String questionMasterList(HttpServletRequest request,HttpServletResponse response) {
+		
+		
+		Delegator delegator=(Delegator)request.getAttribute(ConstantValue.DELEGATOR);
+		LocalDispatcher dispatcher=(LocalDispatcher)request.getAttribute(ConstantValue.DISPATCHER);
+		
+		
+		List<GenericValue> listOfQuestions=null;
+		try {
+			listOfQuestions = EntityQuery.use(delegator).from(ConstantValue.QUESTION_MASTER).where("throughDate",null).queryList();
+		} catch (GenericEntityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(UtilValidate.isNotEmpty(listOfQuestions)) {
+			request.setAttribute(ConstantValue.SUCCESS_MESSAGE, listOfQuestions);
+			}
+		else{
+			request.setAttribute(ConstantValue.ERROR_MESSAGE ,listOfQuestions);
+			}
+		
 		return "success";
 	}
 

@@ -284,7 +284,13 @@ const QuestionMaster = () => {
             document.getElementById('p2').classList.add('d-block');
             document.getElementById('p2').innerHTML="Question to be added to this topic is done successfully..";
           }
+
+          const element=document.getElementById('myform')
+          element.reset();    
+          
         })
+
+       
 
         .catch((err) => console.log("ERROR FROM FETCH", err));
     }
