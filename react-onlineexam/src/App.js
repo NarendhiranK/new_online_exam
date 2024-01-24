@@ -23,6 +23,7 @@ import EditExam from "./ExamMaster/EditExam";
 import ListOfExamsForUser from "./User/ListOfExamsForUser";
 import { control, pluginName, port, protocol } from "./constants";
 import ListOfQuestionsForUser from "./User/ListOfQuestionsForUser";
+import ViewUserExamDetails from "./ViewUserExamDetails";
 
 //This is App.js
 function App() {
@@ -58,7 +59,7 @@ function App() {
           <Route path="createExam" element={<CreateExamMaster />} />
           <Route path="editExam/:examId" element={<EditExam />} /> 
           <Route path="updateExam" element={<GetExams />} />
-
+            <Route path="/admin/updateExam/getUserDetails/:examId" element={<ViewUserExamDetails/>} />
           <Route path="updateExam/examdetails/:examId/" element={<ExamTopicMappingView />} />
           <Route path="updateExam/examdetails/:examId/:topicId" element={<ExamTopicMappingView />} />
           <Route path="updateExam/examdetails/question-topicView/:topicId/:examId" element={<QuestionForTopicView />} />

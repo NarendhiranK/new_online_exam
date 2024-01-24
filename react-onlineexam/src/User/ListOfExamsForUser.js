@@ -7,9 +7,9 @@ const ListOfExamsForUser = () => {
     const [userExamList, setUserExamList] = useState([]);
 
     const navigate=useNavigate();
-    const examDetails=(examId)=>{
+    // const examDetails=(examId)=>{
 
-    }
+    // }
     const takeExam=(examId)=>{
 
         let map={

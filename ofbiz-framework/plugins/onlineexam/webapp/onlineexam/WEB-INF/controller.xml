@@ -261,7 +261,7 @@ language governing permissions and limitations under the License.
 
 
 	<request-map uri="examsForUserEvent">
-		<security https="true" auth="true" />
+		<security https="true" auth="false" />
 		<event type="java"
 			path="com.vastpro.onlineexam.events.ExamsForUserEvent"
 			invoke="examsForUserEvent"></event>
@@ -496,6 +496,17 @@ language governing permissions and limitations under the License.
 		<event type="java"
 			path="com.vastpro.onlineexam.events.RetrieveEnumerationListEvent"
 			invoke="retrieveEnumerationListEvent"></event>
+		<response name="success" type="request" value="json" />
+		<response name="error" type="request" value="json" />
+	   </request-map>
+	   
+	     <!--checkUserExamAttemptEvent -->
+	     
+	   <request-map uri="checkUserExamAttemptEvent">
+		<security https="true" auth="false"/>
+		<event type="java"
+			path="com.vastpro.onlineexam.events.CheckUserExamAttemptEvent"
+			invoke="checkUserExamAttemptEvent"></event>
 		<response name="success" type="request" value="json" />
 		<response name="error" type="request" value="json" />
 	   </request-map>

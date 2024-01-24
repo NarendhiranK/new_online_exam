@@ -29,10 +29,15 @@ public class GetQuestionsFromTopicEvent {
 	 * */
 	public static final String module = GetQuestionsFromTopicEvent.class.getName();
 	public static String viewQuestions(HttpServletRequest request, HttpServletResponse response) {
+		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
 		Map<String, Object> combinedMap = UtilHttp.getCombinedMap(request);
+		
 		String result = null;
+		
 		String topicId = (String)combinedMap.get(ConstantValue.TOPIC_ID);
+		
 		Debug.log(topicId);
 		
 			topicId = (String) combinedMap.get(ConstantValue.TOPIC_ID);
@@ -42,10 +47,13 @@ public class GetQuestionsFromTopicEvent {
 		try {
 			GenericValue getTopicMaster = EntityQuery.use(delegator).from("TopicMaster").where("topicId", topicId)
 					.cache().queryOne();
+			
 			String topicName = getTopicMaster.getString("topicName");
+			
 			if (UtilValidate.isNotEmpty(getTopicMaster + "------------------------------------")) {
 			
 				List<GenericValue> listQuestions = EntityQuery.use(delegator).from("QuestionMaster")
+						
 						.where("topicId", topicId).cache().queryList();
 				
 				if (UtilValidate.isNotEmpty("-------------------------------------" + listQuestions)) {

@@ -29,51 +29,52 @@ public class ExamsForUserEvent {
 	public static String examsForUserEvent(HttpServletRequest request, HttpServletResponse response) {
 		GenericValue userLogin = (GenericValue) request.getSession().getAttribute(ConstantValue.USERLOGIN);
 		Delegator delegator = (Delegator) request.getAttribute(ConstantValue.DELEGATOR);
-		String partyId = (String) userLogin.get(ConstantValue.PARTY_ID);
+		String partyId = (String) request.getAttribute(ConstantValue.PARTY_ID);
 		Debug.logInfo("userLogin", ":" + userLogin);
 		List<Map<String, Object>> examList = new LinkedList<Map<String, Object>>();
 		LocalDateTime currentDateTime = LocalDateTime.now();
 
 		try {
-
 			List<GenericValue> listOfExamsForUser = EntityQuery.use(delegator)
-					.from(ConstantValue.USER_EXAM_MAPPING_MASTER).where(ConstantValue.PARTY_ID, partyId).cache()
-					.queryList();
+					.from(ConstantValue.USER_EXAM_MAPPING_MASTER).where(ConstantValue.PARTY_ID, partyId).queryList();
 			if (UtilValidate.isNotEmpty(listOfExamsForUser)) {
 				Debug.logInfo("List of exams for this user", "" + listOfExamsForUser);
 				request.setAttribute("listOfExamsForUser", listOfExamsForUser);
 			} else {
 				request.setAttribute(ConstantValue.ERROR_MESSAGE, "There are no exams alloted for this user");
-
 			}
-
 			List<String> examIds = new ArrayList<>();
 			for (GenericValue perExamFromList : listOfExamsForUser) {
 				String examId = (String) perExamFromList.get(ConstantValue.EXAM_ID);
 				examIds.add(examId);
+
 				GenericValue perExamDetails = EntityQuery.use(delegator).from(ConstantValue.EXAM_MASTER)
 						.where(ConstantValue.EXAM_ID, examId).cache().queryFirst();
 				if (UtilValidate.isNotEmpty(perExamDetails)) {
 
 					String queryExpirationDate = perExamDetails.getString(ConstantValue.EXPIRATION_DATE);
 					Debug.logInfo("queryExpirationDate........ :>>>>>", queryExpirationDate);
-					System.out.println("queryExpirationDate : " + queryExpirationDate);
+					System.out.println("queryExpirationDate........ :" + queryExpirationDate);
+					if (queryExpirationDate != null) {
 
-					DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-					LocalDateTime expirationDate = LocalDateTime
-							.parse(queryExpirationDate.substring(0, queryExpirationDate.length() - 2), outputFormatter);
+						DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+						LocalDateTime expirationDate = LocalDateTime.parse(
+								queryExpirationDate.substring(0, queryExpirationDate.length() - 2), outputFormatter);
 
-					Debug.logInfo(" expirationDate...: ", expirationDate.toString());
-
-					Map<String, Object> examDetailsResultMap = new HashMap<String, Object>();
-					if (expirationDate.compareTo(currentDateTime) >= 0) {
-						examDetailsResultMap.put("perExamDetails", perExamDetails);
-						System.out.println("Exam details ===============================   ::: " + perExamDetails);
-						examList.add(examDetailsResultMap);
-						request.setAttribute("examDetailsResultList", examList);
-					} else {
-						request.setAttribute(ConstantValue.ERROR_MESSAGE, "no record was found in the database..!");
+						Debug.logInfo(" expirationDate...: ", expirationDate.toString());
+						System.out.println("expirationdate...! :" + expirationDate);
+						Map<String, Object> examDetailsResultMap = new HashMap<String, Object>();
+						if (expirationDate.compareTo(currentDateTime) >= 0) {
+							examDetailsResultMap.put("perExamDetails", perExamDetails);
+							System.out.println("Exam details ===============================   ::: " + perExamDetails);
+							examList.add(examDetailsResultMap);
+							request.setAttribute("examDetailsResultList", examList);
+						} else {
+							request.setAttribute(ConstantValue.ERROR_MESSAGE, "no record was found in the database..!");
+						}
 					}
+					
+
 				}
 			}
 			Debug.logInfo("List of  ExamId's for this user...............", "" + examIds);

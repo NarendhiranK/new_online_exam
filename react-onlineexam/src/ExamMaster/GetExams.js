@@ -69,7 +69,7 @@ const GetExams = () => {
           console.log("examname...>", examname);
           setexamid(obj.examId);
           setexamname(obj.examName);
-          setdescription(obj.description);
+          //setdescription(obj.description);
           setcreationdate(obj.creationDate);
           setexpirationdate(obj.expirationDate);
           setnoofquestions(obj.noOfQuestions);
@@ -310,6 +310,7 @@ const GetExams = () => {
               <th></th>
               <th>Edit</th>
               <th>Details</th>
+              <th>Get user details</th>
               <th>Delete</th>
             </tr>
           </thead>
@@ -343,12 +344,24 @@ const GetExams = () => {
                   </td>
                   <td>
                     <button
+                      className="btn btn-primary"
+                      onClick={() => navigate(`/admin/updateExam/getUserDetails/${obj.examId}`)}
+                    >
+                      getUserDetails
+                    </button>
+                  </td>
+                  <td>
+                    <button
                       className="btn btn-danger"
                       // onClick={() => deleteRows(obj.examId)}
                     >
                       Delete
                     </button>
                   </td>
+
+                 
+
+
                 </tr>
               ))
             ) : (
