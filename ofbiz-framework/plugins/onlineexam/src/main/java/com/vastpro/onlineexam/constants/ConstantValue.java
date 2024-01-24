@@ -1,7 +1,10 @@
 package com.vastpro.onlineexam.constants;
 
 public interface ConstantValue {
-
+    //Entity Constants
+	String FROM_DATE ="FromDate";
+	String THROUGH_DATE ="ThroughDate";
+	
 	// Common Attributes.
 	String DELEGATOR = "delegator";
 	String DISPATCHER = "dispatcher";

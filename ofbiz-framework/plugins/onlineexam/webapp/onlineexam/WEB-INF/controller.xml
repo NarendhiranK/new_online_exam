@@ -514,8 +514,6 @@
 	</request-map>
 	
 
-
-
 		<request-map uri="deleteQuestionsForTopic">
 		<security https="true" auth="false" />
 		<event type="java"
