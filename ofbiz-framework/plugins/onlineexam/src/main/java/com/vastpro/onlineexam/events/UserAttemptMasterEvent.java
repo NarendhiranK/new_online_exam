@@ -1,4 +1,4 @@
-package com.vastpro.onlineexam.events;
+ package com.vastpro.onlineexam.events;
 
 import java.util.Map;
 

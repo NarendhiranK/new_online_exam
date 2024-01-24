@@ -19,43 +19,47 @@ import com.vastpro.onlineexam.constants.ConstantValue;
 
 public class QuestionMasterListEvent {
 
-	public static String questionMasterListEvent(HttpServletRequest request,HttpServletResponse response) {
+	public static String questionMasterListEvent(HttpServletRequest request, HttpServletResponse response) {
 		Delegator delegator = (Delegator) request.getAttribute(ConstantValue.DELEGATOR);
 		Map<String, Object> combinedMap = UtilHttp.getCombinedMap(request);
-		 String questionId =(String)combinedMap.get(ConstantValue.QUESTION_ID);
-		 Long qId =Long.parseLong(questionId);
-		  Map<String, Object> listOfExamMaster = new HashMap<String,Object>();
-		 
-		  if(UtilValidate.isNotEmpty(questionId)) {
-			  GenericValue getRecord;
+		String questionId = (String) combinedMap.get(ConstantValue.QUESTION_ID);
+		Long questionIdAsLong = Long.parseLong(questionId);
+
+		Debug.log("Question Id................." + questionId);
+		Debug.log("Question Id................." + questionIdAsLong);
+//		 Long qId =Long.parseLong(questionId);
+		Map<String, Object> listOfExamMaster = new HashMap<String, Object>();
+
+		if (UtilValidate.isNotEmpty(questionIdAsLong)) {
+			GenericValue getRecord;
 			try {
-				getRecord = EntityQuery.use(delegator).from(ConstantValue.QUESTION_MASTER).where(ConstantValue.QUESTION_ID,qId).cache().queryOne();
+				getRecord = EntityQuery.use(delegator).from(ConstantValue.QUESTION_MASTER)
+						.where(ConstantValue.QUESTION_ID, questionIdAsLong).cache().queryOne();
+				
 				request.setAttribute("getRecord", getRecord);
 			} catch (GenericEntityException e) {
-				
+
 				e.printStackTrace();
 			}
-		       
-		  }
-		  else {
-			  try {
-					List<GenericValue> listOfQuestions = EntityQuery.use(delegator).from(ConstantValue.QUESTION_MASTER).cache().queryList();
-					
-					Debug.log("listOfQuestions",listOfQuestions);
-					if(UtilValidate.isNotEmpty(listOfQuestions)) {
-						request.setAttribute("listOfQuestions",listOfQuestions);
-					}
-					else {
-						request.setAttribute("noRecordFound","no record found in the entity!");
-						return "error";
-					}
-			  }
-			  catch(GenericEntityException e) {
-				  e.printStackTrace();
-			  }
-		  }
-		 	
-		 		  return "success";
+
+		} else {
+			try {
+				List<GenericValue> listOfQuestions = EntityQuery.use(delegator).from(ConstantValue.QUESTION_MASTER)
+						.cache().queryList();
+
+				Debug.log("listOfQuestions", listOfQuestions);
+				if (UtilValidate.isNotEmpty(listOfQuestions)) {
+					request.setAttribute("listOfQuestions", listOfQuestions);
+				} else {
+					request.setAttribute("noRecordFound", "no record found in the entity!");
+					return "error";
+				}
+			} catch (GenericEntityException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return "success";
 	}
 
 }

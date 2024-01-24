@@ -20,28 +20,28 @@ const CreateExamMaster = () => {
   const [negativemarkvalue, setnegativemarkvalue] = useState("");
   const [hasError, setHasError, hasNoError] = useStateRef(false);
   const [formValues, setFormValues, hasFormValues] = useStateRef([]);
-  const element= document.getElementById('myform');
+  const element = document.getElementById('myform');
 
   var url = window.location.href.includes('?');
   var queryParam = window.location.search;
   const queryParamKeypairs = new URLSearchParams(queryParam);
-  console.log("queryParamKeyPairs",queryParamKeypairs);
-  const examId=queryParamKeypairs.get("examId");
-  const navigate=useNavigate();
-  const forceUpdate=React.useCallback(()=>setFormValues([]));
+  console.log("queryParamKeyPairs", queryParamKeypairs);
+  const examId = queryParamKeypairs.get("examId");
+  const navigate = useNavigate();
+  const forceUpdate = React.useCallback(() => setFormValues([]));
 
- 
-  console.log("This is url...>" , url);
-  if(url == false){
-      // setFormValues([]);
-      // window.location.reload();
-    }
+
+  console.log("This is url...>", url);
+  if (url == false) {
+    // setFormValues([]);
+    // window.location.reload();
+  }
 
   // useEffect(() => {
   //   console.log("second inside----useeffect")
   //     if(examId !== undefined){
   //       console.log("Url search params is zero");
-     
+
   //     }
   //     setFormValues({});
   //     },[url])
@@ -53,7 +53,7 @@ const CreateExamMaster = () => {
 
   function ExamDetails(map) {
     const response = fetch(
-      protocol+"://"+window.location.hostname+":"+port+pluginName+control+"/examMasterListEvent",
+      protocol + "://" + window.location.hostname + ":" + port + pluginName + control + "/examMasterListEvent",
       {
         method: "POST",
         credentials: "include",
@@ -68,17 +68,17 @@ const CreateExamMaster = () => {
       })
       .then((data) => {
         const text = data.ExamData;
-        
-        console.log("text...>",text);
-        console.log("examId....>",text.examId);
+
+        console.log("text...>", text);
+        console.log("examId....>", text.examId);
         setFormValues(text);
-        text.map((obj,value)=>{
+        text.map((obj, value) => {
           setexamname(obj.examName);
           setdescription(obj.description);
-          setFormValues.examId=obj.examId;
-          setFormValues.description=obj.description;
+          setFormValues.examId = obj.examId;
+          setFormValues.description = obj.description;
         })
- 
+
       });
   }
 
@@ -89,8 +89,8 @@ const CreateExamMaster = () => {
     console.log("params Details is value....", search);
 
 
-    if(url){
-      
+    if (url) {
+
       console.log("exam Details is called....");
       console.log(examId);
       let map = {
@@ -98,14 +98,14 @@ const CreateExamMaster = () => {
       };
       ExamDetails(map);
     }
-    
-    
+
+
     // if (examId != "" && examId != undefined && examId != null) {
-      
-     
+
+
     // } else {
     //   console.log("Initial values should be null......");
-     
+
     // }
   }, []);
 
@@ -149,36 +149,36 @@ const CreateExamMaster = () => {
     };
     console.log(map);
     if (!hasNoError.current) {
-    
-        fetch("https://localhost:8443/onlineexam/control/examMasterEvent", {
-          method: "POST",
-          credentials: "include",
-          body: JSON.stringify(map),
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
+
+      fetch("https://localhost:8443/onlineexam/control/examMasterEvent", {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify(map),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      })
+        .then((response) => {
+          return response.json();
         })
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            // document.getElementById("h6").classList.remove("d-none");
-            // document.getElementById("h6").classList.add("d-block");
-            // document.getElementById("h6").innerHTML = "Exam added successfully..";
-            var element = document.getElementById("myform");
-            if(data._SUCCESS_MESSAGE){
-              document.getElementById("h2").classList.remove("d-none");
-              document.getElementById("h2").classList.add("d-block");
-              document.getElementById("h2").innerHTML="Exam added successfully";
-            }
-            // element.reset();
-          })
-          .catch((err) => console.log("ERROR FROM FETCH", err));
-      
-     
+        .then((data) => {
+          // document.getElementById("h6").classList.remove("d-none");
+          // document.getElementById("h6").classList.add("d-block");
+          // document.getElementById("h6").innerHTML = "Exam added successfully..";
+          var element = document.getElementById("myform");
+          if (data._SUCCESS_MESSAGE) {
+            document.getElementById("h2").classList.remove("d-none");
+            document.getElementById("h2").classList.add("d-block");
+            document.getElementById("h2").innerHTML = "Exam added successfully";
+          }
+          // element.reset();
+        })
+        .catch((err) => console.log("ERROR FROM FETCH", err));
+
+
     }
-   
+
   };
 
   function handleErrors() {
@@ -365,8 +365,8 @@ const CreateExamMaster = () => {
                   className="form-control"
                   name="examName"
                   placeholder="examName"
-                 
-                  // onChange={(e)=>setexamname(e.target.value)}
+
+                // onChange={(e)=>setexamname(e.target.value)}
                 />
                 <p id="p2" className="text-danger"></p>
               </div>
@@ -384,7 +384,7 @@ const CreateExamMaster = () => {
                   placeholder="Description"
                   name="description"
 
-                  // defaultValue={description}
+                // defaultValue={description}
                 />
                 <p id="p3" className="text-danger"></p>
               </div>
@@ -397,7 +397,7 @@ const CreateExamMaster = () => {
                   id="creationdate"
                   className="form-control"
                   name="creationDate"
-                 
+
                 />
                 <p id="p4" className="text-danger"></p>
               </div>
@@ -413,7 +413,7 @@ const CreateExamMaster = () => {
                   id="expirationdate"
                   className="form-control"
                   name="expirationDate"
-                
+
                 />
                 <p id="p5" className="text-danger"></p>
               </div>
@@ -430,8 +430,8 @@ const CreateExamMaster = () => {
                   className="form-control"
                   placeholder="No of questions"
                   name="noOfQuestions"
-                 
-                  // onChange={(e)=>setnoofquestions(e.target.value)}
+
+                // onChange={(e)=>setnoofquestions(e.target.value)}
                 />
                 <p id="p6" className="text-danger"></p>
               </div>
@@ -451,7 +451,7 @@ const CreateExamMaster = () => {
                   placeholder="Duration Minutes eg(60-Minutes)"
                   name="durationMinutes"
                   className="form-control"
-                
+
                 />
                 <p id="p7" className="text-danger"></p>
               </div>
@@ -468,7 +468,7 @@ const CreateExamMaster = () => {
                   placeholder="pass-percentage eg(25%)"
                   name="passPercentage"
                   className="form-control"
-                 
+
                 />
                 <p id="p8" className="text-danger"></p>
               </div>
@@ -480,10 +480,10 @@ const CreateExamMaster = () => {
                 >
                   QuestionsRandomized:
                 </label>
-               <select name="questionsRandomized" id="" className="form-select"> QuestionsRandomized:
-              <option value="Y">Yes</option>
-              <option value="N">No</option>
-              </select>
+                <select name="questionsRandomized" id="" className="form-select"> QuestionsRandomized:
+                  <option value="Y">Yes</option>
+                  <option value="N">No</option>
+                </select>
                 <p id="p9" className="text-danger"></p>
               </div>
               <div className="mb-3">
@@ -494,9 +494,9 @@ const CreateExamMaster = () => {
                   Answers Must:
                 </label>
                 <select name="answersMust" id="" className="form-select"> QuestionsRandomized:
-              <option value="Y">Yes</option>
-              <option value="N">No</option>
-              </select>
+                  <option value="Y">Yes</option>
+                  <option value="N">No</option>
+                </select>
                 <p id="p10" className="text-danger"></p>
               </div>
               <div className="mb-3">
@@ -507,9 +507,9 @@ const CreateExamMaster = () => {
                   EnableNegativeMark:
                 </label>
                 <select name="enableNegativeMark" id="" className="form-select"> QuestionsRandomized:
-              <option value="Y">Yes</option>
-              <option value="N  ">No</option>
-              </select>
+                  <option value="Y">Yes</option>
+                  <option value="N  ">No</option>
+                </select>
                 <p id="p11" className="text-danger"></p>
               </div>
               <div className="mb-3">
@@ -525,7 +525,7 @@ const CreateExamMaster = () => {
                   id="negativemarkvalue"
                   name="negativeMarkValue"
                   className="form-control"
-                  
+
                 />
                 <p id="p12" className="text-danger"></p>
               </div>

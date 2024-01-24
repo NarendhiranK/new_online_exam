@@ -11,7 +11,7 @@ const DetailsOfQuestion = () => {
   const topicName = params.topicName;
   const examId = params.examId;
   const navigate = useNavigate();
- 
+
 
   function questionDetails() {
     const map = {
@@ -19,7 +19,7 @@ const DetailsOfQuestion = () => {
     };
     console.log("map....", map);
     fetch(
-      protocol+"://"+window.location.hostname+":"+port+pluginName+control+"/questionMasterList",
+      protocol + "://" + window.location.hostname + ":" + port + pluginName + control + "/questionMasterList",
       {
         method: "POST",
         credentials: "include",
@@ -28,18 +28,18 @@ const DetailsOfQuestion = () => {
           "Content-type": "application/json",
         },
       }
-    ).then(response=>{
+    ).then(response => {
       return response.json();
-    }).then(data=>{
+    }).then(data => {
       const get_result = data.getRecord;
       setQuestionDetails(get_result);
       console.log(get_result);
-    }) 
+    })
   }
   useEffect(() => {
     questionDetails();
   }, []);
- 
+
 
   return (
     <div className="my-5 mx-5">
@@ -107,7 +107,7 @@ const DetailsOfQuestion = () => {
         <div className="my-2">{getquestionDetails.negativeMarkValue}</div>
       </div>
       <div>
-      <button className="btn btn-primary" onClick={()=>navigate(`/admin/updateExam/examdetails/question-topicView/${getquestionDetails.topicId}/${examId}`)}>Back</button>
+        <button className="btn btn-primary" onClick={() => navigate(`/admin/updateExam/examdetails/question-topicView/${getquestionDetails.topicId}/${examId}`)}>Back</button>
       </div>
     </div>
   );

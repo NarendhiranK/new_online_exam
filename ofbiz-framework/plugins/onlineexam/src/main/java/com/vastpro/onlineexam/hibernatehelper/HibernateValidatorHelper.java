@@ -21,6 +21,8 @@ import org.apache.ofbiz.entity.GenericEntityException;
 import org.apache.ofbiz.entity.GenericValue;
 import org.apache.ofbiz.entity.util.EntityQuery;
 
+import clojure.reflect.Constructor;
+
 public class HibernateValidatorHelper {
 	private static String module = HibernateValidatorHelper.class.getName();
 
@@ -36,6 +38,8 @@ public class HibernateValidatorHelper {
 		Object bean = null;
 		try {
 			bean = clazz.newInstance();
+			// Constructor
+			// bean = clazz.const
 			BeanUtils.populate(bean, map);
 		} catch (IllegalAccessException | InvocationTargetException | InstantiationException e1) {
 			Debug.logError(e1, e1.getMessage(), module);

@@ -170,7 +170,7 @@ public class QuestionMasterEvent {
 	
 	public static String deleteQuestion(HttpServletRequest request,HttpServletResponse response) {
 		
-		String questionId=(String)request.getAttribute(ConstantValue.QUESTION_ID);
+		Integer questionId=(Integer)request.getAttribute(ConstantValue.QUESTION_ID);
 		Delegator delegator=(Delegator)request.getAttribute(ConstantValue.DELEGATOR);
 		LocalDispatcher dispatcher=(LocalDispatcher)request.getAttribute(ConstantValue.DISPATCHER);
 		GenericValue userLogin=(GenericValue)request.getAttribute(ConstantValue.USERLOGIN);
@@ -198,20 +198,22 @@ public class QuestionMasterEvent {
 		
 		Delegator delegator=(Delegator)request.getAttribute(ConstantValue.DELEGATOR);
 		LocalDispatcher dispatcher=(LocalDispatcher)request.getAttribute(ConstantValue.DISPATCHER);
+		Map<String, Object> combinedMap = UtilHttp.getCombinedMap(request);
+		String questionId = (String) combinedMap.get(ConstantValue.QUESTION_ID);
+		Long questionIdAsLong = Long.parseLong(questionId);
 		
-		
-		List<GenericValue> listOfQuestions=null;
+		GenericValue detailsOfQuestion=null;
 		try {
-			listOfQuestions = EntityQuery.use(delegator).from(ConstantValue.QUESTION_MASTER).where("throughDate",null).queryList();
+			detailsOfQuestion = EntityQuery.use(delegator).from(ConstantValue.QUESTION_MASTER).where("throughDate",null,ConstantValue.QUESTION_ID,questionIdAsLong).queryOne();
 		} catch (GenericEntityException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
-		if(UtilValidate.isNotEmpty(listOfQuestions)) {
-			request.setAttribute(ConstantValue.SUCCESS_MESSAGE, listOfQuestions);
+		if(UtilValidate.isNotEmpty(detailsOfQuestion)) {
+			request.setAttribute(ConstantValue.SUCCESS_MESSAGE, detailsOfQuestion);
 			}
 		else{
-			request.setAttribute(ConstantValue.ERROR_MESSAGE ,listOfQuestions);
+			request.setAttribute(ConstantValue.ERROR_MESSAGE ,detailsOfQuestion);
 			}
 		
 		return "success";

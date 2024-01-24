@@ -185,9 +185,9 @@
 		<attribute name="userList" mode="OUT" type="List"
 			optional="true"></attribute>
 	</service>
-	
 
-	
+
+
 	<service name="listOfQuestionsForTheExam" engine="java"
 		location="com.vastpro.onlineexam.services.QuestionMasterListService"
 		invoke="questionsForExam" auth="false">
@@ -199,8 +199,8 @@
 		<attribute name="request" type="Object" mode="IN"
 			optional="false"></attribute>
 	</service>
-	
-	
+
+
 	<service name="createUserAttemptMaster"
 		default-entity-name="UserAttemptMaster" engine="entity-auto"
 		invoke="create" auth="false">
@@ -210,7 +210,18 @@
 		<auto-attributes include="nonpk" mode="IN"
 			optional="true" />
 	</service>
-	
+
+	<!-- UpdateUserAttemptMaster -->
+	<service name="updateUserAttemptMaster"
+		default-entity-name="UserAttemptMaster" engine="entity-auto"
+		invoke="update" auth="true">
+		<description>createUserAttemptMaster</description>
+		<auto-attributes include="pk" mode="OUT"
+			optional="false" />
+		<auto-attributes include="nonpk" mode="IN"
+			optional="true" />
+	</service>
+
 	<service name="createUserAttemptTopicMaster"
 		default-entity-name="UserAttemptTopicMaster" engine="entity-auto"
 		invoke="create" auth="false">
@@ -220,7 +231,21 @@
 		<auto-attributes include="nonpk" mode="IN"
 			optional="true" />
 	</service>
-	
+
+
+	<!-- UpdateUserAttemptTopicMaster -->
+	<service name="updateUserAttemptTopicMaster"
+		default-entity-name="UserAttemptTopicMaster" engine="entity-auto"
+		invoke="update" auth="true">
+		<description>UpdateUserAttemptMaster</description>
+		<auto-attributes include="pk" mode="IN"
+			optional="false" />
+		<auto-attributes include="nonpk" mode="IN"
+			optional="true" />
+	</service>
+
+
+
 	<service name="createUserAttemptAnswerMaster"
 		default-entity-name="UserAttemptAnswerMaster" engine="entity-auto"
 		invoke="create" auth="false">

@@ -15,7 +15,7 @@ const DetailsOfQuestion = () => {
   const navigate = useNavigate();
   console.log("Topic Name....>", topicName);
   console.log("Question Id...>", questionId);
- 
+
   var myobj;
 
   // var optionA="Hello";
@@ -42,7 +42,7 @@ const DetailsOfQuestion = () => {
     var topicId=result.getRecord.topicId;
     console.log("Topic Id...>",topicId);
     setQuestionDetails(get_result);
-    console.log(get_result);
+    console.log("get_result :::: ",get_result);
   }
 
   useEffect(() => {
@@ -62,7 +62,6 @@ const DetailsOfQuestion = () => {
         <div className="my-2 text-uppercase font-weight-bold">
           {getquestionDetails.questionDetail}
 
-         
         </div>
       </div>
 

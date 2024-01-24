@@ -37,13 +37,11 @@ public class QuestionInformationForUser {
 		String partyId = (String) userLogin.get(ConstantValue.PARTY_ID);
 		int sequenceNum = 1;
 		Integer performanceId = null;
-		List<Map<String,Object>>resultMapOfattemptsMaster=new LinkedList<Map<String,Object>>();
+		List<Map<String, Object>> resultMapOfattemptsMaster = new LinkedList<Map<String, Object>>();
 		LocalDateTime now = LocalDateTime.now();
 		System.out.println(now);
-				
-		
-		
-		if(performanceId == null) {	
+
+		if (performanceId == null) {
 			try {
 				GenericValue examDetails = EntityQuery.use(delegator).from(ConstantValue.EXAM_MASTER)
 						.where(ConstantValue.EXAM_ID, examId).queryOne();
@@ -51,10 +49,17 @@ public class QuestionInformationForUser {
 				GenericValue userExamDetails = EntityQuery.use(delegator).from(ConstantValue.USER_EXAM_MAPPING_MASTER)
 						.where(ConstantValue.EXAM_ID, examId, ConstantValue.PARTY_ID, partyId).queryFirst();
 				Long allowedAttempts = (Long) userExamDetails.get(ConstantValue.ALLOWED_ATTEMPTS);
-				String questionsRandomized=(String)userExamDetails.get(ConstantValue.QUESTIONS_RANDOMIZED);
-				if(questionsRandomized.equalsIgnoreCase("y")) {
+				String questionsRandomized = (String) examDetails.get(ConstantValue.QUESTIONS_RANDOMIZED);
+				if (questionsRandomized.equalsIgnoreCase("y")) {
+
 					
-				}else {
+					
+					
+				} else {
+
+					
+					
+					
 					
 				}
 				Long noOfattemptsbyUser = (Long) userExamDetails.get(ConstantValue.NO_OF_ATTEMPTS);
@@ -62,7 +67,7 @@ public class QuestionInformationForUser {
 				noOfattemptsbyUser = noOfattemptsbyUser + 1;
 				Map<String, Object> resultOfUserAttemptMaster = dispatcher.runSync("createUserAttemptMaster",
 						UtilMisc.toMap(ConstantValue.EXAM_ID, examId, ConstantValue.PARTY_ID, partyId,
-								ConstantValue.NO_OF_QUESTIONS, noOFQuestions, ConstantValue.ALLOWED_ATTEMPTS,
+								ConstantValue.NO_OF_QUESTIONS, noOFQuestions, ConstantValue.ATTEMPT_NUMBER,
 								noOfattemptsbyUser));
 				performanceId = (Integer) resultOfUserAttemptMaster.get(ConstantValue.PERFORMANCE_ID);
 				Debug.log("Performance ID :::::::::::::::::::::::::" + performanceId);
@@ -76,11 +81,12 @@ public class QuestionInformationForUser {
 						Long totalQuestionsInThisTopic = (Long) oneTopic.get(ConstantValue.QUESTION_PER_EXAM);
 
 						Map<String, Object> resultOfUserTopicMaster = dispatcher.runSync("createUserAttemptTopicMaster",
-								UtilMisc.toMap(ConstantValue.PERFORMANCE_ID, performanceId, ConstantValue.TOPIC_ID, topicId,
-										ConstantValue.TOPIC_PASS_PERCENTAGE, topicPassPercentage,
+								UtilMisc.toMap(ConstantValue.PERFORMANCE_ID, performanceId, ConstantValue.TOPIC_ID,
+										topicId, ConstantValue.TOPIC_PASS_PERCENTAGE, topicPassPercentage,
 										ConstantValue.QUESTION_PER_EXAM, totalQuestionsInThisTopic));
 						if (!ServiceUtil.isSuccess(resultOfUserAttemptMaster)) {
-							request.setAttribute(ConstantValue.ERROR_MESSAGE, "Error in the creating the service recordds");
+							request.setAttribute(ConstantValue.ERROR_MESSAGE,
+									"Error in the creating the service recordds");
 						} else {
 							request.setAttribute(ConstantValue.SUCCESS_MESSAGE,
 									"Record is created successfully in the usertopic attempt master");
@@ -94,8 +100,8 @@ public class QuestionInformationForUser {
 				Map<String, Object> mapOfQuestionsForTheTopic = new HashMap<>();
 				Map<String, Object> callQuestionsService = null;
 
-				List<GenericValue> listOfTopics = EntityQuery.use(delegator).from(ConstantValue.EXAM_TOPIC_MAPPING_MASTER)
-						.where(ConstantValue.EXAM_ID, examId).queryList();
+				List<GenericValue> listOfTopics = EntityQuery.use(delegator)
+						.from(ConstantValue.EXAM_TOPIC_MAPPING_MASTER).where(ConstantValue.EXAM_ID, examId).queryList();
 				Debug.log("List of topics for this exam..........." + listOfTopics);
 
 				if (UtilValidate.isNotEmpty(listOfTopics)) {
@@ -111,7 +117,8 @@ public class QuestionInformationForUser {
 						if (topicId != null && questionsPerExam != null) {
 
 							List<GenericValue> listOfQuestions = EntityQuery.use(delegator)
-									.from(ConstantValue.QUESTION_MASTER).where(ConstantValue.TOPIC_ID, topicId).queryList();
+									.from(ConstantValue.QUESTION_MASTER).where(ConstantValue.TOPIC_ID, topicId)
+									.queryList();
 
 //								
 							Debug.log("List of questions................." + listOfQuestions);
@@ -168,17 +175,17 @@ public class QuestionInformationForUser {
 						.getAttribute("selectedQuestions");
 				Debug.log("QuestionsInformationList................................................."
 						+ questionsInformationList);
-				List<GenericValue>detailsOfQuestion=new LinkedList<>();
+				List<GenericValue> detailsOfQuestion = new LinkedList<>();
 				for (List<GenericValue> questions : questionsInformationList) {
 					for (GenericValue oneQuestion : questions) {
 						Long questionId = (Long) oneQuestion.get(ConstantValue.QUESTION_ID);
 						Debug.log("Question id's................>" + questionId);
-						GenericValue questionDetail=EntityQuery.use(delegator).from(ConstantValue.QUESTION_MASTER).where(ConstantValue.QUESTION_ID,questionId).queryOne();
+						GenericValue questionDetail = EntityQuery.use(delegator).from(ConstantValue.QUESTION_MASTER)
+								.where(ConstantValue.QUESTION_ID, questionId).queryOne();
 						detailsOfQuestion.add(questionDetail);
 						Map<String, Object> resultMap = dispatcher.runSync("createUserAttemptAnswerMaster",
-								UtilMisc.toMap(ConstantValue.QUESTION_ID, questionId,
-										ConstantValue.PERFORMANCE_ID, performanceId, "sequenceNum",
-										sequenceNum, ConstantValue.USERLOGIN, userLogin));
+								UtilMisc.toMap(ConstantValue.QUESTION_ID, questionId, ConstantValue.PERFORMANCE_ID,
+										performanceId, "sequenceNum", sequenceNum, ConstantValue.USERLOGIN, userLogin));
 						// Increment sequenceNum
 						++sequenceNum;
 
@@ -190,10 +197,10 @@ public class QuestionInformationForUser {
 					}
 
 				}
-				
-				List<GenericValue> userAttemptAnswerMasterList = EntityQuery.use(delegator).from("UserAttemptAnswerMaster")
-						.where(ConstantValue.PERFORMANCE_ID, performanceId).queryList();
-				request.setAttribute("questionDetails", detailsOfQuestion);			
+
+				List<GenericValue> userAttemptAnswerMasterList = EntityQuery.use(delegator)
+						.from("UserAttemptAnswerMaster").where(ConstantValue.PERFORMANCE_ID, performanceId).queryList();
+				request.setAttribute("questionDetails", detailsOfQuestion);
 				Debug.log("QuestionInformationList.............." + questionsInformationList);
 				request.setAttribute("listOfQUestionsforUser", userAttemptAnswerMasterList);
 			} catch (Exception e) {
@@ -202,50 +209,64 @@ public class QuestionInformationForUser {
 
 			return "success";
 		}
-		else {
-			try {
-					GenericValue userattemptmasterDetails=EntityQuery.use(delegator).from(ConstantValue.USER_ATTEMPT_MASTER).where(ConstantValue.PERFORMANCE_ID,performanceId).queryOne();
-					if(UtilValidate.isNotEmpty(userattemptmasterDetails)) {
-						Map<String,Object>userattemptDetails=new HashMap<String, Object>();
-						userattemptDetails.put(ConstantValue.PERFORMANCE_ID,userattemptmasterDetails.get(ConstantValue.PERFORMANCE_ID));
-						userattemptDetails.put(ConstantValue.ATTEMPT_NUMBER,userattemptmasterDetails.get(ConstantValue.ATTEMPT_NUMBER));
-						userattemptDetails.put(ConstantValue.PARTY_ID, userattemptmasterDetails.get(ConstantValue.PARTY_ID));
-						userattemptDetails.put(ConstantValue.SCORE ,userattemptmasterDetails.get(ConstantValue.SCORE));
-						userattemptDetails.put(ConstantValue.COMPLETED_DATE, userattemptmasterDetails.get(ConstantValue.COMPLETED_DATE));
-						userattemptDetails.put(ConstantValue.NO_OF_QUESTIONS, userattemptmasterDetails.get(ConstantValue.NO_OF_QUESTIONS));
-						userattemptDetails.put(ConstantValue.TOTAL_CORRECT, userattemptmasterDetails.get(ConstantValue.TOTAL_CORRECT));
-						userattemptDetails.put(ConstantValue.TOTAL_WRONG,userattemptmasterDetails.get(ConstantValue.TOTAL_WRONG));
-						userattemptDetails.put(ConstantValue.USER_PASSED, userattemptmasterDetails.get(ConstantValue.USER_PASSED));
-						resultMapOfattemptsMaster.add(userattemptDetails);
-					}
-					else {
-						request.setAttribute(ConstantValue.ERROR_MESSAGE, "there is no records in the user attempt master record entity");
-						}
-					
-					List<GenericValue>userAttemptTopicMasterDetails=EntityQuery.use(delegator).from(ConstantValue.USER_ATTEMPT_TOPIC_MASTER).where(ConstantValue.PERFORMANCE_ID,performanceId).queryList();
-					if(UtilValidate.isNotEmpty(userAttemptTopicMasterDetails)) {
-						
-						for(GenericValue oneRecord : userAttemptTopicMasterDetails) {
-							Map<String,Object>oneRecordDetails=new HashMap<String,Object>();
-//							Integer performanceId=(Integer)oneRecord.get(ConstantValue.PERFORMANCE_ID);
-							String topicId=(String)oneRecord.get(ConstantValue.TOPIC_ID);
-							String topicPassPercentage=(String)oneRecord.get(ConstantValue.TOPIC_PASS_PERCENTAGE);
-							String totalQuestionsInThisTopic=(String)oneRecord.get(ConstantValue.TOTAL_QUESTIONS_IN_THIS_TOPIC);
-							String correctQuestionsInThisTopic=(String)oneRecord.get(ConstantValue.CORRECT_QUESTIONS_IN_THIS_TOPIC);
-							String userTopicPercentage=(String)oneRecord.get(ConstantValue.USER_TOPIC_PERCENTAGE);
-							
-						}
-						
-						
-					}
-					else {
-						request.setAttribute(ConstantValue.ERROR_MESSAGE, "there is no records in the user attempt topic master entity");					}
-			}
-			catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
+//		 else {
+//			try {
+//				GenericValue userattemptmasterDetails = EntityQuery.use(delegator)
+//						.from(ConstantValue.USER_ATTEMPT_MASTER).where(ConstantValue.PERFORMANCE_ID, performanceId)
+//						.queryOne();
+//				if (UtilValidate.isNotEmpty(userattemptmasterDetails)) {
+//					Map<String, Object> userattemptDetails = new HashMap<String, Object>();
+//					userattemptDetails.put(ConstantValue.PERFORMANCE_ID,
+//							userattemptmasterDetails.get(ConstantValue.PERFORMANCE_ID));
+//					userattemptDetails.put(ConstantValue.ATTEMPT_NUMBER,
+//							userattemptmasterDetails.get(ConstantValue.ATTEMPT_NUMBER));
+//					userattemptDetails.put(ConstantValue.PARTY_ID,
+//							userattemptmasterDetails.get(ConstantValue.PARTY_ID));
+//					userattemptDetails.put(ConstantValue.SCORE, userattemptmasterDetails.get(ConstantValue.SCORE));
+//					userattemptDetails.put(ConstantValue.COMPLETED_DATE,
+//							userattemptmasterDetails.get(ConstantValue.COMPLETED_DATE));
+//					userattemptDetails.put(ConstantValue.NO_OF_QUESTIONS,
+//							userattemptmasterDetails.get(ConstantValue.NO_OF_QUESTIONS));
+//					userattemptDetails.put(ConstantValue.TOTAL_CORRECT,
+//							userattemptmasterDetails.get(ConstantValue.TOTAL_CORRECT));
+//					userattemptDetails.put(ConstantValue.TOTAL_WRONG,
+//							userattemptmasterDetails.get(ConstantValue.TOTAL_WRONG));
+//					userattemptDetails.put(ConstantValue.USER_PASSED,
+//							userattemptmasterDetails.get(ConstantValue.USER_PASSED));
+//					resultMapOfattemptsMaster.add(userattemptDetails);
+//				} else {
+//					request.setAttribute(ConstantValue.ERROR_MESSAGE,
+//							"there is no records in the user attempt master record entity");
+//				}
+//
+//				List<GenericValue> userAttemptTopicMasterDetails = EntityQuery.use(delegator)
+//						.from(ConstantValue.USER_ATTEMPT_TOPIC_MASTER)
+//						.where(ConstantValue.PERFORMANCE_ID, performanceId).queryList();
+//				if (UtilValidate.isNotEmpty(userAttemptTopicMasterDetails)) {
+//
+//					for (GenericValue oneRecord : userAttemptTopicMasterDetails) {
+//						Map<String, Object> oneRecordDetails = new HashMap<String, Object>();
+////							Integer performanceId=(Integer)oneRecord.get(ConstantValue.PERFORMANCE_ID);
+//						String topicId = (String) oneRecord.get(ConstantValue.TOPIC_ID);
+//						String topicPassPercentage = (String) oneRecord.get(ConstantValue.TOPIC_PASS_PERCENTAGE);
+//						String totalQuestionsInThisTopic = (String) oneRecord
+//								.get(ConstantValue.TOTAL_QUESTIONS_IN_THIS_TOPIC);
+//						String correctQuestionsInThisTopic = (String) oneRecord
+//								.get(ConstantValue.CORRECT_QUESTIONS_IN_THIS_TOPIC);
+//						String userTopicPercentage = (String) oneRecord.get(ConstantValue.USER_TOPIC_PERCENTAGE);
+//
+//					}
+//
+//				} else {
+//					request.setAttribute(ConstantValue.ERROR_MESSAGE,
+//							"there is no records in the user attempt topic master entity");
+//				}
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//
+//		}
 		return "error";
+		// return partyId;
 	}
 }

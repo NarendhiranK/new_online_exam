@@ -3,7 +3,7 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import '../ExamMaster/Admin.css'
 
 const Admin = () => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   return (
     <div className="container-fluid">
       <div className="row">
@@ -25,7 +25,6 @@ const Admin = () => {
                     href="#sidemenu"
                     data-bs-toggle="collapse"
                     className="nav-link bg-white  text-white"
-                   
                   >
                     <i className="fa fa-edit text-primary"></i>
                     <span className="ms-2 d-none text-primary  d-sm-inline">
@@ -40,15 +39,15 @@ const Admin = () => {
                   >
                     <li class="nav-item my-sm-1 my-2">
                       <Link to="createExam"
-                        class="nav-link  text-center  text-sm-start"   
+                        class="nav-link  text-center  text-sm-start"
                         aria-current="page"
-                        // onClick={window.location.href=`createExam`}
+                      // onClick={window.location.href=`createExam`}
                       >
                         Create Exam
                       </Link>
                     </li>
                     <li class="nav-item my-sm-1 my-2">
-                      <Link  class="nav-link text-center text-sm-start" to="updateExam">
+                      <Link class="nav-link text-center text-sm-start" to="updateExam">
                         Update Exam
                       </Link>
                     </li>
@@ -58,7 +57,7 @@ const Admin = () => {
                       </a>
                     </li>  */}
                     <li class="nav-item my-sm-1 my-2">
-                      <Link  class="nav-link text-center text-sm-start" to="assignExam">
+                      <Link class="nav-link text-center text-sm-start" to="assignExam">
                         Assign Exam
                       </Link>
                     </li>
@@ -66,18 +65,18 @@ const Admin = () => {
                 </li>
                 {/* -------------------second drop down---------------- */}
 
-              
+
 
                 {/* ----------------third dropdown---------------- */}
 
-  
+
               </ul>
             </div>
           </div>
         </div>
         <div className="col-10">
-          
-          <Outlet/>
+
+          <Outlet />
         </div>
       </div>
     </div>
