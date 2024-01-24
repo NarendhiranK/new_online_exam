@@ -22,7 +22,8 @@ import QuestionMaster from "./QuestionMaster/QuestionMaster";
 import EditExam from "./ExamMaster/EditExam";
 import ListOfExamsForUser from "./User/ListOfExamsForUser";
 import { control, pluginName, port, protocol } from "./constants";
-import ExamsDashboard from "./User/ExamsDashboard";
+//import ExamsDashboard from "./User/ExamsDashboard";
+import ListOfQuestionsForUser from "./User/ListOfQuestionsForUser";
 
 //This is App.js
 function App() {
@@ -80,8 +81,10 @@ function App() {
         </Route>
 
         <Route path="user" element={<User />} />
-        <Route path="/user/listexamsforuser" element={<ListOfExamsForUser />} />
-        <Route path="/user/examdashboard" element={<ExamsDashboard/>} />
+        {/* <Route path="/user/listexamsforuser" element={<ListOfExamsForUser />} /> */}
+        {/* <Route path="/user/examdashboard" element={<ExamsDashboard/>} /> */}
+        <Route path="/user/listexams" element={<ListOfExamsForUser />} />
+        <Route path="/user/listquestions/:examId" element={<ListOfQuestionsForUser/>}/>
 
 
       </Routes>

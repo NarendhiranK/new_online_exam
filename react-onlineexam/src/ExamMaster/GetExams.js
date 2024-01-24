@@ -310,6 +310,7 @@ const GetExams = () => {
               <th></th>
               <th>Edit</th>
               <th>Details</th>
+              <th>Get User Details</th>
               <th>Delete</th>
             </tr>
           </thead>
@@ -341,6 +342,16 @@ const GetExams = () => {
                       Details
                     </button>
                   </td>
+
+                  <td>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => navigate(`examdetails/${obj.examId}`)}
+                    >
+                      Get User Details
+                    </button>
+                  </td>
+
                   <td>
                     <button
                       className="btn btn-danger"

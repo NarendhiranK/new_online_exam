@@ -41,7 +41,7 @@ public class ExamsForUserEvent {
 				request.setAttribute(ConstantValue.ERROR_MESSAGE, "There are no exams alloted for this user");
 			}
 
- 			List<String> examIds = new ArrayList<>();
+			List<String> examIds = new ArrayList<>();
 			for (GenericValue perExamFromList : listOfExamsForUser) {
 				String examId = (String) perExamFromList.get(ConstantValue.EXAM_ID);
 				examIds.add(examId);

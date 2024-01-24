@@ -81,5 +81,8 @@ public class CreateorUpdateExamMasterEvent{
         request.setAttribute("_EVENT_MESSAGE_", "ExamMaster created or updated succesfully.");
         return "success";
 	}
+	
+	
+	
 
 }

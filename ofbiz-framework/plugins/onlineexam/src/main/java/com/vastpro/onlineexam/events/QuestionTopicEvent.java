@@ -38,7 +38,7 @@ public class QuestionTopicEvent {
 			if (UtilValidate.isNotEmpty(getTopicMaster)) {
 				Debug.log("topicmaster..."+getTopicMaster.toString());
 				List<GenericValue> listQuestions = EntityQuery.use(delegator).from(ConstantValue.QUESTION_MASTER)
-						.where(ConstantValue.TOPIC_ID, topicId).cache().queryList();
+						.where(ConstantValue.TOPIC_ID, topicId,"throughDate",null).cache().queryList();
 				Debug.log("list of questions...."+listQuestions.toString());
 				if (UtilValidate.isNotEmpty(listQuestions)) {
 					result = "success";
@@ -53,7 +53,7 @@ public class QuestionTopicEvent {
 				} else {
 					resultMap.put("querycondition", result);
 					request.setAttribute("resultMap", resultMap);
-					request.setAttribute(" Error_Message", "There are no such values in the entity");
+					request.setAttribute("Error_Message", "There are no such values in the entity");
 				}
 			}
 			else {

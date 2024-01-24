@@ -10,13 +10,14 @@ const QuestionMaster = (props) => {
   const questionId = params.questionId;
   console.log("Props question Id.......", questionId);
 
-  const topicId = params.topicId;
+  const topicId = params.TopicId;
   console.log("TopicId...>", params.TopicId);
   const examId = params.examId;
   console.log("topic Id..............>",topicId);
   console.log("Exam Id..............>",examId);
   const topicName = params.topicName;
   const TopicName=props.topicName;
+  console.log("this is params topic name",topicName);
   console.log("this is props topic name",TopicName);
   const [questionData, setQuestionData] = useState([]);
   const [enumerationData, setEnumerationData] = useState([]);
@@ -64,7 +65,7 @@ const QuestionMaster = (props) => {
       return response.json();
     }).then(data => {
       console.log("Question Master Incoming Data ===== >>>>>", data);
-      const output = data.getRecord;
+      const output = data._SUCCESS_MESSAGE;
       console.log("Question Master Output data =========>", output);
 
       if(output!==null || output!==undefined){
@@ -413,7 +414,13 @@ const QuestionMaster = (props) => {
             document.getElementById('p2').classList.add('d-block');
             document.getElementById('p2').innerHTML = "Question to be added to this topic is done successfully..";
           }
+
+          const element=document.getElementById('myform')
+          element.reset();    
+          
         })
+
+       
 
         .catch((err) => console.log("ERROR FROM FETCH", err));
     }
@@ -458,6 +465,7 @@ const QuestionMaster = (props) => {
                 <textarea
                   className="form-control"
                   value={editQuestionDetail}
+                  onChange={(e)=>editSetQuestionDetail(e.target.value)}
                   name="questionDetail"
                   placeholder="questionDetail"
                   id="questionDetail"
@@ -476,6 +484,7 @@ const QuestionMaster = (props) => {
                 <textarea
                   className="form-control"
                   value={editAnswer}
+                  onChange={(e)=>editSetAnswer(e.target.value)}
                   name="answer"
                   placeholder="answer "
                   id="answer"
@@ -495,6 +504,7 @@ const QuestionMaster = (props) => {
                 <input
                   type="text"
                   id="numAnswers"
+                  onChange={(e)=>editSetNumAnswers(e.target.value)}
                   value={editNumAnswers}
                   placeholder="num of answers"
                   name="numAnswers"
@@ -513,6 +523,7 @@ const QuestionMaster = (props) => {
                 <input
                   type="text"
                   name="difficultyLevel"
+                  onChange={(e)=>editSetDifficultyLevel(e.target.value)}
                   value={editDifficultyLevel}
                   placeholder="difficulty level"
                   id="difficultyLevel"
@@ -532,6 +543,7 @@ const QuestionMaster = (props) => {
                   name="answerValue"
                   placeholder="answer value"
                   id="answerValue"
+                  onChange={(e)=>editSetAnswerValue(e.target.value)}
                   value={editAnswerValue}
                   className="form-control"
                 />
@@ -550,6 +562,7 @@ const QuestionMaster = (props) => {
                   placeholder="topic Id"
                   id="topicId"
                   name="topicId"
+                  onChange={(e)=>editSetTopicId(e.target.value)}
                   className="form-control"
                   value={editTopicId}
                   hidden
@@ -652,6 +665,7 @@ const QuestionMaster = (props) => {
                         className="form-control"
                         name="optionA"
                         placeholder="Option A"
+                        onChange={(e)=>editSetOptionA(e.target.value)}
                         id="optionA"
                         value={editOptionA}
                         rows="1"
@@ -667,6 +681,7 @@ const QuestionMaster = (props) => {
                       <textarea
                         className="form-control"
                         name="optionB"
+                        onChange={(e)=>editSetOptionB(e.target.value)}
                         placeholder="option B"
                         id="optionB"
                         value={editOptionB}
@@ -686,6 +701,7 @@ const QuestionMaster = (props) => {
                       <textarea
                         className="form-control"
                         name="optionC"
+                        onChange={(e)=>editSetOptionC(e.target.value)}
                         placeholder="option C"
                         id="optionC"
                         value={editOptionC}
@@ -705,6 +721,7 @@ const QuestionMaster = (props) => {
                       <textarea
                         className="form-control"
                         name="optionD"
+                        onChange={(e)=>editSetOptionD(e.target.value)}
                         placeholder="option D"
                         id="optionD"
                         value={editOptionD}
@@ -724,6 +741,7 @@ const QuestionMaster = (props) => {
                       <textarea
                         className="form-control"
                         name="optionE"
+                        onChange={(e)=>editSetOptionE(e.target.value)}
                         placeholder="option E"
                         id="optionE"
                         value={editOptionE}
@@ -895,6 +913,7 @@ const QuestionMaster = (props) => {
                   type="text"
                   placeholder="Negativemarkvalue eg(0.25)"
                   id="negativeMarkValue"
+                  onChange={(e)=>editSetNegativeMarkvalue(e.target.value)}
                   value={editNegativeMarkValue}
                   name="negativeMarkValue"
                   className="form-control"

@@ -125,7 +125,7 @@
 	<!-- QuestionMasterUpdateService -->
 	<service name="updateQuestionMaster"
 		default-entity-name="QuestionMaster" engine="entity-auto"
-		invoke="update" auth="true">
+		invoke="update" auth="false">
 		<description>QuestionMasterUpdateService</description>
 		<auto-attributes include="pk" mode="IN"
 			optional="false" />
@@ -185,16 +185,22 @@
 		<attribute name="userList" mode="OUT" type="List"
 			optional="true"></attribute>
 	</service>
-	
+
+
+
 	<service name="listOfQuestionsForTheExam" engine="java"
 		location="com.vastpro.onlineexam.services.QuestionMasterListService"
 		invoke="questionsForExam" auth="false">
-		<description>Find all users</description>
-		<attribute name="QuestionsList" mode="OUT" type="Map"
-			optional="true"></attribute>
+		<description>QuestionsInformation</description>
+		<attribute name="examId" type="String" mode="IN"
+			optional="false"></attribute>
+		<attribute name="examQuestions" type="List" mode="OUT"
+			optional="false"></attribute>
+		<attribute name="request" type="Object" mode="IN"
+			optional="false"></attribute>
 	</service>
-	
-	
+
+
 	<service name="createUserAttemptMaster"
 		default-entity-name="UserAttemptMaster" engine="entity-auto"
 		invoke="create" auth="false">
@@ -204,7 +210,18 @@
 		<auto-attributes include="nonpk" mode="IN"
 			optional="true" />
 	</service>
-	
+
+	<!-- UpdateUserAttemptMaster -->
+	<service name="updateUserAttemptMaster"
+		default-entity-name="UserAttemptMaster" engine="entity-auto"
+		invoke="update" auth="true">
+		<description>createUserAttemptMaster</description>
+		<auto-attributes include="pk" mode="OUT"
+			optional="false" />
+		<auto-attributes include="nonpk" mode="IN"
+			optional="true" />
+	</service>
+
 	<service name="createUserAttemptTopicMaster"
 		default-entity-name="UserAttemptTopicMaster" engine="entity-auto"
 		invoke="create" auth="false">
@@ -214,7 +231,21 @@
 		<auto-attributes include="nonpk" mode="IN"
 			optional="true" />
 	</service>
-	
+
+
+	<!-- UpdateUserAttemptTopicMaster -->
+	<service name="updateUserAttemptTopicMaster"
+		default-entity-name="UserAttemptTopicMaster" engine="entity-auto"
+		invoke="update" auth="true">
+		<description>UpdateUserAttemptMaster</description>
+		<auto-attributes include="pk" mode="IN"
+			optional="false" />
+		<auto-attributes include="nonpk" mode="IN"
+			optional="true" />
+	</service>
+
+
+
 	<service name="createUserAttemptAnswerMaster"
 		default-entity-name="UserAttemptAnswerMaster" engine="entity-auto"
 		invoke="create" auth="false">

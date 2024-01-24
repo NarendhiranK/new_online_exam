@@ -6,13 +6,16 @@ public interface ConstantValue {
 	String DELEGATOR = "delegator";
 	String DISPATCHER = "dispatcher";
 	String USERLOGIN = "userLogin";
-	
-      //Login firstName
+	String YES = "y";
+	String NO = "n";
+	String RESULT_MAP = "RESULT_MAP";
+
+	// Login firstName
 	String FIRST_NAME = "firstName";
 	String LAST_NAME = "lastName";
 	String CURRENT_PASSWORD = "currentPassword";
 	String CURRENT_PASSWORD_VERIFY = "currentPasswordVerify";
-	
+
 	// Messages.
 	String ERROR = "error";
 	String SUCCESS = "success";
@@ -40,14 +43,11 @@ public interface ConstantValue {
 	String ENABLE_NEGATIVE_MARK = "enableNegativeMark";
 	String NEGATIVE_MARK_VALUE = "negativeMarkValue";
 
-	
-	//USERlOGIN ENTITY TABLE
-	
+	// USERlOGIN ENTITY TABLE
+
 	String USER_LOGIN_ID = "userLoginId";
 	String USER_LOGIN_TABLE = "UserLogin";
-	
-	
-	
+
 	// Topic Master table attributes.
 	String TOPIC_MASTER = "TopicMaster";
 	String TOPIC_ID = "topicId";
@@ -113,17 +113,14 @@ public interface ConstantValue {
 
 	// Out of the box tables
 	String PERSON = "Person";
-	
-	 
-	//PartyRole Entity
+
+	// PartyRole Entity
 	String PARTY_ROLE = "PartyRole";
 	String ROLE_TYPE_ID = "roleTypeId";
-	
-	//Enumeration Entity
-	String ENUMERATION ="Enumeration";
-	String ENUMERATION_TYPE_ID ="enumTypeId";
-	String ENUM_ID ="enumId";
-	
-	
+
+	// Enumeration Entity
+	String ENUMERATION = "Enumeration";
+	String ENUMERATION_TYPE_ID = "enumTypeId";
+	String ENUM_ID = "enumId";
 
 }
